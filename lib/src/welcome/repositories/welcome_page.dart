@@ -14,10 +14,10 @@ class Welcome extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(
-          '../lib/src/welcome/assets/background_top.png',
+          './lib/assets/background_top.png',
           fit: BoxFit.fill,
         ),
-        Image.asset('../lib/src/welcome/assets/teste3.png'),
+        Image.asset('./lib/assets/LogoTemporaria.png'),
         new Container(
           child: Column(
             children: [
@@ -60,7 +60,7 @@ class Welcome extends StatelessWidget {
           ),
         ),
         Image.asset(
-          '../lib/src/welcome/assets/background_bottom.png',
+          './lib/assets/background_bottom.png',
           fit: BoxFit.fill,
         ),
       ],

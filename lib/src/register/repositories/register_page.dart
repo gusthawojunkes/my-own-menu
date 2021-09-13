@@ -9,7 +9,7 @@ class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login',
+      title: 'Cadastro',
       debugShowCheckedModeBanner: false,
       home: RegisterPage(),
     );

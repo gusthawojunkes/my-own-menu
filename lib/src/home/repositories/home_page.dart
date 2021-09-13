@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(children: [
         new Container(
           child: Image.asset(
-            '../lib/src/home/assets/background_top.png',
+            './lib/assets/background_top.png',
             fit: BoxFit.fill,
           ),
         ),
