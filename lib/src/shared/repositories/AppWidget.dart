@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myownmenu/src/welcome/repositories/welcome_page.dart';
+import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
 
 class MyOnwMenuApp extends StatelessWidget {
   @override

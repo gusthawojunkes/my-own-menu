@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myownmenu/src/login/repositories/login_page.dart';
-import 'package:myownmenu/src/register/repositories/register_page.dart';
+import 'package:myownmenu/src/login/repositories/LoginPage.dart';
+import 'package:myownmenu/src/register/repositories/RegisterPage.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class Welcome extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(
-          './lib/assets/background_top.png',
+          './lib/assets/BackgroundTop.png',
           fit: BoxFit.fill,
         ),
         Image.asset('./lib/assets/LogoTemporaria.png'),
@@ -60,7 +60,7 @@ class Welcome extends StatelessWidget {
           ),
         ),
         Image.asset(
-          './lib/assets/background_bottom.png',
+          './lib/assets/BackgroundBottom.png',
           fit: BoxFit.fill,
         ),
       ],
