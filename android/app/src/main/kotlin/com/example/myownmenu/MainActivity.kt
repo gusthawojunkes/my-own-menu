@@ -1,4 +1,4 @@
-package com.example.myownmenu
+package com.product.myownmenu
 
 import io.flutter.embedding.android.FlutterActivity
 
