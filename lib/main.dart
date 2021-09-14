@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
-import 'src/shared/repositories/app_widget.dart';
+import 'src/shared/repositories/AppWidget.dart';
 void main() => runApp(MyOnwMenuApp());
