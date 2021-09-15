@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Align(
                   alignment: FractionalOffset.topLeft,
                   child: GestureDetector(
-                      child: Text("Esqueçeu sua senha?",
+                      child: Text("Esqueceu sua senha?",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               color: Colors.blue)),
