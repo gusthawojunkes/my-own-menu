@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
-import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
+import 'package:myownmenu/src/index/repositories/IndexPage.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
@@ -126,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Welcome()),
+                            builder: (context) => const Index()),
                       );
                     },
                   ))),

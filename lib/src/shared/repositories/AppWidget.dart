@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
+import 'package:myownmenu/src/index/repositories/IndexPage.dart';
 
 class MyOnwMenuApp extends StatelessWidget {
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
@@ -16,7 +16,7 @@ class MyOnwMenuApp extends StatelessWidget {
               print('Error! ${snapshot.error.toString()}');
               return Text("You have an error!");
             } else if (snapshot.hasData) {
-              return Welcome();
+              return Index();
             } else {
               return Center(
                 child: CircularProgressIndicator(),

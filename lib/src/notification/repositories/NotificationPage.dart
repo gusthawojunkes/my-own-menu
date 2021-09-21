@@ -1,27 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+class Notification extends StatelessWidget {
+  const Notification({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Receitas',
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+      home: NotificationPage(),
     );
   }
 }
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+class NotificationPage extends StatefulWidget {
+  const NotificationPage({Key? key}) : super(key: key);
 
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _NotificationPageState createState() => _NotificationPageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
      return Scaffold(
