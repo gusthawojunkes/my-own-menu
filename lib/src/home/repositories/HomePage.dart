@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/src/recipe/repositories/RecipePage.dart';
+import 'package:myownmenu/src/notification/repositories/NotificationPage.dart';
+import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -22,18 +25,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  int _currentIndex = 0;
+  final List _options = [ WelcomePage(), RecipePage(), NotificationPage() ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        new Container(
-          child: Image.asset(
-            './lib/assets/BackgroundTop.png',
-            fit: BoxFit.fill,
-          ),
-        ),
-      ]),
+      body: _options[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        onTap: onTabTapped,
+        currentIndex: _currentIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -50,5 +52,10 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }

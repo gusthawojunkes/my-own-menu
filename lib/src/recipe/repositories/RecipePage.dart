@@ -1,27 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+class Recipe extends StatelessWidget {
+  const Recipe({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Receitas',
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+      home: RecipePage(),
     );
   }
 }
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+class RecipePage extends StatefulWidget {
+  const RecipePage({Key? key}) : super(key: key);
 
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _RecipePageState createState() => _RecipePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _RecipePageState extends State<RecipePage> {
   @override
   Widget build(BuildContext context) {
      return Scaffold(
