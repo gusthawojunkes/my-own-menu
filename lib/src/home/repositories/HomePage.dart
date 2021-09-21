@@ -25,9 +25,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   int _currentIndex = 0;
-  final List _options = [ WelcomePage(), RecipePage(), NotificationPage() ];
+  final List _options = [WelcomePage(), RecipePage(), NotificationPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +52,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;

@@ -29,3 +29,4 @@ flutter:
     - ./lib/assets/BackgroundTop.png
     - ./lib/assets/BackgroundBottom.png
     - ./lib/assets/LogoTemporaria.png
+    - ./lib/assets/BackgroundTopMenu.png
