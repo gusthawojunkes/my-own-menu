@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/utils/SourceUtils.dart';
 
 class Recipe extends StatelessWidget {
   const Recipe({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class _RecipePageState extends State<RecipePage> {
        body: Column(children: [
         new Container(
           child: Image.asset(
-            './lib/assets/BackgroundTop.png',
+            SourceUtils.BACKGROUND_TOP_SRC,
             fit: BoxFit.fill,
           ),
         ),
