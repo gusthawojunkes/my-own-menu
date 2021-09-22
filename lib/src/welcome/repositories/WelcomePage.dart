@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/src/configuration/repositories/ConfigurationPage.dart';
+import 'package:myownmenu/src/dispense/repositories/DispensePage.dart';
+import 'package:myownmenu/src/ingredient/repositories/IngredientPage.dart';
+import 'package:myownmenu/src/login/repositories/LoginPage.dart';
+import 'package:myownmenu/src/profile/repositories/ProfilePage.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -36,16 +41,17 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
       drawer: Drawer(
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
-            new Container(
-              child: Image.asset(
-                './lib/assets/BackgroundTopMenu.png',
-                fit: BoxFit.fill,
-              ),
-            ),
-            Padding(
+            new Padding(
+                padding: const EdgeInsets.only(top: 90),
+                child: TextButton(
+                  child: const Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )),
+            new Padding(
                 padding: const EdgeInsets.only(top: 45, left: 20),
                 child: Column(
                   children: [
@@ -85,101 +91,19 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
       ),
     );
-    /*return Scaffold(
-      body: Column(children: [
-        new Container(
-          child: Image.asset(
-            './lib/assets/BackgroundTopMenu.png',
-            fit: BoxFit.fill,
-          ),
-        ),
-        Row(
-          children: [
-            Drawer(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Header',
-                      style: textTheme.headline6,
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.favorite),
-                    title: Text('Item 1'),
-                    selected: _selectedDestination == 0,
-                    onTap: () => selectDestination(0),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.delete),
-                    title: Text('Item 2'),
-                    selected: _selectedDestination == 1,
-                    onTap: () => selectDestination(1),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.label),
-                    title: Text('Item 3'),
-                    selected: _selectedDestination == 2,
-                    onTap: () => selectDestination(2),
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Label',
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.bookmark),
-                    title: Text('Item A'),
-                    selected: _selectedDestination == 3,
-                    onTap: () => selectDestination(3),
-                  ),
-                ],
-              ),
-            ),
-            VerticalDivider(
-              width: 1,
-              thickness: 1,
-            ),
-            Expanded(
-              child: Scaffold(
-                appBar: AppBar(
-                  title: Text(widget.title),
-                ),
-                body: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  padding: EdgeInsets.all(20),
-                  childAspectRatio: 3 / 2,
-                  children: [
-                    Image.asset('./lib/assets/LogoTemporaria.png'),
-                    Image.asset('./lib/assets/LogoTemporaria.png'),
-                    Image.asset('./lib/assets/LogoTemporaria.png'),
-                    Image.asset('./lib/assets/LogoTemporaria.png'),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ]),
-    );*/
   }
 
   void selectDestination(int index) {
-    setState(() {
-      _selectedDestination = index;
-    });
+    final List _options = [
+      Dispense(),
+      Ingredient(),
+      Configuration(),
+      Profile(),
+      Login()
+    ];
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => _options[index]),
+    );
   }
 }
