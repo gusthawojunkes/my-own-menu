@@ -34,6 +34,10 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     //final theme = Theme.of(context);
     //final textTheme = theme.textTheme;
+    String _username = 'Usuário';
+    Size _size = MediaQuery.of(context).size;
+    double _widthPercentage = 0.90;
+    double _heightPercentage = 0.17;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -89,11 +93,8 @@ class _WelcomePageState extends State<WelcomePage> {
                   ],
                 )),
           ],
-    String _username = 'Usuário';
-    Size _size = MediaQuery.of(context).size;
-    double _widthPercentage = 0.90;
-    double _heightPercentage = 0.17;
-    return Scaffold(
+        ),
+      ),
       body: Column(
         children: [
           Container(
@@ -148,15 +149,12 @@ class _WelcomePageState extends State<WelcomePage> {
     return Expanded(
       child: Container(
         child: ElevatedButton(
-          onPressed: () => { 
-            goToFilterOption(_caption) 
-          },
+          onPressed: () => {goToFilterOption(_caption)},
           child: Text(_caption),
           style: ElevatedButton.styleFrom(
-            shape: CircleBorder(),
-            padding: EdgeInsets.all(30),
-            primary: Colors.green
-          ),
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(30),
+              primary: Colors.green),
         ),
       ),
     );
