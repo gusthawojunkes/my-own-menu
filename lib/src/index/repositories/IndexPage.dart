@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/register/repositories/RegisterPage.dart';
+import 'package:myownmenu/utils/SourceUtils.dart';
 
 class Index extends StatelessWidget {
   const Index({Key? key}) : super(key: key);
@@ -14,10 +15,10 @@ class Index extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(
-          './lib/assets/BackgroundTop.png',
+          SourceUtils.BACKGROUND_TOP_SRC,
           fit: BoxFit.fill,
         ),
-        Image.asset('./lib/assets/LogoTemporaria.png'),
+        Image.asset(SourceUtils.LOGO_SRC),
         new Container(
           child: Column(
             children: [
@@ -60,7 +61,7 @@ class Index extends StatelessWidget {
           ),
         ),
         Image.asset(
-          './lib/assets/BackgroundBottom.png',
+          SourceUtils.BACKGROUND_BOTTOM_SRC,
           fit: BoxFit.fill,
         ),
       ],

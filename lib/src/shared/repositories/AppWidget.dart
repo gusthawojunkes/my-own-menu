@@ -7,24 +7,23 @@ class MyOnwMenuApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'My Own Menu',
-        home: FutureBuilder(
-          future: _fbApp,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              print('Error! ${snapshot.error.toString()}');
-              return Text("You have an error!");
-            } else if (snapshot.hasData) {
-              return Index();
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        )
-        //Welcome(),
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'My Own Menu',
+      home: FutureBuilder(
+        future: _fbApp,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print('Error! ${snapshot.error.toString()}');
+            return Text("You have an error!");
+          } else if (snapshot.hasData) {
+            return Index();
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      )
+    );
   }
 }
