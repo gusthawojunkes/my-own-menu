@@ -10,8 +10,8 @@ class Service {
     return instance.collection(name);
   }
 
-  static Future<DocumentReference<Object?>> getDocument(String name) async {
+  static Future<DocumentReference<Object?>> getDocument(String collectionName, { String documentName = '' }) async {
     FirebaseFirestore instance = await getInstance();
-    return instance.collection(name).doc();
+    return instance.collection(collectionName).doc(documentName);
   }
 }

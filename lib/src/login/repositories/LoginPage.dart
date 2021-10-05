@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/home/repositories/HomePage.dart';
 import 'package:myownmenu/src/index/repositories/IndexPage.dart';
-import 'package:myownmenu/utils/Service.dart';
+import 'package:myownmenu/src/login/repositories/LoginModule.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -109,6 +108,10 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       child: const Text('Entrar'),
                       onPressed: () {
+                        Future<bool> authenticated = LoginModule.execute(_emailController.text, _passwordController.text);
+                        if (authenticated == true) {
+                          print('Entrou');
+                        }
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const Home()),
