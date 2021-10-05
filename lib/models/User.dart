@@ -21,10 +21,12 @@ class User implements JsonMapper {
   );
 
   @override
-  Map<String, Object?> toJson() => {
-    'name': name,
-    'email': email,
-    'username': username,
-    'password': password
-  };
+  Map<String, Object?> toJson() {
+    return {
+      'name': name,
+      'email': email,
+      'username': username,
+      'password': password
+    };
+  }
 }
