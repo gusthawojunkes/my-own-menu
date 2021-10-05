@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
-import 'package:animations/animations.dart';
+import 'Dart:convert';
 
 class Ingredient extends StatelessWidget {
   const Ingredient({Key? key}) : super(key: key);
@@ -24,9 +24,103 @@ class IngredientPage extends StatefulWidget {
 }
 
 class _IngredientPageState extends State<IngredientPage> {
-  List<dynamic> ingredients = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
   @override
   Widget build(BuildContext context) {
+    String ingredientsJson =
+        '{"ingredients":[{"selected":true},{"selected":false},{"selected":true},{"selected":false},{"selected":true},{"selected":false}]}';
+    Map<String, dynamic> mapIngredients = jsonDecode(ingredientsJson);
+    List<dynamic> list = mapIngredients['ingredients'];
+
+    bool _getVisibility(index) {
+      dynamic item = list[index];
+      return item['selected'];
+    }
+
+    void _toggle(index) {
+      dynamic item = list[index];
+      print("1 -item: " + item.toString());
+      setState(() {
+        Map<String, dynamic> map = {'selected': !item['selected']};
+        item['selected'] = map;
+        print("2 - item: " + item.toString());
+      });
+      print("3 - item: " + item.toString());
+    }
+
+    Widget cardIngredient(index) {
+      return Visibility(
+          visible: !_getVisibility(index),
+          child: Card(
+              margin: const EdgeInsets.only(bottom: 30),
+              child: InkWell(
+                splashColor: Colors.grey.withAlpha(50),
+                onTap: () {
+                  print('Card Ingredient tapped - ' + index.toString());
+                  _toggle(index);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Text(
+                        "Ingrediente teste",
+                        style: TextStyle(
+                          height: 4,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Image.asset(
+                      SourceUtils.INGREDIENTE_SRC,
+                    ),
+                  ],
+                ),
+              )));
+    }
+
+    Widget cardSelect(index) {
+      return Visibility(
+          visible: _getVisibility(index),
+          child: Card(
+              child: InkWell(
+            splashColor: Colors.grey.withAlpha(50),
+            onTap: () {
+              print('Card Selectd tapped - ' + index.toString());
+              _toggle(index);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    color: Color.fromRGBO(156, 156, 156, 100),
+                    child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: TextButton(
+                          child: const Icon(
+                            Icons.check_box,
+                            color: Color.fromRGBO(0, 0, 0, 100),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ))),
+                Container(
+                    child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          "Ingrediente teste",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ))),
+              ],
+            ),
+          )));
+    }
+
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(
@@ -67,7 +161,7 @@ class _IngredientPageState extends State<IngredientPage> {
           child: new SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: List.generate(ingredients.length, (index) {
+              children: List.generate(list.length, (index) {
                 return new Card(
                     clipBehavior: Clip.antiAlias,
                     child: Padding(
@@ -79,7 +173,7 @@ class _IngredientPageState extends State<IngredientPage> {
                             "Teste",
                             style: TextStyle(
                                 height: 4, fontWeight: FontWeight.bold),
-                          ), //Dado de teste,
+                          ),
                         ],
                       ),
                     ));
@@ -90,36 +184,15 @@ class _IngredientPageState extends State<IngredientPage> {
         new Container(
           margin: const EdgeInsets.only(left: 30, right: 30),
           child: new Column(
-            children: List.generate(ingredients.length, (index) {
+            children: List.generate(list.length, (index) {
               return Padding(
                 padding: EdgeInsets.all(0),
-                child: new Card(
-                    margin: const EdgeInsets.only(bottom: 30),
-                    child: InkWell(
-                      splashColor: Colors.grey.withAlpha(50),
-                      onTap: () {
-                        print('Card tapped - ' + index.toString());
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 15),
-                            child: Text(
-                              "Ingrediente teste",
-                              style: TextStyle(
-                                height: 4,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Image.asset(
-                            SourceUtils.INGREDIENTE_SRC,
-                          ),
-                        ],
-                      ),
-                    )),
+                child: Column(
+                  children: [
+                    cardIngredient(index),
+                    cardSelect(index),
+                  ],
+                ),
               );
             }),
           ),
