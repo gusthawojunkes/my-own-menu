@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/home/repositories/HomePage.dart';
 import 'package:myownmenu/src/index/repositories/IndexPage.dart';
+import 'package:myownmenu/utils/Service.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -24,6 +26,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Padding(
             padding: EdgeInsets.only(top: 50.0, right: 30, left: 30),
             child: TextFormField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -48,6 +53,14 @@ class _LoginPageState extends State<LoginPage> {
                   Icons.email,
                 ),
               ),
+              validator: (input) {
+                if (input == null) {
+                  return 'Preencha com o e-mail';
+                }
+                if (!input.contains("@")) {
+                  return 'Preencha com um e-mail válido';
+                }
+              },
             ),
           ),
         ),
@@ -55,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Padding(
             padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
             child: TextFormField(
+              controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Senha',
                 border: OutlineInputBorder(),
@@ -62,6 +76,11 @@ class _LoginPageState extends State<LoginPage> {
                   Icons.vpn_key,
                 ),
               ),
+              validator: (input) {
+                if (input == null) {
+                  return 'Preencha com a sua senha';
+                }
+              },
             ),
           ),
         ),
@@ -76,9 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               color: Colors.blue)),
-                      onTap: () {
-                        // do what you need to do when "Click here" gets clicked
-                      })),
+                      onTap: () {})),
             ),
           ),
         ),
@@ -113,8 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const Index()),
+                        MaterialPageRoute(builder: (context) => const Index()),
                       );
                     },
                   ))),
