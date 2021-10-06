@@ -128,7 +128,7 @@ class _IngredientPageState extends State<IngredientPage> {
                 children: [
                   Image.asset(SourceUtils.LOGO_SRC),
                   Text(
-                    listIngredients[index]['name'],
+                    listFilters[index]['name'],
                     style: TextStyle(height: 4, fontWeight: FontWeight.bold),
                   ),
                 ],
