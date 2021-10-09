@@ -27,111 +27,125 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        new Container(
-          child: Padding(
-              padding: EdgeInsets.only(top: 100.0),
-              child: Text(
-                'Cadastro',
-                style: TextStyle(color: Colors.black, fontSize: 26.0),
-              )),
-        ),
-        new Container(
-          child: Padding(
-            padding: EdgeInsets.only(top: 50.0, right: 30, left: 30),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Nome',
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(
-                  Icons.people,
-                ),
-              ),
-            ),
-          ),
-        ),
-        new Container(
-          child: Padding(
-            padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(
-                  Icons.email,
-                ),
-              ),
-            ),
-          ),
-        ),
-        new Container(
-          child: Padding(
-            padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Senha',
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(
-                  Icons.vpn_key,
-                ),
-              ),
-            ),
-          ),
-        ),
-        new Container(
-          child: Padding(
-            padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Confirme sua Senha',
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(
-                  Icons.vpn_key,
-                ),
-              ),
-            ),
-          ),
-        ),
-        new Container(
-          child: Padding(
-              padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
-              child: new Container(
-                width: double.infinity,
-                child: Padding(
-                    padding: EdgeInsets.only(top: 100.0),
-                    child: ElevatedButton(
-                      child: const Text('Cadastrar'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Login()),
-                        );
-                      },
-                    )),
-              )),
-        ),
-        new Container(
-          child: Padding(
-              padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
-              child: new Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    child: const Text('Voltar'),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.grey,
+        body: SingleChildScrollView(
+      child: Column(
+        children: [
+          new Container(
+            child: Column(
+              children: [
+                new Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 80),
+                    child: Text(
+                      'Cadastro',
+                      style: TextStyle(color: Colors.black, fontSize: 26.0),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Index()),
-                      );
-                    },
-                  ))),
-        ),
-      ],
+                  ),
+                ),
+                new Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 50.0, right: 30, left: 30),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(
+                          Icons.people,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                new Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(
+                          Icons.email,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                new Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Senha',
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(
+                          Icons.vpn_key,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                new Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Confirme sua Senha',
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(
+                          Icons.vpn_key,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          new Padding(
+            padding: EdgeInsets.only(top: 80),
+            child: Column(
+              children: [
+                new Container(
+                  child: Padding(
+                      padding: EdgeInsets.only(right: 30, left: 30),
+                      child: new Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          child: const Text('Cadastrar'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Login()),
+                            );
+                          },
+                        ),
+                      )),
+                ),
+                new Container(
+                  child: Padding(
+                      padding: EdgeInsets.only(right: 30, left: 30),
+                      child: new Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            child: const Text('Voltar'),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.grey,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Index()),
+                              );
+                            },
+                          ))),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     ));
   }
 }
