@@ -25,8 +25,6 @@ class IngredientPage extends StatefulWidget {
 }
 
 class _IngredientPageState extends State<IngredientPage> {
-  GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-
   @override
   Widget build(BuildContext context) {
     String filtersJson =
@@ -185,7 +183,6 @@ class _IngredientPageState extends State<IngredientPage> {
                     child: filter(index, 173, 173, 173, 0),
                   ),
                 );
-                ;
               }),
             ),
           ),
