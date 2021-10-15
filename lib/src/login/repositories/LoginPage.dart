@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myownmenu/src/home/repositories/HomePage.dart';
 import 'package:myownmenu/src/index/repositories/IndexPage.dart';
 import 'package:myownmenu/src/login/repositories/LoginModule.dart';
+import 'package:myownmenu/utils/EmailUtils.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -53,10 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               validator: (input) {
-                if (input == null) {
-                  return 'Preencha com o e-mail';
-                }
-                if (!input.contains("@")) {
+                if (EmailUtils.isNotValid(input)) {
                   return 'Preencha com um e-mail válido';
                 }
               },
@@ -64,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         new Container(
-          child: Padding(
+        child: Padding(
             padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
             child: TextFormField(
               controller: _passwordController,
