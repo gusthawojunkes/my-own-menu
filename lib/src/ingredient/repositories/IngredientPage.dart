@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
@@ -25,18 +27,13 @@ class IngredientPage extends StatefulWidget {
 }
 
 class _IngredientPageState extends State<IngredientPage> {
+  List<dynamic> listIngredients = _getIngredients();
+  HashSet<dynamic> listFilters = _getFilters();
+  bool _visibilityFilters = true;
+  final _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    String filtersJson =
-        '{"filters":[{"name":"Fruta"},{"name":"Carne"},{"name":"Grão"}]}';
-    Map<String, dynamic> mapFilters = jsonDecode(filtersJson);
-    List<dynamic> listFilters = mapFilters['filters'];
-
-    String ingredientsJson =
-        '{"ingredients":[{"name":"Abacate","type":"Fruta"},{"name":"Alcatra","type":"Carne"},{"name":"Arroz","type":"Grão"},{"name":"Feijão","type":"Grão"},{"name":"Maça","type":"Fruta"},{"name":"Milho","type":"Grão"}]}';
-    Map<String, dynamic> mapIngredients = jsonDecode(ingredientsJson);
-    List<dynamic> listIngredients = mapIngredients['ingredients'];
-
     Widget cardIngredient(index) {
       return Padding(
         padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -126,7 +123,7 @@ class _IngredientPageState extends State<IngredientPage> {
                 children: [
                   Image.asset(SourceUtils.LOGO_SRC),
                   Text(
-                    listFilters[index]['name'],
+                    listFilters.elementAt(index),
                     style: TextStyle(height: 4, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -154,12 +151,18 @@ class _IngredientPageState extends State<IngredientPage> {
                 child: Padding(
                   padding: EdgeInsets.only(top: 20.0, right: 30, left: 30),
                   child: TextFormField(
+                    controller: _searchController,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.search),
                       labelText: 'O que deseja?',
                       border: OutlineInputBorder(),
-                      suffixIcon: Icon(
-                        Icons.filter_list,
+                      suffixIcon: new IconButton(
+                        icon: new Icon(Icons.filter_list),
+                        onPressed: () {
+                          setState(() {
+                            _visibilityFilters = !_visibilityFilters;
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -168,22 +171,25 @@ class _IngredientPageState extends State<IngredientPage> {
             ],
           ),
         ),
-        new Container(
-          margin: const EdgeInsets.all(30),
-          child: new SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(listFilters.length, (index) {
-                return FlipCard(
-                  speed: 1,
-                  front: Container(
-                    child: filter(index, 255, 255, 255, 100),
-                  ),
-                  back: Container(
-                    child: filter(index, 173, 173, 173, 0),
-                  ),
-                );
-              }),
+        new Visibility(
+          visible: _visibilityFilters,
+          child: new Container(
+            margin: const EdgeInsets.all(30),
+            child: new SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(listFilters.length, (index) {
+                  return FlipCard(
+                    speed: 1,
+                    front: Container(
+                      child: filter(index, 255, 255, 255, 100),
+                    ),
+                    back: Container(
+                      child: filter(index, 173, 173, 173, 0),
+                    ),
+                  );
+                }),
+              ),
             ),
           ),
         ),
@@ -212,4 +218,22 @@ class _IngredientPageState extends State<IngredientPage> {
       ],
     )));
   }
+}
+
+HashSet<String> _getFilters() {
+  var listFilter = new HashSet<String>();
+  List<dynamic> listIngredients = _getIngredients();
+
+  for (var ingredient in listIngredients) listFilter.add(ingredient['type']);
+
+  return listFilter;
+}
+
+List<dynamic> _getIngredients() {
+  String ingredientsJson =
+      '{"ingredients":[{"name":"Abacate","type":"Fruta"},{"name":"Alcatra","type":"Carne"},{"name":"Arroz","type":"Grão"},{"name":"Feijão","type":"Grão"},{"name":"Maça","type":"Fruta"},{"name":"Milho","type":"Grão"}]}';
+
+  Map<String, dynamic> mapIngredients = jsonDecode(ingredientsJson);
+  List<dynamic> listIngredients = mapIngredients['ingredients'];
+  return listIngredients;
 }
