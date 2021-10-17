@@ -185,7 +185,6 @@ class _IngredientPageState extends State<IngredientPage> {
                     child: filter(index, 173, 173, 173, 0),
                   ),
                 );
-                ;
               }),
             ),
           ),
