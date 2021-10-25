@@ -6,12 +6,7 @@ class User implements JsonMapper {
   final String username = '';
   final String password = '';
 
-  User({
-    required name, 
-    required email, 
-    required username, 
-    required password
-  });
+  User({required name, required email, required username, required password});
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     name: json['name'],
