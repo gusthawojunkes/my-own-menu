@@ -31,27 +31,37 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        new Container(
-          child: Padding(
-              padding: EdgeInsets.only(top: 100.0),
-              child: Text(
-                'Login',
-                style: TextStyle(color: Colors.black, fontSize: 26.0),
-              )),
-        ),
-        new Container(
-          child: Padding(
-            padding: EdgeInsets.only(top: 50.0, right: 30, left: 30),
-            child: TextFormField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(
-                  Icons.email,
+        body: SingleChildScrollView(
+      child: Column(
+        children: [
+          new Container(
+            child: Padding(
+                padding: EdgeInsets.only(top: 100.0),
+                child: Text(
+                  'Login',
+                  style: TextStyle(color: Colors.black, fontSize: 26.0),
+                )),
+          ),
+          new Container(
+            child: Padding(
+              padding: EdgeInsets.only(top: 50.0, right: 30, left: 30),
+              child: TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                  suffixIcon: Icon(
+                    Icons.email,
+                  ),
                 ),
+                validator: (input) {
+                  if (input == null) {
+                    return 'Preencha com o e-mail';
+                  }
+                  if (!input.contains("@")) {
+                    return 'Preencha com um e-mail válido';
+                  }
+                },
               ),
               validator: (input) {
                 if (EmailUtils.isNotValid(input)) {
@@ -72,44 +82,42 @@ class _LoginPageState extends State<LoginPage> {
                 suffixIcon: Icon(
                   Icons.vpn_key,
                 ),
+                validator: (input) {
+                  if (input == null) {
+                    return 'Preencha com a sua senha';
+                  }
+                },
               ),
-              validator: (input) {
-                if (input == null) {
-                  return 'Preencha com a sua senha';
-                }
-              },
             ),
           ),
-        ),
-        new Container(
-          child: Padding(
-            padding: EdgeInsets.only(top: 30.0, left: 30),
-            child: new Container(
-              child: Align(
-                  alignment: FractionalOffset.topLeft,
-                  child: GestureDetector(
-                      child: Text("Esqueceu sua senha?",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue)),
-                      onTap: () {})),
-            ),
-          ),
-        ),
-        new Container(
-          child: Padding(
-              padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
+          new Container(
+            child: Padding(
+              padding: EdgeInsets.only(top: 30.0, left: 30),
               child: new Container(
-                width: double.infinity,
-                child: Padding(
-                    padding: EdgeInsets.only(top: 100.0),
-                    child: ElevatedButton(
-                      child: const Text('Entrar'),
+                child: Align(
+                    alignment: FractionalOffset.topLeft,
+                    child: GestureDetector(
+                        child: Text("Esqueceu sua senha?",
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue)),
+                        onTap: () {})),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 150),
+            child: Column(
+              children: [
+                new Container(
+                  child: Padding(
+                      padding: EdgeInsets.only(right: 30, left: 30),
+                      child: new Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          child: const Text('Entrar'),
                       onPressed: () {
                         bool authenticated = LoginModule.execute(_emailController.text, _passwordController.text);
-                        if (authenticated == true) {
-                          print('Entrou');
-                        }
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const Home()),
@@ -118,25 +126,30 @@ class _LoginPageState extends State<LoginPage> {
                     )),
               )),
         ),
-        new Container(
-          child: Padding(
-              padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
-              child: new Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    child: const Text('Voltar'),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.grey,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Index()),
-                      );
-                    },
-                  ))),
-        ),
-      ],
+                new Container(
+                  child: Padding(
+                      padding: EdgeInsets.only(right: 30, left: 30),
+                      child: new Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            child: const Text('Voltar'),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.grey,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Index()),
+                              );
+                            },
+                          ))),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     ));
   }
 }
