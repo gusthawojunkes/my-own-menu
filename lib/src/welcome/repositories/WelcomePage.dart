@@ -85,62 +85,65 @@ class _WelcomePageState extends State<WelcomePage> {
 
     return Scaffold(
         body: SingleChildScrollView(
-            child: Column(
-      children: [
-        Row(
-          children: [
-            Padding(
+        child: Column(
+        children: [
+          Row(
+            children: [
+              Padding(
                 padding: EdgeInsets.only(right: 30, left: 30),
                 child: new Text(
-                  'Olá, $_username',
+                  'Olá, $_userDisplayName',
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 22),
-                ))
-          ],
-        ),
-        new Card(
-          margin: const EdgeInsets.all(30),
-          child: new SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(listFilters.length, (sequenceFilter) {
-                return FlipCard(
-                  speed: 1,
-                  front: Container(
-                    child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          children: [
-                            Image.asset(SourceUtils.LOGO_SRC),
-                            Text(
-                              listFilters[sequenceFilter]['name'],
-                              style: TextStyle(
-                                  height: 4, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        )),
+                    fontWeight: FontWeight.bold, fontSize: 22
                   ),
-                  back: Container(
-                    child: Card(
-                        color: Color.fromRGBO(173, 173, 173, 0),
-                        clipBehavior: Clip.antiAlias,
-                        child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              children: [
-                                Image.asset(SourceUtils.LOGO_SRC),
-                                Text(
-                                  listFilters[sequenceFilter]['name'],
-                                  style: TextStyle(
-                                      height: 4, fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ))),
-                  ),
-                );
-              }),
+                )
+              )
+            ],
+          ),
+          new Card(
+            margin: const EdgeInsets.all(30),
+            child: new SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(listFilters.length, (sequenceFilter) {
+                  return FlipCard(
+                    speed: 1,
+                    front: Container(
+                      child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Image.asset(SourceUtils.LOGO_SRC),
+                              Text(
+                                listFilters[sequenceFilter]['name'],
+                                style: TextStyle(
+                                    height: 4, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )),
+                    ),
+                    back: Container(
+                      child: Card(
+                          color: Color.fromRGBO(173, 173, 173, 0),
+                          clipBehavior: Clip.antiAlias,
+                          child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                children: [
+                                  Image.asset(SourceUtils.LOGO_SRC),
+                                  Text(
+                                    listFilters[sequenceFilter]['name'],
+                                    style: TextStyle(
+                                        height: 4, fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ))),
+                    ),
+                  );
+                }),
+              ),
             ),
           ),
           new Text(
@@ -152,8 +155,9 @@ class _WelcomePageState extends State<WelcomePage> {
           Center(
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Colors.grey),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Colors.grey
+              ),
               margin: const EdgeInsets.all(10.0),
               height: _size.height * _heightPercentage,
               width: _size.width * _widthPercentage,
@@ -161,43 +165,44 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    getFilterOption('Legumes'),
-                    getFilterOption('Verduras'),
-                    getFilterOption('Carnes')
+                    // getFilterOption('Legumes'),
+                    // getFilterOption('Verduras'),
+                    // getFilterOption('Carnes')
                   ],
                 ),
               ),
-        ),
-        Divider(
-          height: 35,
-          thickness: 2,
-          indent: 30,
-          endIndent: 30,
-          color: Colors.grey,
-        ),
-        Row(children: [
-          Padding(
-              padding: EdgeInsets.only(top: 30, left: 30),
-              child: new Text(
-                'Objetivos',
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 18),
-              ))
-        ]),
-        Container(
-          margin: const EdgeInsets.only(right: 30, left: 30),
-          child: new SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(listNotifications.length,
-                  (sequenceNotification) {
-                return notification(sequenceNotification);
-              }),
             ),
           ),
-        ),
-      ],
-    )));
+          Divider(
+            height: 35,
+            thickness: 2,
+            indent: 30,
+            endIndent: 30,
+            color: Colors.grey,
+          ),
+          Row(children: [
+            Padding(
+                padding: EdgeInsets.only(top: 30, left: 30),
+                child: new Text(
+                  'Objetivos',
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 18),
+                ))
+          ]),
+          Container(
+            margin: const EdgeInsets.only(right: 30, left: 30),
+            child: new SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(listNotifications.length,
+                    (sequenceNotification) {
+                  return notification(sequenceNotification);
+                }),
+              ),
+            ),
+          ),
+        ],
+      )));
   }
 }
