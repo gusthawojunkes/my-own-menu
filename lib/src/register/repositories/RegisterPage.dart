@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/index/repositories/IndexPage.dart';
+import 'package:myownmenu/src/register/repositories/RegisterModule.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
@@ -24,6 +26,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Padding(
             padding: EdgeInsets.only(top: 50.0, right: 30, left: 30),
             child: TextFormField(
+              controller: _nameController,
               decoration: InputDecoration(
                 labelText: 'Nome',
                 border: OutlineInputBorder(),
@@ -55,6 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Padding(
             padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
             child: TextFormField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -83,6 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Padding(
             padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
             child: TextFormField(
+              controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Confirme sua Senha',
                 border: OutlineInputBorder(),
@@ -103,11 +111,17 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: ElevatedButton(
                       child: const Text('Cadastrar'),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Login()),
-                        );
+                        try {
+                          RegisterModule.register(_nameController.text,
+                              _emailController.text, _passwordController.text);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Login()),
+                          );
+                        } on FirebaseAuthException catch (error) {
+                          print(error.code);
+                        }
                       },
                     )),
               )),
@@ -125,8 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const Index()),
+                        MaterialPageRoute(builder: (context) => const Index()),
                       );
                     },
                   ))),

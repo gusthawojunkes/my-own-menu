@@ -25,16 +25,19 @@ class AuthService extends ChangeNotifier {
       _setUser();
     } on FirebaseAuthException catch (error) {
       handleAuthenticationError(error);
+    } catch (e) {
+      print(e);
     }
   }
 
   register(String name, String email, String password) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await _auth.createUserWithEmailAndPassword(email: email, password: password);
       _setUser();
     } on FirebaseAuthException catch (error) {
       handleAuthenticationError(error);
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -45,10 +48,12 @@ class AuthService extends ChangeNotifier {
 
   _setUser() {
     this.user = _auth.currentUser;
+    print(this.user);
     notifyListeners();
   }
 
   handleAuthenticationError(FirebaseAuthException error) {
+    print(error.code);
     if (error.code == 'wrong-password') {
       throw AuthException('Senha incorreta, tente novamente.');
     } else if (error.code == 'user-not-found') {

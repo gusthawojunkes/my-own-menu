@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
 
 class Welcome extends StatelessWidget {
@@ -24,7 +25,11 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
-    String _username = 'Usuário';
+    AuthService auth = AuthService();
+    String? _userDisplayName = 'Usuário';
+    if (auth.user != null && auth.user!.displayName != null) {
+      _userDisplayName = auth.user!.displayName;
+    }
     Size _size = MediaQuery.of(context).size;
     double _widthPercentage = 0.90;
     double _heightPercentage = 0.17;
@@ -36,7 +41,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 Image.asset(SourceUtils.BACKGROUND_TOP_SRC, fit: BoxFit.fill),
           ),
           new Text(
-            'Olá, $_username',
+            'Olá, $_userDisplayName',
             textAlign: TextAlign.left,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),

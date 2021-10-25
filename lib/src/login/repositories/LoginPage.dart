@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       child: const Text('Entrar'),
                       onPressed: () {
-                        Future<bool> authenticated = LoginModule.execute(_emailController.text, _passwordController.text);
+                        bool authenticated = LoginModule.execute(_emailController.text, _passwordController.text);
                         if (authenticated == true) {
                           print('Entrou');
                         }
