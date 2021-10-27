@@ -50,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Padding(
           padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
           child: TextFormField(
-            controller: _emailController,
+            controller: _nameController,
             decoration: InputDecoration(
               labelText: 'Nome',
               border: OutlineInputBorder(),
@@ -64,6 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Padding(
             padding: EdgeInsets.only(top: 10.0, right: 30, left: 30),
             child: TextFormField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myownmenu/models/error/AuthException.dart';
+import 'package:myownmenu/service/UserService.dart';
 
 class AuthService extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,8 +33,14 @@ class AuthService extends ChangeNotifier {
 
   register(String name, String email, String password) async {
     try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       _setUser();
+      UserService.create(
+          name: name,
+          email: email,
+          password: password,
+          uid: _auth.currentUser!.uid);
     } on FirebaseAuthException catch (error) {
       handleAuthenticationError(error);
     } catch (e) {
@@ -48,7 +55,6 @@ class AuthService extends ChangeNotifier {
 
   _setUser() {
     this.user = _auth.currentUser;
-    print(this.user);
     notifyListeners();
   }
 
