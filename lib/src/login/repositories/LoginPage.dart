@@ -31,17 +31,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             new Container(
               child: Padding(
-                padding: EdgeInsets.only(top: 100.0),
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.black, fontSize: 26.0),
-                )
-              ),
+                  padding: EdgeInsets.only(top: 100.0),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(color: Colors.black, fontSize: 26.0),
+                  )),
             ),
             new Container(
               child: Padding(
@@ -57,8 +56,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   validator: (input) {
                     if (EmailUtils.isNotValid(input)) {
-                    return 'Preencha com um e-mail válido';
-                  }
+                      return 'Preencha com um e-mail válido';
+                    }
                   },
                 ),
               ),
@@ -74,13 +73,12 @@ class _LoginPageState extends State<LoginPage> {
                     suffixIcon: Icon(
                       Icons.vpn_key,
                     ),
-                    
                   ),
                   validator: (input) {
-                      if (input == null) {
-                        return 'Preencha com a sua senha';
-                      }
-                    },
+                    if (input == null) {
+                      return 'Preencha com a sua senha';
+                    }
+                  },
                 ),
               ),
             ),
@@ -101,49 +99,45 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 150),
-              child: Column(
-                children: [
-                  new Container(
+              child: Column(children: [
+                new Container(
                     child: Padding(
-                      padding: EdgeInsets.only(right: 30, left: 30),
-                      child: new Container(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          child: const Text('Entrar'),
-                          onPressed: () {
-                            LoginModule.execute(_emailController.text, _passwordController.text);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const Home()),
-                            );
-                          },
-                        )
-                      ),
-                    )
-                  ),
-                ]
-              ),
+                  padding: EdgeInsets.only(right: 30, left: 30),
+                  child: new Container(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        child: const Text('Entrar'),
+                        onPressed: () {
+                          LoginModule.execute(
+                              _emailController.text, _passwordController.text);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()),
+                          );
+                        },
+                      )),
+                )),
+              ]),
             ),
             new Container(
               child: Padding(
-                padding: EdgeInsets.only(right: 30, left: 30),
-                child: new Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    child: const Text('Voltar'),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.grey,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Index()),
-                      );
-                    },
-                  )
-                )
-              ),
+                  padding: EdgeInsets.only(right: 30, left: 30),
+                  child: new Container(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        child: const Text('Voltar'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.grey,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Index()),
+                          );
+                        },
+                      ))),
             ),
           ],
         ),
