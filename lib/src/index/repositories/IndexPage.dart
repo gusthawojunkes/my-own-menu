@@ -10,63 +10,84 @@ class Index extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(
-              SourceUtils.BACKGROUND_TOP_SRC,
-              fit: BoxFit.fill,
-            ),
-            Image.asset(SourceUtils.LOGO_SRC),
-            new Container(
-              child: Column(
-                children: [
-                  new Container(
-                    child: Padding(
-                        padding: EdgeInsets.only(right: 30, left: 30),
-                        child: new Container(
-                          width: double.infinity,
-                          child: Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: ElevatedButton(
-                                child: const Text('Login'),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Login()),
-                                  );
-                                },
-                              )),
-                        )),
-                  ),
-                  new Container(
-                    child: Padding(
-                        padding: EdgeInsets.only(right: 30, left: 30),
-                        child: new Container(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              child: const Text('Cadastro'),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Register()),
-                                );
-                              },
-                            ))),
-                  ),
-                ],
-              ),
-            ),
-            Image.asset(
-              SourceUtils.BACKGROUND_BOTTOM_SRC,
-              fit: BoxFit.fill,
-            ),
-          ],
-        )
-      )
-    );
+        body: new Container(
+      child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+              flex: 2,
+              child: Container(
+                width: double.infinity,
+                child: Image.asset(
+                  SourceUtils.BACKGROUND_TOP_SRC,
+                  fit: BoxFit.fill,
+                ),
+              )),
+          Expanded(
+              flex: 6,
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(SourceUtils.LOGO_SRC),
+                    new Container(
+                      child: Column(
+                        children: [
+                          new Container(
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 30, left: 30),
+                                child: new Container(
+                                  width: double.infinity,
+                                  child: Padding(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      child: ElevatedButton(
+                                        child: const Text('Login'),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Login()),
+                                          );
+                                        },
+                                      )),
+                                )),
+                          ),
+                          new Container(
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 30, left: 30),
+                                child: new Container(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      child: const Text('Cadastro'),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Register()),
+                                        );
+                                      },
+                                    ))),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+          Expanded(
+              flex: 2,
+              child: Container(
+                width: double.infinity,
+                child: Image.asset(
+                  SourceUtils.BACKGROUND_BOTTOM_SRC,
+                  fit: BoxFit.fill,
+                ),
+              )),
+        ],
+      )),
+    ));
   }
 }
