@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:myownmenu/src/index/repositories/IndexPage.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/register/repositories/RegisterModule.dart';
-import 'package:myownmenu/src/preference/repositories/PreferenceStart.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);

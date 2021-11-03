@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
-import 'package:myownmenu/src/preference/repositories/PreferenceOne.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceThree.dart';
 
 class PreferenceTwo extends StatelessWidget {

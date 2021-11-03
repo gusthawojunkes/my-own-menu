@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:myownmenu/src/home/repositories/HomePage.dart';
-import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
 
 class Configuration extends StatelessWidget {
   const Configuration({Key? key}) : super(key: key);

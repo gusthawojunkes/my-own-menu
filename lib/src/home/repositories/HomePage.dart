@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
 import 'package:myownmenu/src/recipe/repositories/RecipePage.dart';
 import 'package:myownmenu/src/notification/repositories/NotificationPage.dart';
 import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   int _selectedIndex = 0;
   dynamic _selectedDestination;
+  bool _admin = true;
   final List? _options = [
     WelcomePage(),
     RecipePage(),
@@ -41,6 +43,7 @@ class _HomePageState extends State<HomePage> {
     Ingredient(),
     Configuration(),
     Profile(),
+    Admin(),
     Login()
   ];
   @override
@@ -91,10 +94,19 @@ class _HomePageState extends State<HomePage> {
                       selected: _selectedDestination == 3,
                       onTap: () => {sideBarDestination(6)},
                     ),
+                    Visibility(
+                      visible: _admin,
+                      child: ListTile(
+                        leading: Icon(Icons.person_outline),
+                        title: Text('Admin'),
+                        selected: _selectedDestination == 4,
+                        onTap: () => {sideBarDestination(7)},
+                      ),
+                    ),
                     ListTile(
                       leading: Icon(Icons.input),
                       title: Text('Sair'),
-                      selected: _selectedDestination == 4,
+                      selected: _selectedDestination == 5,
                       onTap: () => {
                         Navigator.push(
                           context,
