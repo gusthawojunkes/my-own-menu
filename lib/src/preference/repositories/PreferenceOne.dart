@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceTwo.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class PreferenceOne extends StatelessWidget {
   const PreferenceOne({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class PreferenceOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Preferências',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: PreferenceOnePage(),
     );
@@ -43,18 +45,19 @@ class _PreferenceOnePageState extends State<PreferenceOnePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       new Container(
+                        padding: EdgeInsets.only(top: 30),
                         child: Column(
                           children: [
                             new Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                TextButton(
+                                InkWell(
                                   child: new Text(
                                     'Pular',
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 12.0),
                                   ),
-                                  onPressed: () {
+                                  onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -80,7 +83,6 @@ class _PreferenceOnePageState extends State<PreferenceOnePage> {
                                     padding:
                                         EdgeInsets.only(top: 10, bottom: 10),
                                     child: new Card(
-                                      color: Color.fromRGBO(196, 196, 196, 100),
                                       child: ListTile(
                                         title: Text(
                                           options[i],

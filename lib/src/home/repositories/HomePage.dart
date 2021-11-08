@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
 import 'package:myownmenu/src/recipe/repositories/RecipePage.dart';
 import 'package:myownmenu/src/notification/repositories/NotificationPage.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
 import 'package:myownmenu/src/configuration/repositories/ConfigurationPage.dart';
 import 'package:myownmenu/src/dispense/repositories/DispensePage.dart';
 import 'package:myownmenu/src/ingredient/repositories/IngredientPage.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/profile/repositories/ProfilePage.dart';
+import 'package:myownmenu/utils/SourceUtils.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Home',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
@@ -50,62 +54,81 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         shadowColor: Colors.white12,
-        iconTheme: IconThemeData(color: Colors.black),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            new Padding(
-                padding: const EdgeInsets.only(top: 90),
-                child: TextButton(
-                  child: const Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+            new Container(
+                height: 200,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(SourceUtils.BACK_SIDE_MENU_SRC),
+                        fit: BoxFit.fill)),
+                child: new Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    new Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: TextButton(
+                          child: const Icon(Icons.arrow_back_ios),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ))
+                  ],
                 )),
             new Padding(
-                padding: const EdgeInsets.only(top: 45, left: 20),
+                padding: const EdgeInsets.only(top: 20, left: 20),
                 child: Column(
                   children: [
                     ListTile(
-                      leading: Icon(Icons.featured_play_list),
-                      title: Text('Dispensa'),
+                      leading: Icon(Icons.featured_play_list,
+                          color: ColorsUtils.darkBlue),
+                      title: Text('Dispensa',
+                          style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 0,
                       onTap: () => {sideBarDestination(3)},
                     ),
                     ListTile(
-                      leading: Icon(Icons.local_cafe),
-                      title: Text('Ingredientes'),
-                      selected: _selectedDestination == 1,
+                      leading:
+                          Icon(Icons.local_cafe, color: ColorsUtils.darkBlue),
+                      title: Text('Ingredientes',
+                          style: TextStyle(color: ColorsUtils.darkBlue)),
+                      selected: (_selectedDestination == 1),
                       onTap: () => {sideBarDestination(4)},
                     ),
                     ListTile(
-                      leading: Icon(Icons.build),
-                      title: Text('Configurações'),
+                      leading: Icon(Icons.build, color: ColorsUtils.darkBlue),
+                      title: Text('Configurações',
+                          style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 2,
                       onTap: () => {sideBarDestination(5)},
                     ),
                     ListTile(
-                      leading: Icon(Icons.account_circle),
-                      title: Text('Perfil'),
+                      leading: Icon(Icons.account_circle,
+                          color: ColorsUtils.darkBlue),
+                      title: Text('Perfil',
+                          style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 3,
                       onTap: () => {sideBarDestination(6)},
                     ),
                     Visibility(
                       visible: _admin,
                       child: ListTile(
-                        leading: Icon(Icons.person_outline),
-                        title: Text('Admin'),
+                        leading: Icon(Icons.person_outline,
+                            color: ColorsUtils.darkBlue),
+                        title: Text('Admin',
+                            style: TextStyle(color: ColorsUtils.darkBlue)),
                         selected: _selectedDestination == 4,
                         onTap: () => {sideBarDestination(7)},
                       ),
                     ),
                     ListTile(
-                      leading: Icon(Icons.input),
-                      title: Text('Sair'),
+                      leading: Icon(Icons.input, color: ColorsUtils.darkBlue),
+                      title: Text('Sair',
+                          style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 5,
                       onTap: () => {
                         Navigator.push(
@@ -115,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ],
-                )),
+                ))
           ],
         ),
       ),

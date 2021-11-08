@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class RegisterIngredient extends StatelessWidget {
   const RegisterIngredient({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class RegisterIngredient extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cadastro de Ingrediente',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: RegisterIngredientPage(),
     );
@@ -38,7 +40,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             new Padding(
-                padding: EdgeInsets.only(left: 30, bottom: 30, right: 30),
+                padding: EdgeInsets.all(30),
                 child: Column(
                   children: [
                     new Row(
@@ -95,55 +97,47 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                   ],
                 )),
             new Padding(
-              padding: EdgeInsets.only(top: 150),
+              padding: EdgeInsets.only(top: 130, right: 30, left: 30),
               child: Column(
                 children: [
                   new Container(
-                      child: Padding(
-                          padding: EdgeInsets.only(right: 30, left: 30),
-                          child: new Container(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  child: const Text('Cadastrar'),
-                                  onPressed: () {
-                                    if (!_formKey.currentState!.validate()) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            content: Text(
-                                                'Verifique o formulário!')),
-                                      );
-                                    } else {
-                                      try {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const RegisterIngredient()),
-                                        );
-                                      } on FirebaseAuthException catch (error) {
-                                        print(error.code);
-                                      }
-                                    }
-                                  })))),
-                  new Container(
-                    child: Padding(
-                        padding: EdgeInsets.only(right: 30, left: 30),
-                        child: new Container(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              child: const Text('Voltar'),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.grey,
-                              ),
+                      child: new Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              child: const Text('Cadastrar'),
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Admin()),
-                                );
-                              },
-                            ))),
+                                if (!_formKey.currentState!.validate()) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text('Verifique o formulário!')),
+                                  );
+                                } else {
+                                  try {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RegisterIngredient()),
+                                    );
+                                  } on FirebaseAuthException catch (error) {
+                                    print(error.code);
+                                  }
+                                }
+                              }))),
+                  new Container(
+                    child: new Container(
+                        width: double.infinity,
+                        child: TextButton(
+                          child: const Text('Voltar'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Admin()),
+                            );
+                          },
+                        )),
                   ),
                 ],
               ),

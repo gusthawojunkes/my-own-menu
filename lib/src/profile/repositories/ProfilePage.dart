@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
+import 'package:myownmenu/utils/SourceUtils.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -8,6 +10,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Receitas',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: ProfilePage(),
     );
@@ -28,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Column(children: [
         new Container(
           child: Image.asset(
-            './lib/assets/BackgroundTop.png',
+            SourceUtils.BACK_TOP_SRC,
             fit: BoxFit.fill,
           ),
         ),
