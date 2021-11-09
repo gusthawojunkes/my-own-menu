@@ -30,10 +30,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - ./lib/assets/BackgroundTop.png
-    - ./lib/assets/BackgroundBottom.png
-    - ./lib/assets/LogoTemporaria.png
-    - ./lib/assets/BackgroundTopMenu.png
+    - ./lib/assets/BackBottom.png
+    - ./lib/assets/BackSideMenu.png
+    - ./lib/assets/BackTop.png
     - ./lib/assets/FiltroTemporaria.png
     - ./lib/assets/IngredienteTemporario.png
+    - ./lib/assets/Logo.png
     - ./lib/assets/NoUser.png

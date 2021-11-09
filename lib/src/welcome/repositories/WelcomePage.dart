@@ -1,10 +1,13 @@
+import 'dart:collection';
 import 'dart:convert';
-
-import 'package:flip_card/flip_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myownmenu/service/auth/AuthService.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flip_card/flip_card.dart';
+import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
+import 'package:myownmenu/components/Filter.dart';
+import 'package:myownmenu/service/auth/AuthService.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -13,6 +16,7 @@ class Welcome extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Home',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),
     );
@@ -29,10 +33,7 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
-    String filtersJson =
-        '{"filters":[{"name":"Fruta"},{"name":"Carne"},{"name":"Grão"},{"name":"Verdura"},{"name":"Doces"},{"name":"Massa"}]}';
-    Map<String, dynamic> mapFilters = jsonDecode(filtersJson);
-    List<dynamic> listFilters = mapFilters['filters'];
+    HashSet<dynamic> listFilters = _getFilters();
     AuthService auth = AuthService();
     String? _userDisplayName = 'Usuário';
     if (auth.user != null && auth.user!.displayName != null) {
@@ -82,95 +83,96 @@ class _WelcomePageState extends State<WelcomePage> {
 
     return Scaffold(
         body: SingleChildScrollView(
-            child: Column(
-      children: [
-        Row(
-          children: [
-            Padding(
-                padding: EdgeInsets.only(right: 30, left: 30),
-                child: new Text(
-                  'Olá, $_userDisplayName',
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 22),
-                ))
-          ],
-        ),
-        new Card(
-          margin: const EdgeInsets.all(30),
-          child: new SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(listFilters.length, (sequenceFilter) {
-                return FlipCard(
-                  speed: 1,
-                  front: Container(
-                    child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          children: [
-                            Image.asset(SourceUtils.LOGO_SRC),
-                            Text(
-                              listFilters[sequenceFilter]['name'],
-                              style: TextStyle(
-                                  height: 4, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        )),
-                  ),
-                  back: Container(
-                    child: Card(
-                        color: Color.fromRGBO(173, 173, 173, 0),
-                        clipBehavior: Clip.antiAlias,
-                        child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              children: [
-                                Image.asset(SourceUtils.LOGO_SRC),
-                                Text(
-                                  listFilters[sequenceFilter]['name'],
-                                  style: TextStyle(
-                                      height: 4, fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ))),
-                  ),
-                );
-              }),
-            ),
-          ),
-        ),
-        Divider(
-          height: 35,
-          thickness: 2,
-          indent: 30,
-          endIndent: 30,
-          color: Colors.grey,
-        ),
-        Row(children: [
-          Padding(
-              padding: EdgeInsets.only(top: 30, left: 30),
-              child: new Text(
-                'Objetivos',
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 18),
-              ))
-        ]),
-        Container(
-          margin: const EdgeInsets.only(right: 30, left: 30),
-          child: new SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(listNotifications.length,
-                  (sequenceNotification) {
-                return notification(sequenceNotification);
-              }),
-            ),
-          ),
-        ),
-      ],
-    )));
+            child: new Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(SourceUtils.BACK_TOP_SRC),
+                        alignment: Alignment.topCenter,
+                        fit: BoxFit.fitWidth)),
+                child: new Column(
+                  children: [
+                    new Row(
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.only(right: 30, left: 30),
+                            child: new Text(
+                              'Olá, $_userDisplayName',
+                              textAlign: TextAlign.left,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 22),
+                            ))
+                      ],
+                    ),
+                    new Container(
+                      margin: const EdgeInsets.all(30),
+                      child: new SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(listFilters.length,
+                              (sequenceFilter) {
+                            return FlipCard(
+                              speed: 1,
+                              front: Container(
+                                child: filter(listFilters, sequenceFilter,
+                                    Colors.white, ColorsUtils.darkBlue),
+                              ),
+                              back: Container(
+                                child: filter(listFilters, sequenceFilter,
+                                    ColorsUtils.darkBlue, Colors.white),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      height: 35,
+                      thickness: 2,
+                      indent: 30,
+                      endIndent: 30,
+                    ),
+                    Row(children: [
+                      Padding(
+                          padding: EdgeInsets.only(top: 30, left: 30),
+                          child: new Text(
+                            'Objetivos',
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 18),
+                          ))
+                    ]),
+                    Container(
+                      margin: const EdgeInsets.only(right: 30, left: 30),
+                      child: new SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(listNotifications.length,
+                              (sequenceNotification) {
+                            return notification(sequenceNotification);
+                          }),
+                        ),
+                      ),
+                    ),
+                  ],
+                ))));
   }
+}
+
+HashSet<String> _getFilters() {
+  var listFilter = new HashSet<String>();
+  List<dynamic> listIngredients = _getIngredients();
+
+  for (var ingredient in listIngredients) listFilter.add(ingredient['type']);
+
+  return listFilter;
+}
+
+List<dynamic> _getIngredients() {
+  String ingredientsJson =
+      '{"ingredients":[{"name":"Abacate","type":"Fruta"},{"name":"Alcatra","type":"Carne"},{"name":"Arroz","type":"Grão"},{"name":"Feijão","type":"Grão"},{"name":"Maça","type":"Fruta"},{"name":"Milho","type":"Grão"}]}';
+
+  Map<String, dynamic> mapIngredients = jsonDecode(ingredientsJson);
+  List<dynamic> listIngredients = mapIngredients['ingredients'];
+  return listIngredients;
 }

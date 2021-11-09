@@ -1,10 +1,12 @@
-import 'dart:collection';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:myownmenu/utils/SourceUtils.dart';
 import 'Dart:convert';
+import 'dart:collection';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:myownmenu/utils/ColorsUtils.dart';
+import 'package:myownmenu/utils/SourceUtils.dart';
+import 'package:myownmenu/components/Filter.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class Ingredient extends StatelessWidget {
   const Ingredient({Key? key}) : super(key: key);
@@ -13,6 +15,7 @@ class Ingredient extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Receitas',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: IngredientPage(),
     );
@@ -33,12 +36,11 @@ class _IngredientPageState extends State<IngredientPage> {
   final _searchController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext buildContext) {
     Widget cardIngredient(index) {
       return Padding(
         padding: EdgeInsets.only(top: 10, bottom: 10),
-        child: Container(
-          color: Color.fromRGBO(219, 219, 219, 100),
+        child: Card(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,19 +76,18 @@ class _IngredientPageState extends State<IngredientPage> {
     Widget cardSelect(index) {
       return Padding(
         padding: EdgeInsets.only(top: 10, bottom: 10),
-        child: Container(
-          color: Color.fromRGBO(219, 219, 219, 100),
+        child: Card(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                  color: Color.fromRGBO(156, 156, 156, 100),
+                  color: ColorsUtils.darkBlue,
                   child: Padding(
                       padding: EdgeInsets.all(20),
                       child: Icon(
                         Icons.check_box,
-                        color: Color.fromRGBO(0, 0, 0, 100),
+                        color: Colors.white,
                       ))),
               Column(
                 children: [
@@ -111,23 +112,6 @@ class _IngredientPageState extends State<IngredientPage> {
           ),
         ),
       );
-    }
-
-    Widget filter(int index, int r, int g, int b, double o) {
-      return Card(
-          color: Color.fromRGBO(r, g, b, o),
-          clipBehavior: Clip.antiAlias,
-          child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Image.asset(SourceUtils.LOGO_SRC),
-                  Text(
-                    listFilters.elementAt(index),
-                    style: TextStyle(height: 4, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              )));
     }
 
     return Scaffold(
@@ -182,10 +166,12 @@ class _IngredientPageState extends State<IngredientPage> {
                   return FlipCard(
                     speed: 1,
                     front: Container(
-                      child: filter(index, 255, 255, 255, 100),
+                      child: filter(listFilters, index, Colors.white,
+                          ColorsUtils.darkBlue),
                     ),
                     back: Container(
-                      child: filter(index, 173, 173, 173, 0),
+                      child: filter(listFilters, index, ColorsUtils.darkBlue,
+                          Colors.white),
                     ),
                   );
                 }),

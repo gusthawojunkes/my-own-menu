@@ -1,10 +1,12 @@
-import 'dart:collection';
 import 'dart:convert';
-
-import 'package:flip_card/flip_card.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flip_card/flip_card.dart';
+import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
+import 'package:myownmenu/components/Filter.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class Dispense extends StatelessWidget {
   const Dispense({Key? key}) : super(key: key);
@@ -13,6 +15,7 @@ class Dispense extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Receitas',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: DispensePage(),
     );
@@ -36,10 +39,8 @@ class _DispensePageState extends State<DispensePage> {
   @override
   Widget build(BuildContext context) {
     Widget cardIngredient(index) {
-      return Padding(
-        padding: EdgeInsets.only(top: 10, bottom: 10),
+      return Card(
         child: new Container(
-          color: Color.fromRGBO(219, 219, 219, 100),
           child: new Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,10 +74,8 @@ class _DispensePageState extends State<DispensePage> {
     }
 
     Widget cardSelect(index, listIngredients) {
-      return new Padding(
-        padding: EdgeInsets.only(top: 10, bottom: 10),
+      return new Card(
         child: new Container(
-          color: Color.fromRGBO(219, 219, 219, 100),
           child: new Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,41 +100,24 @@ class _DispensePageState extends State<DispensePage> {
                 ],
               ),
               new Container(
-                  color: Color.fromRGBO(156, 156, 156, 100),
-                  child: new Padding(
-                      padding: EdgeInsets.all(15),
-                      child: new TextButton(
-                          child: const Icon(
-                            Icons.indeterminate_check_box,
-                            color: Color.fromRGBO(0, 0, 0, 100),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              listVisible[index] = !listVisible[index];
-                            });
-                          }))),
+                  color: ColorsUtils.darkBlue,
+                  child: InkWell(
+                    child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Icon(
+                          Icons.indeterminate_check_box,
+                          color: Colors.white,
+                        )),
+                    onTap: () {
+                      setState(() {
+                        listVisible[index] = !listVisible[index];
+                      });
+                    },
+                  )),
             ],
           ),
         ),
       );
-    }
-
-    Widget filter(int index, int r, int g, int b, double o) {
-      return new Card(
-          color: Color.fromRGBO(r, g, b, o),
-          clipBehavior: Clip.antiAlias,
-          child: new Padding(
-              padding: const EdgeInsets.all(16),
-              child: new Column(
-                children: [
-                  Image.asset(SourceUtils.LOGO_SRC),
-                  new Text(
-                    listFilters.elementAt(index),
-                    style:
-                        new TextStyle(height: 4, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              )));
     }
 
     return Scaffold(body: LayoutBuilder(
@@ -197,10 +179,12 @@ class _DispensePageState extends State<DispensePage> {
                                 return new FlipCard(
                                   speed: 1,
                                   front: new Container(
-                                    child: filter(index, 255, 255, 255, 100),
+                                    child: filter(listFilters, index,
+                                        Colors.white, ColorsUtils.darkBlue),
                                   ),
                                   back: new Container(
-                                    child: filter(index, 173, 173, 173, 0),
+                                    child: filter(listFilters, index,
+                                        ColorsUtils.darkBlue, Colors.white),
                                   ),
                                 );
                               }),

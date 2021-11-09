@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:myownmenu/src/changeName/repositories/ChangeNamePage.dart';
 import 'package:myownmenu/src/changePassword/repositories/ChangePasswordPage.dart';
 import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
 
 class Profile extends StatelessWidget {
@@ -13,6 +14,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Receitas',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: ProfilePage(),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceOne.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class PreferenceStart extends StatelessWidget {
   const PreferenceStart({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class PreferenceStart extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Preferências, Bem Vindo',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: PreferenceStartPage(),
     );

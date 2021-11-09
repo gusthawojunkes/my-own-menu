@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class RegisterRecipe extends StatelessWidget {
   const RegisterRecipe({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class RegisterRecipe extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cadastro de Receita',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: RegisterRecipePage(),
     );
@@ -46,7 +48,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             new Padding(
-                padding: EdgeInsets.only(left: 30, bottom: 30, right: 30),
+                padding: EdgeInsets.all(30),
                 child: Column(
                   children: [
                     new Row(
@@ -61,7 +63,6 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                     new Column(
                       children: [
                         new Container(
-                            child: Padding(
                           padding: EdgeInsets.only(top: 30.0),
                           child: new TextFormField(
                             validator: (value) {
@@ -78,9 +79,8 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                               ),
                             ),
                           ),
-                        )),
+                        ),
                         new Container(
-                            child: Padding(
                           padding: EdgeInsets.only(top: 30.0),
                           child: new TextFormField(
                             validator: (value) {
@@ -97,7 +97,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                               ),
                             ),
                           ),
-                        )),
+                        ),
                         new Padding(
                           padding: EdgeInsets.only(top: 30),
                           child: new Row(children: [
@@ -345,7 +345,6 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                           )),
                                 ))),
                         new Container(
-                            child: Padding(
                           padding: EdgeInsets.only(top: 30.0),
                           child: new TextFormField(
                             maxLines: 4,
@@ -358,19 +357,14 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                               ),
                             ),
                           ),
-                        )),
+                        ),
                       ],
-                    )
-                  ],
-                )),
-            new Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: Column(
-                children: [
-                  new Container(
-                      child: Padding(
-                          padding: EdgeInsets.only(right: 30, left: 30),
-                          child: new Container(
+                    ),
+                    new Container(
+                      padding: EdgeInsets.only(top: 30),
+                      child: Column(
+                        children: [
+                          new Container(
                               width: double.infinity,
                               child: ElevatedButton(
                                   child: const Text('Cadastrar'),
@@ -394,29 +388,24 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                         print(error.code);
                                       }
                                     }
-                                  })))),
-                  new Container(
-                    child: Padding(
-                        padding: EdgeInsets.only(right: 30, left: 30),
-                        child: new Container(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              child: const Text('Voltar'),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.grey,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Admin()),
-                                );
-                              },
-                            ))),
-                  ),
-                ],
-              ),
-            ),
+                                  })),
+                          new Container(
+                              width: double.infinity,
+                              child: TextButton(
+                                child: const Text('Voltar'),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Admin()),
+                                  );
+                                },
+                              ))
+                        ],
+                      ),
+                    )
+                  ],
+                )),
           ],
         ),
       )),
