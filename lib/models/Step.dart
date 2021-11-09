@@ -5,8 +5,11 @@ class Step implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'step';
 
-  Recipe recipe =
-      new Recipe(title: '', preparationTime: 0, ingredients: List.empty());
+  Recipe recipe = new Recipe(
+      title: '',
+      preparationTime: 0,
+      ingredients: List.empty(),
+      preparationMethod: List.empty());
   final String description = '';
   final int sequence = 0;
 

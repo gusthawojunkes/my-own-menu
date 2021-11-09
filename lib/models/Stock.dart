@@ -6,7 +6,7 @@ class Stock implements JsonMapper {
   static final String COLLECTION = 'stock';
 
   final Ingredient ingredient = new Ingredient(name: '', type: '');
-  final int quantity = 0;
+  final double quantity = 0;
 
   Stock({
     required ingredient,
