@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceThree.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class PreferenceTwo extends StatelessWidget {
   const PreferenceTwo({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class PreferenceTwo extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Preferências',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: PreferenceTwoPage(),
     );
@@ -44,18 +46,19 @@ class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       new Container(
+                        padding: EdgeInsets.only(top: 30),
                         child: Column(
                           children: [
                             new Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                TextButton(
+                                InkWell(
                                   child: new Text(
                                     'Pular',
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 12.0),
                                   ),
-                                  onPressed: () {
+                                  onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -82,7 +85,6 @@ class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
                                     padding:
                                         EdgeInsets.only(top: 10, bottom: 10),
                                     child: new Card(
-                                      color: Color.fromRGBO(196, 196, 196, 100),
                                       child: Row(
                                         children: [
                                           Checkbox(
@@ -107,13 +109,8 @@ class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
                                 new Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: new Card(
-                                    color: Color.fromRGBO(196, 196, 196, 100),
                                     child: TextFormField(
                                       decoration: InputDecoration(
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Colors.grey, width: 0.0),
-                                        ),
                                         labelText: 'Que? Qual?',
                                       ),
                                     ),

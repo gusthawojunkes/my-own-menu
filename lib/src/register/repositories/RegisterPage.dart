@@ -2,8 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/index/repositories/IndexPage.dart';
-import 'package:myownmenu/src/login/repositories/LoginPage.dart';
+import 'package:myownmenu/src/preference/repositories/PreferenceStart.dart';
 import 'package:myownmenu/src/register/repositories/RegisterModule.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class Register extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cadastro',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: RegisterPage(),
     );
@@ -38,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(children: [
         new Container(
           child: Padding(
-            padding: EdgeInsets.only(top: 80),
+            padding: EdgeInsets.only(top: 80, bottom: 30),
             child: Text(
               'Cadastro',
               style: TextStyle(color: Colors.black, fontSize: 26.0),
@@ -119,7 +121,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const Login()),
+                                        builder: (context) =>
+                                            const PreferenceStart()),
                                   );
                                 } on FirebaseAuthException catch (error) {
                                   print(error.code);
@@ -130,11 +133,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     padding: EdgeInsets.only(right: 30, left: 30),
                     child: new Container(
                         width: double.infinity,
-                        child: ElevatedButton(
+                        child: TextButton(
                           child: const Text('Voltar'),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.grey,
-                          ),
                           onPressed: () {
                             Navigator.push(
                               context,

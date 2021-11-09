@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class Recipe extends StatelessWidget {
   const Recipe({Key? key}) : super(key: key);
@@ -8,6 +9,7 @@ class Recipe extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Receitas',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: RecipePage(),
     );

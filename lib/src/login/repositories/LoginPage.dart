@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:myownmenu/utils/EmailUtils.dart';
+import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/src/home/repositories/HomePage.dart';
 import 'package:myownmenu/src/index/repositories/IndexPage.dart';
 import 'package:myownmenu/src/login/repositories/LoginModule.dart';
-import 'package:myownmenu/utils/EmailUtils.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -12,6 +14,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Login',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
     );
@@ -39,7 +42,8 @@ class _LoginPageState extends State<LoginPage> {
                   padding: EdgeInsets.only(top: 100.0),
                   child: Text(
                     'Login',
-                    style: TextStyle(color: Colors.black, fontSize: 26.0),
+                    style:
+                        TextStyle(color: ColorsUtils.darkBlue, fontSize: 26.0),
                   )),
             ),
             new Container(
@@ -52,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(
                       Icons.email,
+                      // color: ColorsUtils.darkBlue,
                     ),
                   ),
                   validator: (input) {
@@ -72,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(
                       Icons.vpn_key,
+                      // color: ColorsUtils.darkBlue,
                     ),
                   ),
                   validator: (input) {
@@ -92,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Text("Esqueceu sua senha?",
                               style: TextStyle(
                                   decoration: TextDecoration.underline,
-                                  color: Colors.blue)),
+                                  color: ColorsUtils.darkBlue)),
                           onTap: () {})),
                 ),
               ),
@@ -125,11 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                   padding: EdgeInsets.only(right: 30, left: 30),
                   child: new Container(
                       width: double.infinity,
-                      child: ElevatedButton(
+                      child: TextButton(
                         child: const Text('Voltar'),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.grey,
-                        ),
                         onPressed: () {
                           Navigator.push(
                             context,

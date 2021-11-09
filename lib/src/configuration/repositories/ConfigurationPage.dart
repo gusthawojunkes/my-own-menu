@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
+import 'package:myownmenu/utils/ColorsUtils.dart';
 
 class Configuration extends StatelessWidget {
   const Configuration({Key? key}) : super(key: key);
@@ -9,7 +11,8 @@ class Configuration extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Receitas',
-      theme: ThemeData.fallback(),
+      // theme: ThemeData.fallback(),
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: ConfigurationPage(),
     );
@@ -58,7 +61,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                             ),
                             new Card(
                               child: new Container(
-                                color: Color.fromRGBO(219, 219, 219, 100),
+                                color: Colors.white,
                                 child: new Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,15 +79,15 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                                       ),
                                     ),
                                     new Container(
-                                        color:
-                                            Color.fromRGBO(156, 156, 156, 100),
+                                        color: ColorsUtils.darkBlue,
                                         child: new Padding(
                                             padding: EdgeInsets.all(30),
                                             child: new Text(
                                               '3',
                                               style: TextStyle(
                                                   fontSize: 30,
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
                                             ))),
                                   ],
                                 ),
@@ -104,9 +107,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                           },
                         ),
                       ),
-                      new Divider(
-                        color: Colors.black,
-                      ),
+                      new Divider(),
                       new ListTile(
                         title: Text('Notificações'),
                         leading: Switch(
@@ -118,32 +119,32 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                           },
                         ),
                       ),
-                      new Divider(
-                        color: Colors.black,
-                      ),
-                      new ListTile(
-                          title: Text('Sobre'),
-                          leading: TextButton(
-                            child: const Icon(Icons.info_rounded,
-                                color: Colors.black),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Sobre'),
-                                  content: const Text(
-                                      "Este projeto tem como base a aplicabilidade e estudo das matérias e conhecimentos referentes ao quarto semestre da graduação. Nesse sentido, o seu desenvolvimento vem de encontro com a necessidade de aplicar conteúdos de forma real com a usabilidade e entrega de um produto concreto.  "),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'OK'),
-                                      child: const Text('OK'),
+                      new Divider(),
+                      new Container(
+                          padding: EdgeInsets.only(left: 20),
+                          child: new ListTile(
+                              title: Text('Sobre'),
+                              leading: InkWell(
+                                child: const Icon(Icons.info_rounded),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                      title: const Text('Sobre'),
+                                      content: const Text(
+                                          "Este projeto tem como base a aplicabilidade e estudo das matérias e conhecimentos referentes ao quarto semestre da graduação. Nesse sentido, o seu desenvolvimento vem de encontro com a necessidade de aplicar conteúdos de forma real com a usabilidade e entrega de um produto concreto.  "),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'OK'),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              );
-                            },
-                          )),
+                                  );
+                                },
+                              )))
                     ],
                   ))));
     }));

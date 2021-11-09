@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceFour.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class PreferenceThree extends StatelessWidget {
   const PreferenceThree({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class PreferenceThree extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Preferências',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: PreferenceThreePage(),
     );
@@ -40,18 +42,19 @@ class _PreferenceThreePageState extends State<PreferenceThreePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       new Container(
+                        padding: EdgeInsets.only(top: 30),
                         child: Column(
                           children: [
                             new Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                TextButton(
+                                InkWell(
                                   child: new Text(
                                     'Pular',
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 12.0),
                                   ),
-                                  onPressed: () {
+                                  onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -71,7 +74,6 @@ class _PreferenceThreePageState extends State<PreferenceThreePage> {
                               ),
                             ),
                             new Card(
-                              color: Color.fromRGBO(196, 196, 196, 100),
                               child: new TextFormField(
                                 decoration: InputDecoration(
                                   enabledBorder: const OutlineInputBorder(

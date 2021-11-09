@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceEnd.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class PreferenceFour extends StatelessWidget {
   const PreferenceFour({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class PreferenceFour extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Preferências',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: PreferenceFourPage(),
     );
@@ -41,18 +43,19 @@ class _PreferenceFourPageState extends State<PreferenceFourPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       new Container(
+                        padding: EdgeInsets.only(top: 30),
                         child: Column(
                           children: [
                             new Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                TextButton(
+                                InkWell(
                                   child: new Text(
                                     'Pular',
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 12.0),
                                   ),
-                                  onPressed: () {
+                                  onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -72,7 +75,6 @@ class _PreferenceFourPageState extends State<PreferenceFourPage> {
                               ),
                             ),
                             new Card(
-                              color: Color.fromRGBO(196, 196, 196, 100),
                               child: new TextFormField(
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
@@ -80,10 +82,6 @@ class _PreferenceFourPageState extends State<PreferenceFourPage> {
                                       RegExp("[0-9]"))
                                 ],
                                 decoration: InputDecoration(
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.grey, width: 0.0),
-                                  ),
                                   labelText: '3',
                                 ),
                               ),

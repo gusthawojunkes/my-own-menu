@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class PreferenceEnd extends StatelessWidget {
   const PreferenceEnd({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class PreferenceEnd extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Preferências, Tudo certo!',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: PreferenceEndPage(),
     );

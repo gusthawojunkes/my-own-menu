@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/registerIngredient/repositories/RegisterIngredientPage.dart';
 import 'package:myownmenu/src/registerRecipe/repositories/RegisterRecipePage.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
 
 class Admin extends StatelessWidget {
@@ -11,6 +12,7 @@ class Admin extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Admin',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: AdminPage(),
     );
@@ -35,7 +37,7 @@ class _AdminPageState extends State<AdminPage> {
             new Container(
               width: double.infinity,
               child: Image.asset(
-                SourceUtils.BACKGROUND_TOP_SRC,
+                SourceUtils.BACK_TOP_SRC,
                 fit: BoxFit.fill,
               ),
             ),

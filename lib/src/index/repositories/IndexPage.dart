@@ -3,9 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/register/repositories/RegisterPage.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class Index extends StatelessWidget {
   const Index({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Index Page',
+      theme: themeApp(),
+      debugShowCheckedModeBanner: false,
+      home: IndexPage(),
+    );
+  }
+}
+
+class IndexPage extends StatelessWidget {
+  const IndexPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +35,7 @@ class Index extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 child: Image.asset(
-                  SourceUtils.BACKGROUND_TOP_SRC,
+                  SourceUtils.BACK_TOP_SRC,
                   fit: BoxFit.fill,
                 ),
               )),
@@ -30,7 +45,10 @@ class Index extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.asset(SourceUtils.LOGO_SRC),
+                    Image.asset(
+                      SourceUtils.LOGO_SRC,
+                      height: 100,
+                    ),
                     new Container(
                       child: Column(
                         children: [
@@ -82,7 +100,7 @@ class Index extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 child: Image.asset(
-                  SourceUtils.BACKGROUND_BOTTOM_SRC,
+                  SourceUtils.BACK_BOTTOM_SRC,
                   fit: BoxFit.fill,
                 ),
               )),
