@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
           new Container(
             width: double.infinity,
             child: Image.asset(
-              SourceUtils.BACKGROUND_TOP_SRC,
+              SourceUtils.BACK_TOP_SRC,
               fit: BoxFit.fill,
             ),
           ),
