@@ -29,7 +29,6 @@ class RegisterIngredientPage extends StatefulWidget {
 class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _typeController = TextEditingController();
-  TextEditingController _quantityController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -94,25 +93,6 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                             ),
                           ),
                         )),
-                        new Container(
-                            child: Padding(
-                          padding: EdgeInsets.only(top: 30.0),
-                          child: new TextFormField(
-                            validator: (value) {
-                              if (_quantityController.text.isEmpty) {
-                                return 'Campo Obrigatório!';
-                              }
-                            },
-                            controller: _quantityController,
-                            decoration: new InputDecoration(
-                              labelText: 'Quantidade',
-                              border: new OutlineInputBorder(),
-                              suffixIcon: new Icon(
-                                Icons.format_list_numbered,
-                              ),
-                            ),
-                          ),
-                        )),
                       ],
                     )
                   ],
@@ -137,8 +117,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                   try {
                                     IngredientService.create(
                                         name: _nameController.text,
-                                        type: _typeController.text,
-                                        quantity: _quantityController.text);
+                                        type: _typeController.text);
                                   } on FirebaseAuthException catch (error) {
                                     print(error.code);
                                   }
