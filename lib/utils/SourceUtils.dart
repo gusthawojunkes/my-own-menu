@@ -11,4 +11,7 @@ class SourceUtils {
   // ignore: non_constant_identifier_names
   static final String INGREDIENTE_SRC =
       './lib/assets/IngredienteTemporario.png';
+  // ignore: non_constant_identifier_names
+  static final String NO_USER_SRC =
+      './lib/assets/NoUser.png';
 }

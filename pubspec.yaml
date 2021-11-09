@@ -36,3 +36,4 @@ flutter:
     - ./lib/assets/BackgroundTopMenu.png
     - ./lib/assets/FiltroTemporaria.png
     - ./lib/assets/IngredienteTemporario.png
+    - ./lib/assets/NoUser.png

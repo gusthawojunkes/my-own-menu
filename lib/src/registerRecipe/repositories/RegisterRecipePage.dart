@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
-import 'package:myownmenu/src/register/repositories/RegisterPage.dart';
 
 class RegisterRecipe extends StatelessWidget {
   const RegisterRecipe({Key? key}) : super(key: key);
