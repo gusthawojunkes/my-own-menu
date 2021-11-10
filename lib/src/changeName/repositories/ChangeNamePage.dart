@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:myownmenu/src/profile/repositories/ProfilePage.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class ChangeName extends StatelessWidget {
   const ChangeName({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class ChangeName extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Alteração de Nome',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: ChangeNamePage(),
     );
@@ -38,7 +40,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
         child: new Column(
           children: [
             new Padding(
-                padding: EdgeInsets.only(left: 30, bottom: 30, right: 30),
+                padding: EdgeInsets.all(30),
                 child: Column(
                   children: [
                     new Row(
@@ -78,7 +80,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
             new Column(
               children: [
                 new Container(
-                    padding: EdgeInsets.only(top: 250),
+                    padding: EdgeInsets.only(top: 200),
                     child: Padding(
                         padding: EdgeInsets.only(right: 30, left: 30),
                         child: new Container(

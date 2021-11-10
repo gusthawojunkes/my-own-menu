@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/profile/repositories/ProfilePage.dart';
+import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class ChangePassword extends StatelessWidget {
   const ChangePassword({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class ChangePassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Alteração de Senha',
+      theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: ChangePasswordPage(),
     );
@@ -39,7 +41,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             new Padding(
-                padding: EdgeInsets.only(left: 30, bottom: 30, right: 30),
+                padding: EdgeInsets.all(30),
                 child: Column(
                   children: [
                     new Row(
@@ -97,7 +99,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   ],
                 )),
             new Padding(
-              padding: EdgeInsets.only(top: 150),
+              padding: EdgeInsets.only(top: 100),
               child: Column(
                 children: [
                   new Container(
