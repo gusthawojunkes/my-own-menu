@@ -14,13 +14,11 @@ class RecipeIngredient implements JsonMapper {
   Ingredient ingredient = new Ingredient(name: '', type: '');
   final double quantity = 0;
 
-  RecipeIngredient({required recipe, required ingredient, required quantity});
+  RecipeIngredient({required ingredient, required quantity});
 
   factory RecipeIngredient.fromJson(Map<String, dynamic> json) =>
       RecipeIngredient(
-          recipe: json['recipe'],
-          ingredient: json['ingredient'],
-          quantity: json['quantity']);
+          ingredient: json['ingredient'], quantity: json['quantity']);
 
   @override
   Map<String, Object?> toJson() =>

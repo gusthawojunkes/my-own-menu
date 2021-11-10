@@ -20,10 +20,11 @@ class AuthService extends ChangeNotifier {
     });
   }
 
-  login(String email, String password) async {
+  Future<User?> login(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       _setUser();
+      return _auth.currentUser!;
     } on FirebaseAuthException catch (error) {
       handleAuthenticationError(error);
     } catch (e) {

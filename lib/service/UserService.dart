@@ -5,11 +5,12 @@ import 'package:myownmenu/utils/Service.dart';
 class UserService {
   static Future<List<User>> getAll() async {
     List<User> users = List.empty();
-    final CollectionReference<User> usersCollection = parseAll();
-    final allUsers = await usersCollection.get();
+    final CollectionReference<User> parsedUsersCollection = parseAll();
+    final allUsers = await parsedUsersCollection.get();
     for (final snapshot in allUsers.docs) {
       User user = User.createFromSnapshot(snapshot);
       users.add(user);
+      print(user);
     }
     return users;
   }

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/models/Step.dart' as RecipeStep;
 import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
@@ -33,10 +34,11 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
   TextEditingController _additionalInformationsController =
       TextEditingController();
   late List<String> listIngredients = [];
-  late List<String> listPrepareMode = [];
+  late List<RecipeStep.Step> listPrepareMode = [];
   bool _visibleIngredient = false;
   bool _visiblePrepareMode = false;
   final _formKey = GlobalKey<FormState>();
+  int _sequenceCounter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -252,7 +254,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                   child: new ElevatedButton(
                                     onPressed: () {
                                       setState(() {
-                                        if (_ingredientController
+                                        if (_prepareModeController
                                             .text.isEmpty) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -261,8 +263,12 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                     'O valor inserido não pode ser vazio!')),
                                           );
                                         } else {
-                                          listPrepareMode
-                                              .add(_prepareModeController.text);
+                                          _sequenceCounter++;
+                                          listPrepareMode.add(RecipeStep.Step(
+                                              description:
+                                                  _prepareModeController.text,
+                                              sequence: _sequenceCounter));
+                                          print(listPrepareMode);
                                         }
                                       });
                                     },
@@ -300,7 +306,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                 padding: EdgeInsets.only(top: 10),
                                 child: new Column(
                                   children: List.generate(
-                                      listPrepareMode.length,
+                                      listPrepareMode.cast<String>().length,
                                       (index) => new Card(
                                             child: new Row(
                                               mainAxisAlignment:
@@ -316,7 +322,8 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                           right: 15,
                                                           bottom: 5),
                                                       child: new Text(
-                                                        listPrepareMode[index],
+                                                        listPrepareMode[index]
+                                                            .description,
                                                         style: new TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
