@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/service/IngredientService.dart';
-import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class RegisterIngredient extends StatelessWidget {
@@ -123,20 +122,6 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                   }
                                 }
                               }))),
-                  new Container(
-                    child: new Container(
-                        width: double.infinity,
-                        child: TextButton(
-                          child: const Text('Voltar'),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Admin()),
-                            );
-                          },
-                        )),
-                  ),
                 ],
               ),
             ),
