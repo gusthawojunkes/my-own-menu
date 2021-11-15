@@ -1,11 +1,8 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flip_card/flip_card.dart';
-import 'package:myownmenu/utils/ColorsUtils.dart';
+import 'package:myownmenu/src/home/repositories/HomePage.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
-import 'package:myownmenu/components/Filter.dart';
 import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
@@ -33,7 +30,6 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
-    HashSet<dynamic> listFilters = _getFilters();
     AuthService auth = AuthService();
     String? _userDisplayName = 'Usuário';
     if (auth.user != null && auth.user!.displayName != null) {
@@ -105,27 +101,63 @@ class _WelcomePageState extends State<WelcomePage> {
                       ],
                     ),
                     new Container(
-                      margin: const EdgeInsets.all(30),
-                      child: new SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(listFilters.length,
-                              (sequenceFilter) {
-                            return FlipCard(
-                              speed: 1,
-                              front: Container(
-                                child: filter(listFilters, sequenceFilter,
-                                    Colors.white, ColorsUtils.darkBlue),
+                        padding: EdgeInsets.all(30),
+                        child: new Column(
+                          children: [
+                            new Container(
+                              height: 80,
+                              width: double.infinity,
+                              child: new Card(
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Home(page: 7)),
+                                    );
+                                  },
+                                  child: new Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: new Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Icon(Icons.fastfood),
+                                          new Text("Cadastro de Receita")
+                                        ],
+                                      )),
+                                ),
                               ),
-                              back: Container(
-                                child: filter(listFilters, sequenceFilter,
-                                    ColorsUtils.darkBlue, Colors.white),
+                            ),
+                            new Container(
+                              height: 80,
+                              width: double.infinity,
+                              child: new Card(
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Home(page: 8)),
+                                    );
+                                  },
+                                  child: new Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: new Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Icon(Icons.coffee),
+                                          new Text("Cadastro de Ingredientes")
+                                        ],
+                                      )),
+                                ),
                               ),
-                            );
-                          }),
-                        ),
-                      ),
-                    ),
+                            ),
+                          ],
+                        )),
                     Divider(
                       height: 35,
                       thickness: 2,
@@ -157,22 +189,4 @@ class _WelcomePageState extends State<WelcomePage> {
                   ],
                 ))));
   }
-}
-
-HashSet<String> _getFilters() {
-  var listFilter = new HashSet<String>();
-  List<dynamic> listIngredients = _getIngredients();
-
-  for (var ingredient in listIngredients) listFilter.add(ingredient['type']);
-
-  return listFilter;
-}
-
-List<dynamic> _getIngredients() {
-  String ingredientsJson =
-      '{"ingredients":[{"name":"Abacate","type":"Fruta"},{"name":"Alcatra","type":"Carne"},{"name":"Arroz","type":"Grão"},{"name":"Feijão","type":"Grão"},{"name":"Maça","type":"Fruta"},{"name":"Milho","type":"Grão"}]}';
-
-  Map<String, dynamic> mapIngredients = jsonDecode(ingredientsJson);
-  List<dynamic> listIngredients = mapIngredients['ingredients'];
-  return listIngredients;
 }
