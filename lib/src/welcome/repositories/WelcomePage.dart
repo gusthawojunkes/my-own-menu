@@ -164,16 +164,28 @@ class _WelcomePageState extends State<WelcomePage> {
                       indent: 30,
                       endIndent: 30,
                     ),
-                    Row(children: [
-                      Padding(
-                          padding: EdgeInsets.only(top: 30, left: 30),
-                          child: new Text(
-                            'Objetivos',
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 18),
-                          ))
-                    ]),
+                    new Container(
+                        padding: EdgeInsets.only(left: 30, right: 30),
+                        child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              new Text(
+                                'Objetivos',
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              new ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Home(page: 9)),
+                                    );
+                                  },
+                                  child: Icon(Icons.plus_one))
+                            ])),
                     Container(
                       margin: const EdgeInsets.only(right: 30, left: 30),
                       child: new SingleChildScrollView(
