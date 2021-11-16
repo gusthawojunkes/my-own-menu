@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/src/registerIngredient/repositories/RegisterIngredientPage.dart';
+import 'package:myownmenu/src/registerRecipe/repositories/RegisterRecipePage.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
-import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
 import 'package:myownmenu/src/recipe/repositories/RecipePage.dart';
 import 'package:myownmenu/src/notification/repositories/NotificationPage.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
@@ -14,7 +15,9 @@ import 'package:myownmenu/src/profile/repositories/ProfilePage.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+  final int? page;
+
+  const Home({Key? key, this.page}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +25,17 @@ class Home extends StatelessWidget {
       title: 'Home',
       theme: themeApp(),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: HomePage(
+        page: page,
+      ),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final int? page;
+
+  const HomePage({Key? key, this.page}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -38,7 +45,6 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   int _selectedIndex = 0;
   dynamic _selectedDestination;
-  bool _admin = true;
   final List? _options = [
     WelcomePage(),
     RecipePage(),
@@ -47,9 +53,10 @@ class _HomePageState extends State<HomePage> {
     Ingredient(),
     Configuration(),
     Profile(),
-    Admin(),
-    Login()
+    RegisterRecipe(),
+    RegisterIngredient()
   ];
+  static int? currentPage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,17 +121,6 @@ class _HomePageState extends State<HomePage> {
                       selected: _selectedDestination == 3,
                       onTap: () => {sideBarDestination(6)},
                     ),
-                    Visibility(
-                      visible: _admin,
-                      child: ListTile(
-                        leading: Icon(Icons.person_outline,
-                            color: ColorsUtils.darkBlue),
-                        title: Text('Admin',
-                            style: TextStyle(color: ColorsUtils.darkBlue)),
-                        selected: _selectedDestination == 4,
-                        onTap: () => {sideBarDestination(7)},
-                      ),
-                    ),
                     ListTile(
                       leading: Icon(Icons.input, color: ColorsUtils.darkBlue),
                       title: Text('Sair',
@@ -142,7 +138,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: _options![_selectedIndex],
+      body: _options![getPage(_selectedIndex)],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
@@ -170,6 +166,21 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
       _selectedDestination = null;
     });
+  }
+
+  int getPage(_selectedIndex) {
+    int? parameterPage = widget.page;
+
+    if (currentPage == parameterPage) {
+      return _selectedIndex;
+    }
+
+    if ((parameterPage != null) && (_selectedIndex == 0)) {
+      currentPage = parameterPage;
+      if (parameterPage == 8) return 8;
+      if (parameterPage == 7) return 7;
+    }
+    return _selectedIndex;
   }
 
   void sideBarDestination(int selected) {

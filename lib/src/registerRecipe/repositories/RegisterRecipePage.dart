@@ -396,18 +396,6 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                       }
                                     }
                                   })),
-                          new Container(
-                              width: double.infinity,
-                              child: TextButton(
-                                child: const Text('Voltar'),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Admin()),
-                                  );
-                                },
-                              ))
                         ],
                       ),
                     )
