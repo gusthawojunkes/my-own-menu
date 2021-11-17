@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/models/Step.dart' as RecipeStep;
-import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class RegisterRecipe extends StatelessWidget {

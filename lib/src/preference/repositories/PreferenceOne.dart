@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/models/User.dart';
+import 'package:myownmenu/service/UserService.dart';
+import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceTwo.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
+import 'package:myownmenu/utils/Service.dart';
 
 class PreferenceOne extends StatelessWidget {
   const PreferenceOne({Key? key}) : super(key: key);
@@ -26,7 +30,7 @@ class PreferenceOnePage extends StatefulWidget {
 }
 
 class _PreferenceOnePageState extends State<PreferenceOnePage> {
-  int _value = 1;
+  int _value = 0;
   List options = ['Sim', 'Não', 'Prefiro não responder'];
 
   @override
@@ -113,11 +117,25 @@ class _PreferenceOnePageState extends State<PreferenceOnePage> {
                         child: ElevatedButton(
                           child: const Text('Próxima'),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const PreferenceTwo()),
-                            );
+                            final dynamic response = options[_value];
+                            try {
+                              AuthService auth = AuthService.getInstance();
+                              if (auth.user != null) {
+                                print(auth.user!.uid);
+                                UserService.setIntoUser(
+                                    uid: auth.user!.uid,
+                                    property: 'research-level-one',
+                                    value: response);
+                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PreferenceTwo()),
+                              );
+                            } catch (e) {
+                              print(e);
+                            }
                           },
                         ),
                       ),

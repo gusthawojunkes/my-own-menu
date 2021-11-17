@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/service/UserService.dart';
+import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
+import 'package:myownmenu/src/preference/repositories/PreferenceModule.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceThree.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
@@ -28,6 +31,13 @@ class PreferenceTwoPage extends StatefulWidget {
 class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
   List options = ['Massa', 'Carnes no geral', 'Grãos'];
   List<bool> checked = [false, false, false];
+  Map<int, String> mapChoices = PreferenceModule.getMapPreferencesTwo();
+
+  Map<dynamic, dynamic> userchoices = {
+    'Massa': true,
+    'Carnes no geral': true,
+    'Grãos': false
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +136,25 @@ class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
                         child: ElevatedButton(
                           child: const Text('Próxima'),
                           onPressed: () {
+                            final dynamic response = userchoices;
+                            try {
+                              AuthService auth = AuthService.getInstance();
+                              if (auth.user != null) {
+                                print(auth.user!.uid);
+                                UserService.setIntoUser(
+                                    uid: auth.user!.uid,
+                                    property: 'research-level-two',
+                                    value: response);
+                              }
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) =>
+                              //           const PreferenceTwo()),
+                              // );
+                            } catch (e) {
+                              print(e);
+                            }
                             Navigator.push(
                               context,
                               MaterialPageRoute(

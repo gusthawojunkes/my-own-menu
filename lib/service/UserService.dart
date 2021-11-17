@@ -25,7 +25,7 @@ class UserService {
       'email': email,
       'username': name,
       'password': password,
-      'uid': uid
+      'firebase-auth-uid': uid
     });
   }
 
@@ -37,5 +37,11 @@ class UserService {
       fromFirestore: (snapshots, _) => User.fromJson(snapshots.data()!),
       toFirestore: (user, _) => user.toJson(),
     );
+  }
+
+  static setIntoUser(
+      {required String uid, required String property, required dynamic value}) {
+    Service.getDocument(User.COLLECTION, documentName: uid)
+        .set({property: value});
   }
 }
