@@ -1,7 +1,10 @@
+import 'dart:collection';
 import 'dart:convert';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myownmenu/src/home/repositories/HomePage.dart';
+import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
 import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
@@ -28,6 +31,13 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+  List<dynamic> listNotifications = _getGoals();
+  var cardKeys = Map<int, GlobalKey<FlipCardState>>();
+  var selected = new HashSet<dynamic>();
+  bool _cancelVisible = false;
+  bool _deleteVisible = false;
+
   @override
   Widget build(BuildContext context) {
     AuthService auth = AuthService();
@@ -35,10 +45,6 @@ class _WelcomePageState extends State<WelcomePage> {
     if (auth.user != null && auth.user!.displayName != null) {
       _userDisplayName = auth.user!.displayName;
     }
-    String notificationsJson =
-        '{"notifications":[{"description":"Refeições realizadas hoje","statistic":"2/2"},{"description":"Refeições realizadas ontem","statistic":"2/3"},{"description":"Refeições programadas para a amanhã","statistic":"0/1"},{"description":"Copos de água ingeridos","statistic":"2/5"},{"description":"Idas ao mercado","statistic":"5/5"}]}';
-    Map<String, dynamic> mapNotifications = jsonDecode(notificationsJson);
-    List<dynamic> listNotifications = mapNotifications['notifications'];
 
     Widget notification(int sequenceNotification) {
       return Container(
@@ -77,6 +83,47 @@ class _WelcomePageState extends State<WelcomePage> {
       );
     }
 
+    Widget notificationSelected(int sequenceNotification) {
+      return Container(
+        width: 150,
+        height: 170,
+        child: Card(
+            color: ColorsUtils.darkBlue,
+            clipBehavior: Clip.antiAlias,
+            child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 10, right: 10, left: 5, bottom: 15),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 15, right: 15, left: 15, bottom: 10),
+                        child: Text(
+                          listNotifications[sequenceNotification]['statistic'],
+                          style: const TextStyle(
+                              fontSize: 17, color: Colors.white),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 5, right: 15, left: 15, bottom: 15),
+                        child: Text(
+                          listNotifications[sequenceNotification]
+                              ['description'],
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 17),
+                        ),
+                      )
+                    ],
+                  ),
+                ))),
+      );
+    }
+
     return Scaffold(
         body: SingleChildScrollView(
             child: new Container(
@@ -101,61 +148,14 @@ class _WelcomePageState extends State<WelcomePage> {
                       ],
                     ),
                     new Container(
-                        padding: EdgeInsets.all(30),
+                        padding: EdgeInsets.only(
+                            top: 70, bottom: 60, left: 30, right: 30),
                         child: new Column(
                           children: [
-                            new Container(
-                              height: 80,
-                              width: double.infinity,
-                              child: new Card(
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Home(page: 7)),
-                                    );
-                                  },
-                                  child: new Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: new Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Icon(Icons.fastfood),
-                                          new Text("Cadastro de Receita")
-                                        ],
-                                      )),
-                                ),
-                              ),
-                            ),
-                            new Container(
-                              height: 80,
-                              width: double.infinity,
-                              child: new Card(
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Home(page: 8)),
-                                    );
-                                  },
-                                  child: new Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: new Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Icon(Icons.coffee),
-                                          new Text("Cadastro de Ingredientes")
-                                        ],
-                                      )),
-                                ),
-                              ),
-                            ),
+                            Text(
+                              "Seja Bem-Vindo!",
+                              style: TextStyle(fontSize: 32),
+                            )
                           ],
                         )),
                     Divider(
@@ -165,7 +165,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       endIndent: 30,
                     ),
                     new Container(
-                        padding: EdgeInsets.only(left: 30, right: 30),
+                        padding: EdgeInsets.only(top: 30, left: 30, right: 30),
                         child: new Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -175,30 +175,116 @@ class _WelcomePageState extends State<WelcomePage> {
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(fontSize: 18),
                               ),
-                              new ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Home(page: 9)),
-                                    );
-                                  },
-                                  child: Icon(Icons.plus_one))
+                              new Row(
+                                children: [
+                                  new Visibility(
+                                      visible: _cancelVisible,
+                                      child: new Container(
+                                        padding: EdgeInsets.only(right: 10),
+                                        child: new TextButton(
+                                            onPressed: () {
+                                              flipSelectedCards(
+                                                  listNotifications,
+                                                  selected,
+                                                  cardKeys);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Objetivos retirados de seleção!')),
+                                              );
+                                            },
+                                            child: Icon(Icons.block)),
+                                      )),
+                                  new Visibility(
+                                      visible: _deleteVisible,
+                                      child: new ElevatedButton(
+                                          onPressed: () {
+                                            List<dynamic> selectedCards = [];
+                                            for (var sequenceNotification
+                                                in selected) {
+                                              selectedCards
+                                                  .add(sequenceNotification);
+                                            }
+                                            setState(() {
+                                              flipSelectedCards(
+                                                  listNotifications,
+                                                  selected,
+                                                  cardKeys);
+                                              for (var item in selectedCards) {
+                                                listNotifications.remove(item);
+                                              }
+                                            });
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                  content: Text(
+                                                      'Objetivos selecionados foram excluidos!')),
+                                            );
+                                          },
+                                          child: Icon(Icons.clear)))
+                                ],
+                              )
                             ])),
-                    Container(
+                    new Container(
                       margin: const EdgeInsets.only(right: 30, left: 30),
                       child: new SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: List.generate(listNotifications.length,
                               (sequenceNotification) {
-                            return notification(sequenceNotification);
+                            cardKeys.putIfAbsent(sequenceNotification,
+                                () => GlobalKey<FlipCardState>());
+                            GlobalKey<FlipCardState>? thisCard =
+                                cardKeys[sequenceNotification];
+                            return FlipCard(
+                                key: thisCard,
+                                onFlip: () {
+                                  setState(() {
+                                    selected.contains(listNotifications
+                                            .elementAt(sequenceNotification))
+                                        ? selected.remove(listNotifications
+                                            .elementAt(sequenceNotification))
+                                        : selected.add(listNotifications
+                                            .elementAt(sequenceNotification));
+                                    selected.isNotEmpty
+                                        ? _deleteVisible = true
+                                        : _deleteVisible = false;
+                                    selected.isNotEmpty
+                                        ? _cancelVisible = true
+                                        : _cancelVisible = false;
+                                  });
+                                },
+                                front: new Container(
+                                  child: notification(sequenceNotification),
+                                ),
+                                back: new Container(
+                                    child: notificationSelected(
+                                        sequenceNotification)));
                           }),
                         ),
                       ),
                     ),
                   ],
                 ))));
+  }
+}
+
+List<dynamic> _getGoals() {
+  String notificationsJson =
+      '{"notifications":[{"description":"Refeições realizadas hoje","statistic":"2/2"},{"description":"Refeições realizadas ontem","statistic":"2/3"},{"description":"Refeições programadas para a amanhã","statistic":"0/1"},{"description":"Copos de água ingeridos","statistic":"2/5"},{"description":"Idas ao mercado","statistic":"5/5"}]}';
+  Map<String, dynamic> mapNotifications = jsonDecode(notificationsJson);
+  List<dynamic> listNotifications = mapNotifications['notifications'];
+  return listNotifications;
+}
+
+void flipSelectedCards(listNotifications, selected, cardKeys) {
+  List<dynamic> cardList = [];
+  selected.forEach((cardSelected) {
+    cardList.add(cardSelected);
+  });
+
+  for (var card in cardList) {
+    cardKeys[listNotifications.indexOf(card)]!.currentState!.toggleCard();
   }
 }

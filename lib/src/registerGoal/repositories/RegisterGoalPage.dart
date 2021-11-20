@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myownmenu/src/admin/repositories/AdminPage.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
+import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
 
 class RegisterGoal extends StatelessWidget {
   const RegisterGoal({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class RegisterGoalPage extends StatefulWidget {
 
 class _RegisterGoalPageState extends State<RegisterGoalPage> {
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _typeController = TextEditingController();
+  TextEditingController _goalController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -79,11 +79,11 @@ class _RegisterGoalPageState extends State<RegisterGoalPage> {
                           padding: EdgeInsets.only(top: 30.0),
                           child: new TextFormField(
                             validator: (value) {
-                              if (_typeController.text.isEmpty) {
+                              if (_goalController.text.isEmpty) {
                                 return 'Campo Obrigatório!';
                               }
                             },
-                            controller: _typeController,
+                            controller: _goalController,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.allow(RegExp("[0-9]"))
                             ],
@@ -117,25 +117,18 @@ class _RegisterGoalPageState extends State<RegisterGoalPage> {
                                             Text('Verifique o formulário!')),
                                   );
                                 } else {
-                                  try {} on FirebaseAuthException catch (error) {
+                                  try {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Welcome()),
+                                    );
+                                  } on FirebaseAuthException catch (error) {
                                     print(error.code);
                                   }
                                 }
                               }))),
-                  new Container(
-                    child: new Container(
-                        width: double.infinity,
-                        child: TextButton(
-                          child: const Text('Voltar'),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Admin()),
-                            );
-                          },
-                        )),
-                  ),
                 ],
               ),
             ),

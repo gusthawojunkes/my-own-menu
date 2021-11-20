@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/src/registerGoal/repositories/RegisterGoalPage.dart';
 import 'package:myownmenu/src/registerIngredient/repositories/RegisterIngredientPage.dart';
 import 'package:myownmenu/src/registerRecipe/repositories/RegisterRecipePage.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
@@ -42,8 +43,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
   int _selectedIndex = 0;
+  int _currentIndex = 0;
   dynamic _selectedDestination;
   final List? _options = [
     WelcomePage(),
@@ -54,9 +55,10 @@ class _HomePageState extends State<HomePage> {
     Configuration(),
     Profile(),
     RegisterRecipe(),
-    RegisterIngredient()
+    RegisterIngredient(),
+    RegisterGoal()
   ];
-  static int? currentPage;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,23 +124,55 @@ class _HomePageState extends State<HomePage> {
                       onTap: () => {sideBarDestination(6)},
                     ),
                     ListTile(
-                      leading: Icon(Icons.input, color: ColorsUtils.darkBlue),
-                      title: Text('Sair',
+                      title: Divider(),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.create, color: ColorsUtils.darkBlue),
+                      title: Text('Receita',
+                          style: TextStyle(color: ColorsUtils.darkBlue)),
+                      selected: _selectedDestination == 4,
+                      onTap: () => {sideBarDestination(7)},
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.create_outlined,
+                          color: ColorsUtils.darkBlue),
+                      title: Text('Ingrediente',
                           style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 5,
-                      onTap: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Login()),
-                        )
-                      },
+                      onTap: () => {sideBarDestination(8)},
                     ),
+                    ListTile(
+                      leading: Icon(Icons.create_rounded,
+                          color: ColorsUtils.darkBlue),
+                      title: Text('Objetivo',
+                          style: TextStyle(color: ColorsUtils.darkBlue)),
+                      selected: _selectedDestination == 6,
+                      onTap: () => {sideBarDestination(9)},
+                    ),
+                    ListTile(
+                      title: Divider(),
+                    ),
+                    new Container(
+                        padding: EdgeInsets.only(bottom: 30),
+                        child: ListTile(
+                          leading:
+                              Icon(Icons.input, color: ColorsUtils.darkBlue),
+                          title: Text('Sair',
+                              style: TextStyle(color: ColorsUtils.darkBlue)),
+                          selected: _selectedDestination == 5,
+                          onTap: () => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
+                            )
+                          },
+                        ))
                   ],
                 ))
           ],
         ),
       ),
-      body: _options![getPage(_selectedIndex)],
+      body: _options![_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
@@ -166,21 +200,6 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
       _selectedDestination = null;
     });
-  }
-
-  int getPage(_selectedIndex) {
-    int? parameterPage = widget.page;
-
-    if (currentPage == parameterPage) {
-      return _selectedIndex;
-    }
-
-    if ((parameterPage != null) && (_selectedIndex == 0)) {
-      currentPage = parameterPage;
-      if (parameterPage == 8) return 8;
-      if (parameterPage == 7) return 7;
-    }
-    return _selectedIndex;
   }
 
   void sideBarDestination(int selected) {
