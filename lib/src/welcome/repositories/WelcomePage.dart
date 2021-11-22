@@ -35,8 +35,6 @@ class _WelcomePageState extends State<WelcomePage> {
   List<dynamic> listNotifications = _getGoals();
   var cardKeys = Map<int, GlobalKey<FlipCardState>>();
   var selected = new HashSet<dynamic>();
-  bool _cancelVisible = false;
-  bool _deleteVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +176,7 @@ class _WelcomePageState extends State<WelcomePage> {
                               new Row(
                                 children: [
                                   new Visibility(
-                                      visible: _cancelVisible,
+                                      visible: selected.isNotEmpty,
                                       child: new Container(
                                         padding: EdgeInsets.only(right: 10),
                                         child: new TextButton(
@@ -197,7 +195,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                             child: Icon(Icons.block)),
                                       )),
                                   new Visibility(
-                                      visible: _deleteVisible,
+                                      visible: selected.isNotEmpty,
                                       child: new ElevatedButton(
                                           onPressed: () {
                                             List<dynamic> selectedCards = [];
@@ -247,12 +245,6 @@ class _WelcomePageState extends State<WelcomePage> {
                                             .elementAt(sequenceNotification))
                                         : selected.add(listNotifications
                                             .elementAt(sequenceNotification));
-                                    selected.isNotEmpty
-                                        ? _deleteVisible = true
-                                        : _deleteVisible = false;
-                                    selected.isNotEmpty
-                                        ? _cancelVisible = true
-                                        : _cancelVisible = false;
                                   });
                                 },
                                 front: new Container(

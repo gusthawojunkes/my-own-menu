@@ -11,7 +11,7 @@ class RegisterGoal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Cadastro de Goale',
+      title: 'Cadastro de Objetivo',
       theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: RegisterGoalPage(),
