@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myownmenu/models/User.dart';
 import 'package:myownmenu/service/UserService.dart';
 import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceTwo.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
-import 'package:myownmenu/utils/Service.dart';
 
 class PreferenceOne extends StatelessWidget {
   const PreferenceOne({Key? key}) : super(key: key);
