@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myownmenu/service/UserService.dart';
+import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceEnd.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
@@ -27,6 +29,8 @@ class PreferenceFourPage extends StatefulWidget {
 }
 
 class _PreferenceFourPageState extends State<PreferenceFourPage> {
+  TextEditingController _quantidadeRefeicoesController =
+      new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,13 +80,14 @@ class _PreferenceFourPageState extends State<PreferenceFourPage> {
                             ),
                             new Card(
                               child: new TextFormField(
+                                controller: _quantidadeRefeicoesController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter.allow(
                                       RegExp("[0-9]"))
                                 ],
                                 decoration: InputDecoration(
-                                  labelText: '3',
+                                  labelText: 'Ex: 3, 4',
                                 ),
                               ),
                             )
@@ -94,11 +99,26 @@ class _PreferenceFourPageState extends State<PreferenceFourPage> {
                         child: ElevatedButton(
                           child: const Text('Próxima'),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const PreferenceEnd()),
-                            );
+                            try {
+                              dynamic response =
+                                  _quantidadeRefeicoesController.text;
+                              AuthService auth = AuthService.getInstance();
+                              if (auth.user != null) {
+                                print(auth.user!.uid);
+                                UserService.setIntoUser(
+                                    uid: auth.user!.uid,
+                                    property: 'research-level-four',
+                                    value: response);
+                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PreferenceEnd()),
+                              );
+                            } catch (e) {
+                              print(e);
+                            }
                           },
                         ),
                       ),

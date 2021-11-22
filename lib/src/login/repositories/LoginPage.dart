@@ -114,13 +114,35 @@ class _LoginPageState extends State<LoginPage> {
                       child: ElevatedButton(
                         child: const Text('Entrar'),
                         onPressed: () {
-                          LoginModule.execute(
-                              _emailController.text, _passwordController.text);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Home()),
-                          );
+                          LoginModule.execute(_emailController.text,
+                                  _passwordController.text)
+                              .then((authenticated) => {
+                                    if (authenticated)
+                                      {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Home()),
+                                        )
+                                      }
+                                    else
+                                      {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Credenciais incorretas!')),
+                                        )
+                                      }
+                                  })
+                              .catchError((error) => {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content:
+                                              Text('Credenciais incorretas!')),
+                                    )
+                                  });
                         },
                       )),
                 )),
