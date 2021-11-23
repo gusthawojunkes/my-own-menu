@@ -79,13 +79,14 @@ class _PreferenceThreePageState extends State<PreferenceThreePage> {
                             ),
                             new Card(
                               child: new TextFormField(
+                                controller: _receitaFavoritaController,
                                 decoration: InputDecoration(
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: const BorderSide(
                                         color: Colors.grey, width: 0.0),
                                   ),
                                   labelText:
-                                      '(Espaguete carbonara, Churrasco...)',
+                                      'Espaguete carbonara, Churrasco...',
                                 ),
                               ),
                             )
@@ -103,9 +104,9 @@ class _PreferenceThreePageState extends State<PreferenceThreePage> {
                               AuthService auth = AuthService.getInstance();
                               if (auth.user != null) {
                                 print(auth.user!.uid);
-                                UserService.setIntoUser(
+                                UserService.updateIntoUser(
                                     uid: auth.user!.uid,
-                                    property: 'research-level-three',
+                                    property: 'favorite-recipe-name',
                                     value: response);
                               }
                               Navigator.push(

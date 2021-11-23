@@ -105,9 +105,9 @@ class _PreferenceFourPageState extends State<PreferenceFourPage> {
                               AuthService auth = AuthService.getInstance();
                               if (auth.user != null) {
                                 print(auth.user!.uid);
-                                UserService.setIntoUser(
+                                UserService.updateIntoUser(
                                     uid: auth.user!.uid,
-                                    property: 'research-level-four',
+                                    property: 'meals-amount',
                                     value: response);
                               }
                               Navigator.push(
