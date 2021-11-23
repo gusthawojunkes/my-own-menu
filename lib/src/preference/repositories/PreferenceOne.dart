@@ -119,10 +119,9 @@ class _PreferenceOnePageState extends State<PreferenceOnePage> {
                             try {
                               AuthService auth = AuthService.getInstance();
                               if (auth.user != null) {
-                                print(auth.user!.uid);
-                                UserService.setIntoUser(
+                                UserService.updateIntoUser(
                                     uid: auth.user!.uid,
-                                    property: 'research-level-one',
+                                    property: 'consume-meat',
                                     value: response);
                               }
                               Navigator.push(

@@ -20,7 +20,7 @@ class UserService {
       required String email,
       required String password,
       required String uid}) {
-    Service.getCollection(User.COLLECTION).doc().set({
+    Service.getCollection(User.COLLECTION).doc(uid).set({
       'name': name,
       'email': email,
       'username': name,
@@ -43,5 +43,11 @@ class UserService {
       {required String uid, required String property, required dynamic value}) {
     Service.getDocument(User.COLLECTION, documentName: uid)
         .set({property: value});
+  }
+
+  static updateIntoUser(
+      {required String uid, required String property, required dynamic value}) {
+    Service.getDocument(User.COLLECTION, documentName: uid)
+        .update({property: value});
   }
 }

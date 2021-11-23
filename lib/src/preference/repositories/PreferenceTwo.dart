@@ -140,9 +140,9 @@ class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
                               AuthService auth = AuthService.getInstance();
                               if (auth.user != null) {
                                 print(auth.user!.uid);
-                                UserService.setIntoUser(
+                                UserService.updateIntoUser(
                                     uid: auth.user!.uid,
-                                    property: 'research-level-two',
+                                    property: 'food-preference',
                                     value: response);
                               }
                               Navigator.push(
