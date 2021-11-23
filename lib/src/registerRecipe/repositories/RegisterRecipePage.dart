@@ -30,20 +30,71 @@ class RegisterRecipePage extends StatefulWidget {
 
 class _RegisterRecipePageState extends State<RegisterRecipePage> {
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _typeController = TextEditingController();
   TextEditingController _ingredientController = TextEditingController();
   TextEditingController _prepareModeController = TextEditingController();
-  TextEditingController _additionalInformationsController =
-      TextEditingController();
   late List<dynamic> listIngredients = [];
   List<dynamic> listIngredientsName = _getIngredientName(_getIngredients());
   late List<String> listPrepareMode = [];
   List<bool> listVisible = _getVisibility();
   bool _visibleIngredient = false;
   bool _visiblePrepareMode = false;
-  bool _addIngredient = false;
   final _formKey = GlobalKey<FormState>();
-  var myControllers = [];
+  List<TextEditingController> _controllers = [];
+
+  Widget singleItemList(index, TextEditingController controllertxt) {
+    return new Card(
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          new Container(
+              padding: EdgeInsets.only(left: 10),
+              width: 120,
+              height: 40,
+              child: new TextFormField(
+                controller: controllertxt,
+                decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: ColorsUtils.darkYellow),
+                  ),
+                ),
+              )),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              new Column(
+                children: [
+                  new Padding(
+                    padding: EdgeInsets.only(top: 10, right: 15, bottom: 5),
+                    child: new Text(
+                      listIngredients[index],
+                      style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              new SizedBox(
+                height: 60,
+                child: new ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      listIngredients.removeAt(index);
+                    });
+                  },
+                  child: new Icon(
+                    Icons.indeterminate_check_box,
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +147,6 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                 validator: (value) {
                                   if (listIngredients.isEmpty) {
                                     return 'Campo Obrigatório!';
-                                  } else {
-                                    _addIngredient = true;
                                   }
                                 },
                                 controller: _ingredientController,
@@ -145,8 +194,8 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                             } else {
                                               listIngredients.add(
                                                   _ingredientController.text);
-                                              myControllers
-                                                  .add(TextEditingController());
+                                              // myControllers
+                                              //     .add(TextEditingController());
                                             }
                                           });
                                         },
@@ -179,65 +228,22 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                           ]),
                         ),
                         new Visibility(
-                            visible: _visibleIngredient,
-                            child: new Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: new Column(
-                                  children: List.generate(
-                                      listIngredients.length, (index) {
-                                    return new Card(
-                                      child: new Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          new Column(
-                                            children: [
-                                              new Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 10,
-                                                    right: 15,
-                                                    bottom: 5),
-                                                child: new Text(
-                                                  listIngredients[index],
-                                                  style: new TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          new Container(
-                                            child: new TextFormField(
-                                              controller: myControllers
-                                                  .elementAt(index),
-                                              decoration: new InputDecoration(
-                                                labelText: 'Quantidade',
-                                                border:
-                                                    new OutlineInputBorder(),
-                                              ),
-                                            ),
-                                          ),
-                                          new SizedBox(
-                                            height: 60,
-                                            child: new ElevatedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  listIngredients
-                                                      .removeAt(index);
-                                                });
-                                              },
-                                              child: new Icon(
-                                                Icons.indeterminate_check_box,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                                ))),
+                          visible: _visibleIngredient,
+                          child: new Container(
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: listIngredients.length,
+                                  itemBuilder: (context, index) {
+                                    _controllers
+                                        .add(new TextEditingController());
+                                    if (listIngredients.isEmpty) {
+                                      return CircularProgressIndicator();
+                                    } else {
+                                      return singleItemList(
+                                          index, _controllers[index]);
+                                    }
+                                  })),
+                        ),
                         new Padding(
                           padding: EdgeInsets.only(top: 30),
                           child: new Row(children: [
