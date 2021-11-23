@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myownmenu/models/error/AuthException.dart';
 import 'package:myownmenu/src/index/repositories/IndexPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceStart.dart';
 import 'package:myownmenu/src/register/repositories/RegisterModule.dart';
