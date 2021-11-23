@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:myownmenu/service/UserService.dart';
 import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
-import 'package:myownmenu/src/preference/repositories/PreferenceModule.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceThree.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
@@ -141,9 +140,9 @@ class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
                               AuthService auth = AuthService.getInstance();
                               if (auth.user != null) {
                                 print(auth.user!.uid);
-                                UserService.setIntoUser(
+                                UserService.updateIntoUser(
                                     uid: auth.user!.uid,
-                                    property: 'research-level-two',
+                                    property: 'food-preference',
                                     value: response);
                               }
                               Navigator.push(
