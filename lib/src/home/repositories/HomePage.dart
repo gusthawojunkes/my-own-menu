@@ -129,8 +129,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: () => {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterRecipe()),
+                          MaterialPageRoute(builder: (context) => Login()),
                         )
                       },
                     ),
