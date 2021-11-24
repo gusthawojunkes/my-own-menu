@@ -116,33 +116,17 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           LoginModule.execute(_emailController.text,
                                   _passwordController.text)
-                              .then((authenticated) => {
-                                    if (authenticated)
-                                      {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Home()),
-                                        )
-                                      }
-                                    else
-                                      {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content: Text(
-                                                  'Credenciais incorretas!')),
-                                        )
-                                      }
-                                  })
-                              .catchError((error) => {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content:
-                                              Text('Credenciais incorretas!')),
-                                    )
-                                  });
+                              .then((user) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Home()),
+                                  ))
+                              .catchError((error) =>
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Algo deu errado na hora de realizar o login, tente novamente mais tarde!')),
+                                  ));
                         },
                       )),
                 )),
