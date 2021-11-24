@@ -7,9 +7,17 @@ class AuthService extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
   User? user;
   bool isLoading = true;
+  static AuthService instance = new AuthService();
 
   AuthService() {
     _verify();
+  }
+
+  static getInstance() {
+    if (instance == null) {
+      instance = new AuthService();
+    }
+    return instance;
   }
 
   _verify() {
@@ -20,14 +28,14 @@ class AuthService extends ChangeNotifier {
     });
   }
 
-  login(String email, String password) async {
+  Future<User?> login(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       _setUser();
+      return _auth.currentUser!;
     } on FirebaseAuthException catch (error) {
       handleAuthenticationError(error);
-    } catch (e) {
-      print(e);
+      throw error;
     }
   }
 
@@ -36,15 +44,17 @@ class AuthService extends ChangeNotifier {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       _setUser();
-      UserService.create(
+      return UserService.create(
           name: name,
           email: email,
           password: password,
           uid: _auth.currentUser!.uid);
     } on FirebaseAuthException catch (error) {
       handleAuthenticationError(error);
-    } catch (e) {
-      print(e);
+      throw error;
+    } catch (error) {
+      handleAuthenticationError(error);
+      throw error;
     }
   }
 
@@ -58,8 +68,7 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
   }
 
-  handleAuthenticationError(FirebaseAuthException error) {
-    print(error.code);
+  handleAuthenticationError(error) {
     if (error.code == 'wrong-password') {
       throw AuthException('Senha incorreta, tente novamente.');
     } else if (error.code == 'user-not-found') {
@@ -68,6 +77,9 @@ class AuthService extends ChangeNotifier {
       throw AuthException('Senha muito fraca, escolha outra.');
     } else if (error.code == 'email-already-in-use') {
       throw AuthException('Este e-mail já está cadastrado.');
+    } else {
+      print(error);
+      throw error;
     }
   }
 }

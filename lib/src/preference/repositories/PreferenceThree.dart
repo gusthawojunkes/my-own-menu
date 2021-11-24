@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/service/UserService.dart';
+import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceFour.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
@@ -26,6 +28,8 @@ class PreferenceThreePage extends StatefulWidget {
 }
 
 class _PreferenceThreePageState extends State<PreferenceThreePage> {
+  TextEditingController _receitaFavoritaController =
+      new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,12 +79,14 @@ class _PreferenceThreePageState extends State<PreferenceThreePage> {
                             ),
                             new Card(
                               child: new TextFormField(
+                                controller: _receitaFavoritaController,
                                 decoration: InputDecoration(
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: const BorderSide(
                                         color: Colors.grey, width: 0.0),
                                   ),
-                                  labelText: 'Exemplo...',
+                                  labelText:
+                                      'Espaguete carbonara, Churrasco...',
                                 ),
                               ),
                             )
@@ -92,11 +98,26 @@ class _PreferenceThreePageState extends State<PreferenceThreePage> {
                         child: ElevatedButton(
                           child: const Text('Próxima'),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const PreferenceFour()),
-                            );
+                            try {
+                              dynamic response =
+                                  _receitaFavoritaController.text;
+                              AuthService auth = AuthService.getInstance();
+                              if (auth.user != null) {
+                                print(auth.user!.uid);
+                                UserService.updateIntoUser(
+                                    uid: auth.user!.uid,
+                                    property: 'favorite-recipe-name',
+                                    value: response);
+                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PreferenceFour()),
+                              );
+                            } catch (e) {
+                              print(e);
+                            }
                           },
                         ),
                       ),

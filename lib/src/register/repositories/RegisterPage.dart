@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/src/index/repositories/IndexPage.dart';
@@ -113,20 +112,23 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: ElevatedButton(
                               child: const Text('Cadastrar'),
                               onPressed: () {
-                                try {
-                                  RegisterModule.register(
-                                      _nameController.text,
-                                      _emailController.text,
-                                      _passwordController.text);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const PreferenceStart()),
-                                  );
-                                } on FirebaseAuthException catch (error) {
-                                  print(error.code);
-                                }
+                                RegisterModule.execute(
+                                        _nameController.text,
+                                        _emailController.text,
+                                        _passwordController.text)
+                                    .then((newUser) => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const PreferenceStart()),
+                                        ))
+                                    .catchError((error) =>
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Algo deu errado na hora de realizar o cadastro, tente novamente mais tarde!')),
+                                        ));
                               })))),
               new Container(
                 child: Padding(

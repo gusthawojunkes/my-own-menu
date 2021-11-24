@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/service/UserService.dart';
+import 'package:myownmenu/service/auth/AuthService.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
 import 'package:myownmenu/src/preference/repositories/PreferenceThree.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
@@ -26,6 +28,7 @@ class PreferenceTwoPage extends StatefulWidget {
 }
 
 class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
+  TextEditingController _otherResponseController = new TextEditingController();
   List options = ['Massa', 'Carnes no geral', 'Grãos'];
   List<bool> checked = [false, false, false];
 
@@ -80,7 +83,7 @@ class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
                             new Container(
                                 child: Column(
                               children: [
-                                for (var i = 0; i < options.length; i += 1)
+                                for (var i = 0; i < options.length; i++)
                                   new Padding(
                                     padding:
                                         EdgeInsets.only(top: 10, bottom: 10),
@@ -110,8 +113,9 @@ class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
                                   padding: EdgeInsets.only(top: 10),
                                   child: new Card(
                                     child: TextFormField(
+                                      controller: _otherResponseController,
                                       decoration: InputDecoration(
-                                        labelText: 'Que? Qual?',
+                                        labelText: 'Outro? Qual?',
                                       ),
                                     ),
                                   ),
@@ -126,12 +130,30 @@ class _PreferenceTwoPageState extends State<PreferenceTwoPage> {
                         child: ElevatedButton(
                           child: const Text('Próxima'),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PreferenceThree()),
-                            );
+                            Map response = {
+                              'other': _otherResponseController.text,
+                              'Massa': checked[0],
+                              'Carnes no geral': checked[1],
+                              'Grãos': checked[2]
+                            };
+                            try {
+                              AuthService auth = AuthService.getInstance();
+                              if (auth.user != null) {
+                                print(auth.user!.uid);
+                                UserService.updateIntoUser(
+                                    uid: auth.user!.uid,
+                                    property: 'food-preference',
+                                    value: response);
+                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PreferenceThree()),
+                              );
+                            } catch (e) {
+                              print(e);
+                            }
                           },
                         ),
                       ),

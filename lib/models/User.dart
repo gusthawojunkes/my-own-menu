@@ -9,28 +9,28 @@ class User implements JsonMapper {
   final String email = '';
   final String username = '';
   final String password = '';
-  final String uid = '';
+  final String firebaseAuthUid = '';
 
   User(
       {required name,
       required email,
       required username,
       required password,
-      required uid});
+      required firebaseAuthUid});
 
   static User createFromSnapshot(QueryDocumentSnapshot<User> userSnapshot) {
     String name = userSnapshot['name'];
     String email = userSnapshot['email'];
     String username = userSnapshot['username'];
     String password = userSnapshot['password'];
-    String uid = userSnapshot['uid'];
+    String firebaseAuthUid = userSnapshot['firebase-auth-uid'];
 
     return User(
         name: name,
         email: email,
         username: username,
         password: password,
-        uid: uid);
+        firebaseAuthUid: firebaseAuthUid);
   }
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -38,7 +38,7 @@ class User implements JsonMapper {
       email: json['email'],
       username: json['username'],
       password: json['password'],
-      uid: json['uid']);
+      firebaseAuthUid: json['firebase-auth-uid']);
 
   @override
   Map<String, Object?> toJson() => {
@@ -46,6 +46,6 @@ class User implements JsonMapper {
         'email': email,
         'username': username,
         'password': password,
-        'uid': uid
+        'firebase-auth-uid': firebaseAuthUid
       };
 }
