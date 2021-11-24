@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/models/Step.dart' as RecipeStep;
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
+import 'package:myownmenu/utils/ColorsUtils.dart';
 
 class RegisterRecipe extends StatelessWidget {
   const RegisterRecipe({Key? key}) : super(key: key);
@@ -27,17 +31,74 @@ class RegisterRecipePage extends StatefulWidget {
 
 class _RegisterRecipePageState extends State<RegisterRecipePage> {
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _typeController = TextEditingController();
   TextEditingController _ingredientController = TextEditingController();
   TextEditingController _prepareModeController = TextEditingController();
   TextEditingController _additionalInformationsController =
       TextEditingController();
   late List<String> listIngredients = [];
   late List<RecipeStep.Step> listPrepareMode = [];
+  List<dynamic> listIngredientsName = _getIngredientName(_getIngredients());
+  List<bool> listVisible = _getVisibility();
   bool _visibleIngredient = false;
   bool _visiblePrepareMode = false;
   final _formKey = GlobalKey<FormState>();
+  List<TextEditingController> _controllers = [];
   int _sequenceCounter = 0;
+
+  Widget singleItemList(index, TextEditingController controllertxt) {
+    return new Card(
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          new Container(
+              padding: EdgeInsets.only(left: 10),
+              width: 120,
+              height: 40,
+              child: new TextFormField(
+                controller: controllertxt,
+                decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: ColorsUtils.darkYellow),
+                  ),
+                ),
+              )),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              new Column(
+                children: [
+                  new Padding(
+                    padding: EdgeInsets.only(top: 10, right: 15, bottom: 5),
+                    child: new Text(
+                      listIngredients[index],
+                      style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              new SizedBox(
+                height: 60,
+                child: new ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      listIngredients.removeAt(index);
+                    });
+                  },
+                  child: new Icon(
+                    Icons.indeterminate_check_box,
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,24 +142,6 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                             ),
                           ),
                         ),
-                        new Container(
-                          padding: EdgeInsets.only(top: 30.0),
-                          child: new TextFormField(
-                            validator: (value) {
-                              if (_nameController.text.isEmpty) {
-                                return 'Tipo: Campo Obrigatório!';
-                              }
-                            },
-                            controller: _typeController,
-                            decoration: new InputDecoration(
-                              labelText: 'Tipo',
-                              border: new OutlineInputBorder(),
-                              suffixIcon: new Icon(
-                                Icons.label,
-                              ),
-                            ),
-                          ),
-                        ),
                         new Padding(
                           padding: EdgeInsets.only(top: 30),
                           child: new Row(children: [
@@ -125,30 +168,46 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                             ),
                             new Expanded(
                                 flex: 2,
-                                child: new SizedBox(
-                                  height: 60,
-                                  child: new ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (_ingredientController
-                                            .text.isEmpty) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                                content: Text(
-                                                    'O valor inserido não pode ser vazio!')),
-                                          );
-                                        } else {
-                                          listIngredients
-                                              .add(_ingredientController.text);
-                                        }
-                                      });
-                                    },
-                                    child: new Icon(
-                                      Icons.add,
-                                    ),
-                                  ),
-                                )),
+                                child: new Visibility(
+                                    visible: true,
+                                    child: new SizedBox(
+                                      height: 60,
+                                      child: new ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            if (_ingredientController
+                                                .text.isEmpty) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'O valor inserido não pode ser vazio!')),
+                                              );
+                                            } else if (((_ingredientController
+                                                        .text !=
+                                                    "") &&
+                                                ((!listIngredientsName.contains(
+                                                    _ingredientController
+                                                        .text))))) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        'O ingrediente não existe!')),
+                                              );
+                                            } else {
+                                              listIngredients.add(
+                                                  _ingredientController.text);
+                                              // myControllers
+                                              //     .add(TextEditingController());
+                                            }
+                                          });
+                                        },
+                                        child: new Icon(
+                                          Icons.add,
+                                        ),
+                                      ),
+                                    ))),
                             new SizedBox(
                               width: 10,
                             ),
@@ -173,55 +232,22 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                           ]),
                         ),
                         new Visibility(
-                            visible: _visibleIngredient,
-                            child: new Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: new Column(
-                                  children: List.generate(
-                                      listIngredients.length,
-                                      (index) => new Card(
-                                            child: new Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                new Column(
-                                                  children: [
-                                                    new Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10,
-                                                          right: 15,
-                                                          bottom: 5),
-                                                      child: new Text(
-                                                        listIngredients[index],
-                                                        style: new TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                new SizedBox(
-                                                  height: 60,
-                                                  child: new ElevatedButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        listIngredients
-                                                            .removeAt(index);
-                                                      });
-                                                    },
-                                                    child: new Icon(
-                                                      Icons
-                                                          .indeterminate_check_box,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )),
-                                ))),
+                          visible: _visibleIngredient,
+                          child: new Container(
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: listIngredients.length,
+                                  itemBuilder: (context, index) {
+                                    _controllers
+                                        .add(new TextEditingController());
+                                    if (listIngredients.isEmpty) {
+                                      return CircularProgressIndicator();
+                                    } else {
+                                      return singleItemList(
+                                          index, _controllers[index]);
+                                    }
+                                  })),
+                        ),
                         new Padding(
                           padding: EdgeInsets.only(top: 30),
                           child: new Row(children: [
@@ -350,20 +376,6 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                             ),
                                           )),
                                 ))),
-                        new Container(
-                          padding: EdgeInsets.only(top: 30.0),
-                          child: new TextFormField(
-                            maxLines: 4,
-                            controller: _additionalInformationsController,
-                            decoration: new InputDecoration(
-                              labelText: 'informações Adiconais',
-                              border: new OutlineInputBorder(),
-                              suffixIcon: new Icon(
-                                Icons.info,
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                     new Container(
@@ -412,4 +424,35 @@ String? validate(String value) {
     return "Campo obrigatório";
   }
   return null;
+}
+
+List<dynamic> _getIngredients() {
+  String ingredientsJson =
+      '{"ingredients":[{"name":"Abacate","type":"Fruta"},{"name":"Alcatra","type":"Carne"},{"name":"Arroz","type":"Grão"},{"name":"Feijão","type":"Grão"},{"name":"Maça","type":"Fruta"},{"name":"Milho","type":"Grão"}]}';
+
+  Map<String, dynamic> mapIngredients = jsonDecode(ingredientsJson);
+  List<dynamic> listIngredients = mapIngredients['ingredients'];
+  return listIngredients;
+}
+
+List<dynamic> _getIngredientName(listIngredients) {
+  List<dynamic> listName = [];
+
+  for (dynamic name in listIngredients) {
+    listName.add(name['name']);
+    // print(listName.indexOf(name['name']).toString() +
+    //     'name: ' +
+    //     name['name'].toString());
+  }
+
+  return listName;
+}
+
+List<bool> _getVisibility() {
+  List<dynamic> listIngredients = _getIngredients();
+  List<bool> listVisible = [];
+
+  // ignore: unused_local_variable
+  for (var ingredient in listIngredients) listVisible.add(true);
+  return listVisible;
 }
