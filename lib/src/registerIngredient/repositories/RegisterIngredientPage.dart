@@ -152,6 +152,13 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                             // width: double.infinity,
                                             padding: EdgeInsets.only(
                                                 top: 30, bottom: 30),
+                                            //O que tem que fazer
+                                            //merge da master na branch
+                                            //relacionar o tipo com o ingrediente
+
+                                            //obter os urls do storage para deixar dinamico a tela de tipos
+
+                                            //deixar dinamico os filtros das tela que os tem!!!
                                             child: Column(children: [
                                               new Image.network(
                                                 'https://cdn-icons-png.flaticon.com/512/2619/2619347.png',
@@ -183,6 +190,11 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                     const SnackBar(
                                         content:
                                             Text('Verifique o formulário!')),
+                                  );
+                                } else if (selectedType == "") {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Selecione um tipo!')),
                                   );
                                 } else {
                                   try {
