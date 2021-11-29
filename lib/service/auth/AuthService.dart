@@ -7,6 +7,7 @@ class AuthService extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
   User? user;
   bool isLoading = true;
+  String? username = 'Usuário';
   static AuthService instance = new AuthService();
 
   AuthService() {
@@ -14,15 +15,13 @@ class AuthService extends ChangeNotifier {
   }
 
   static getInstance() {
-    if (instance == null) {
-      instance = new AuthService();
-    }
     return instance;
   }
 
   _verify() {
     _auth.authStateChanges().listen((User? user) {
       this.user = user;
+      this.username = this.user!.displayName;
       this.isLoading = false;
       notifyListeners();
     });
@@ -41,8 +40,9 @@ class AuthService extends ChangeNotifier {
 
   register(String name, String email, String password) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      credential.user!.updateDisplayName(name);
       _setUser();
       return UserService.create(
           name: name,

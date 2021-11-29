@@ -37,11 +37,8 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    AuthService auth = AuthService();
-    String? _userDisplayName = 'Usuário';
-    if (auth.user != null && auth.user!.displayName != null) {
-      _userDisplayName = auth.user!.displayName;
-    }
+    AuthService auth = AuthService.getInstance();
+    String? _userDisplayName = auth.username;
 
     Widget notification(int sequenceNotification) {
       return Container(

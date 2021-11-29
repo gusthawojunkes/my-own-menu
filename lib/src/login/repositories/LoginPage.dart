@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:myownmenu/models/error/AuthException.dart';
 import 'package:myownmenu/utils/EmailUtils.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/src/home/repositories/HomePage.dart';
@@ -114,19 +115,22 @@ class _LoginPageState extends State<LoginPage> {
                       child: ElevatedButton(
                         child: const Text('Entrar'),
                         onPressed: () {
-                          LoginModule.execute(_emailController.text,
-                                  _passwordController.text)
-                              .then((user) => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Home()),
-                                  ))
-                              .catchError((error) =>
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            'Algo deu errado na hora de realizar o login, tente novamente mais tarde!')),
-                                  ));
+                          try {
+                            LoginModule.execute(_emailController.text,
+                                    _passwordController.text)
+                                .then((user) => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Home()),
+                                    ));
+                          } on AuthException catch (ex) {
+                            print(ex);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Algo deu errado na hora de realizar o login, tente novamente mais tarde!')),
+                            );
+                          }
                         },
                       )),
                 )),

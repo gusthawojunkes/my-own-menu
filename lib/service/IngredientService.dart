@@ -16,7 +16,6 @@ class IngredientService {
     for (final snapshot in allUsers.docs) {
       Ingredient ingredient = Ingredient.createFromSnapshot(snapshot);
       ingredients.add(ingredient);
-      print(ingredient);
     }
     return ingredients;
   }

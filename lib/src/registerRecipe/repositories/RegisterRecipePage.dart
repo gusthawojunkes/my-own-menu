@@ -293,7 +293,6 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                               description:
                                                   _prepareModeController.text,
                                               sequence: _sequenceCounter));
-                                          print(listPrepareMode);
                                         }
                                       });
                                     },
@@ -440,9 +439,6 @@ List<dynamic> _getIngredientName(listIngredients) {
 
   for (dynamic name in listIngredients) {
     listName.add(name['name']);
-    // print(listName.indexOf(name['name']).toString() +
-    //     'name: ' +
-    //     name['name'].toString());
   }
 
   return listName;
