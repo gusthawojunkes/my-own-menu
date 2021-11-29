@@ -10,7 +10,6 @@ class UserService {
     for (final snapshot in allUsers.docs) {
       User user = User.createFromSnapshot(snapshot);
       users.add(user);
-      print(user);
     }
     return users;
   }
@@ -39,13 +38,7 @@ class UserService {
     );
   }
 
-  static setIntoUser(
-      {required String uid, required String property, required dynamic value}) {
-    Service.getDocument(User.COLLECTION, documentName: uid)
-        .set({property: value});
-  }
-
-  static updateIntoUser(
+  static update(
       {required String uid, required String property, required dynamic value}) {
     Service.getDocument(User.COLLECTION, documentName: uid)
         .update({property: value});

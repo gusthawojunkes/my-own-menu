@@ -104,8 +104,7 @@ class _PreferenceFourPageState extends State<PreferenceFourPage> {
                                   _quantidadeRefeicoesController.text;
                               AuthService auth = AuthService.getInstance();
                               if (auth.user != null) {
-                                print(auth.user!.uid);
-                                UserService.updateIntoUser(
+                                UserService.update(
                                     uid: auth.user!.uid,
                                     property: 'meals-amount',
                                     value: response);

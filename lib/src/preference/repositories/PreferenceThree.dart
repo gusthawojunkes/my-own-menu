@@ -104,7 +104,7 @@ class _PreferenceThreePageState extends State<PreferenceThreePage> {
                               AuthService auth = AuthService.getInstance();
                               if (auth.user != null) {
                                 print(auth.user!.uid);
-                                UserService.updateIntoUser(
+                                UserService.update(
                                     uid: auth.user!.uid,
                                     property: 'favorite-recipe-name',
                                     value: response);

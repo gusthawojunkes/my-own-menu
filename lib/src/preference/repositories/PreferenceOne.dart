@@ -119,7 +119,7 @@ class _PreferenceOnePageState extends State<PreferenceOnePage> {
                             try {
                               AuthService auth = AuthService.getInstance();
                               if (auth.user != null) {
-                                UserService.updateIntoUser(
+                                UserService.update(
                                     uid: auth.user!.uid,
                                     property: 'consume-meat',
                                     value: response);
