@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myownmenu/src/registerGoal/repositories/RegisterGoalPage.dart';
 import 'package:myownmenu/src/registerIngredient/repositories/RegisterIngredientPage.dart';
 import 'package:myownmenu/src/registerRecipe/repositories/RegisterRecipePage.dart';
+import 'package:myownmenu/src/registerType/repositories/RegisterTypePage.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/src/recipe/repositories/RecipePage.dart';
 import 'package:myownmenu/src/notification/repositories/NotificationPage.dart';
@@ -56,7 +57,8 @@ class _HomePageState extends State<HomePage> {
     Profile(),
     RegisterRecipe(),
     RegisterIngredient(),
-    RegisterGoal()
+    RegisterGoal(),
+    RegisterType()
   ];
 
   @override
@@ -147,7 +149,17 @@ class _HomePageState extends State<HomePage> {
                       title: Text('Objetivo',
                           style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 6,
-                      onTap: () => {sideBarDestination(9)},
+                      onTap: () => {
+                        sideBarDestination(9),
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.create_outlined,
+                          color: ColorsUtils.darkBlue),
+                      title: Text('Tipo',
+                          style: TextStyle(color: ColorsUtils.darkBlue)),
+                      selected: _selectedDestination == 7,
+                      onTap: () => {sideBarDestination(10)},
                     ),
                     ListTile(
                       title: Divider(),
