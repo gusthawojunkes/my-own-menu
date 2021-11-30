@@ -42,7 +42,7 @@ class AuthService extends ChangeNotifier {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      credential.user!.updateDisplayName(name);
+      await credential.user!.updateDisplayName(name);
       _setUser();
       return UserService.create(
           name: name,
