@@ -14,7 +14,7 @@ class IngredientService {
     final CollectionReference<Ingredient> ingredientCollection = parseAll();
     final allUsers = await ingredientCollection.get();
     for (final snapshot in allUsers.docs) {
-      Ingredient ingredient = Ingredient.createFromSnapshot(snapshot);
+      Ingredient ingredient = Ingredient.fromSnapshot(snapshot);
       ingredients.add(ingredient);
     }
     return ingredients;

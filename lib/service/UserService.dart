@@ -8,7 +8,7 @@ class UserService {
     final CollectionReference<User> parsedUsersCollection = parseAll();
     final allUsers = await parsedUsersCollection.get();
     for (final snapshot in allUsers.docs) {
-      User user = User.createFromSnapshot(snapshot);
+      User user = User.fromSnapshot(snapshot);
       users.add(user);
     }
     return users;

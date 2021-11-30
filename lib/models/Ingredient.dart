@@ -22,11 +22,14 @@ class Ingredient implements JsonMapper {
         'type': type,
       };
 
-  static Ingredient createFromSnapshot(
-      QueryDocumentSnapshot<Ingredient> snapshot) {
+  static Ingredient fromSnapshot(QueryDocumentSnapshot<Ingredient> snapshot) {
     String name = snapshot['name'];
     String type = snapshot['type'];
 
     return Ingredient(name: name, type: type);
+  }
+
+  String getName() {
+    return this.name;
   }
 }

@@ -34,8 +34,6 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
   TextEditingController _prepareModeController = TextEditingController();
   late List<String> listIngredients = [];
   late List<RecipeStep.Step> listPrepareMode = [];
-  Future<List<String>> listIngredientsName =
-      _getIngredientName(_getIngredients());
   List<bool> listVisible = _getVisibility();
   bool _visibleIngredient = false;
   bool _visiblePrepareMode = false;
@@ -100,13 +98,15 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
 
   buildAsyncPage() {
     return SingleChildScrollView(
-        child: FutureBuilder(
-            future: _getIngredients(),
+        child: FutureBuilder<List<Ingredient>>(
+            future: IngredientService.getAll(),
             initialData: [],
-            builder: (context, snapshot) {
+            builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
+                List<String> ingredientsName = [];
+                snapshot.data.forEach((ingredient) => ingredientsName.add(ingredient.getName()));
                 return new SingleChildScrollView(
-                    child: new Form(
+                  child: new Form(
                   key: _formKey,
                   child: new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -189,7 +189,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                       } else if (((_ingredientController
                                                                   .text !=
                                                               "") &&
-                                                          (([].contains(
+                                                          ((ingredientsName.contains(
                                                               _ingredientController
                                                                   .text))))) {
                                                         ScaffoldMessenger.of(
@@ -455,20 +455,6 @@ String? validate(String value) {
     return "Campo obrigatório";
   }
   return null;
-}
-
-Future<List<Ingredient>> _getIngredients() async {
-  return await IngredientService.getAll();
-}
-
-Future<List<String>> _getIngredientName(
-    Future<List<Ingredient>> ingredients) async {
-  List<String> names = [];
-
-  ingredients
-      .then((list) => list.forEach((ingredient) => names.add(ingredient.name)));
-
-  return names;
 }
 
 List<bool> _getVisibility() {
