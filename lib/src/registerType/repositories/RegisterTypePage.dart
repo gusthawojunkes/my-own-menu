@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/service/TypeService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
-import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
 
 class RegisterType extends StatelessWidget {
   const RegisterType({Key? key}) : super(key: key);

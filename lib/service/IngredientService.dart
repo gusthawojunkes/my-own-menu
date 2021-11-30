@@ -10,7 +10,7 @@ class IngredientService {
   }
 
   static Future<List<Ingredient>> getAll() async {
-    List<Ingredient> ingredients = List.empty();
+    List<Ingredient> ingredients = List.empty(growable: true);
     final CollectionReference<Ingredient> ingredientCollection = parseAll();
     final allUsers = await ingredientCollection.get();
     for (final snapshot in allUsers.docs) {

@@ -8,8 +8,8 @@ class Recipe implements JsonMapper {
 
   final String title = '';
   final int preparationTime = 0;
-  final List<RecipeIngredient> ingredients = List.empty();
-  final List<Step> preparationMethod = List.empty();
+  final List<RecipeIngredient> ingredients = List.empty(growable: true);
+  final List<Step> preparationMethod = List.empty(growable: true);
 
   Recipe(
       {required title,
