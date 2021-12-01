@@ -16,5 +16,5 @@ class SourceUtils {
   static final String LOGO_SRC = './lib/assets/Logo.png';
   // ignore: non_constant_identifier_names
   static final String TYPE_URL_SRC =
-      'https://cdn-icons-png.flaticon.com/512/2619/';
+      'https://cdn-icons-png.flaticon.com/128/2619/';
 }

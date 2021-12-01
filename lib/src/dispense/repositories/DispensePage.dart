@@ -3,9 +3,10 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:myownmenu/service/TypeService.dart';
+import 'package:myownmenu/src/registerType/repositories/RegisterTypeModule.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
-import 'package:myownmenu/components/Filter.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 
 class Dispense extends StatelessWidget {
@@ -30,14 +31,51 @@ class DispensePage extends StatefulWidget {
 }
 
 class _DispensePageState extends State<DispensePage> {
-  HashSet<dynamic> listFilters = _getFilters();
+  List listFilters = [];
   List<dynamic> listIngredients = __getIngredients();
   List<bool> listVisible = _getVisibility();
   bool visibilityFilter = false;
   final _searchController = TextEditingController();
 
   @override
+  initState() {
+    startAsyncInit();
+  }
+
+  Future startAsyncInit() async {
+    setState(() async {
+      listFilters = await TypeService.getAll();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Widget filter(
+        listFilters, int index, dynamic backgroundColor, dynamic fontColor) {
+      return Card(
+          color: backgroundColor,
+          clipBehavior: Clip.antiAlias,
+          child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Image.network(
+                    SourceUtils.TYPE_URL_SRC +
+                        listFilters[index].image +
+                        ".png",
+                    height: 64,
+                  ),
+                  Text(
+                    listFilters[index].name,
+                    style: TextStyle(
+                        height: 4,
+                        fontWeight: FontWeight.bold,
+                        color: fontColor),
+                  ),
+                ],
+              )));
+    }
+
     Widget cardIngredient(index) {
       return Card(
         child: new Container(
@@ -146,7 +184,7 @@ class _DispensePageState extends State<DispensePage> {
                               ],
                             ),
                             new Container(
-                              padding: EdgeInsets.only(top: 10, bottom: 20),
+                              padding: EdgeInsets.only(top: 10),
                               child: new TextFormField(
                                 controller: _searchController,
                                 decoration: new InputDecoration(
@@ -170,7 +208,6 @@ class _DispensePageState extends State<DispensePage> {
                       new Visibility(
                         visible: visibilityFilter,
                         child: new Container(
-                          margin: const EdgeInsets.only(top: 10),
                           child: new SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: new Row(
@@ -218,15 +255,6 @@ class _DispensePageState extends State<DispensePage> {
                   ))));
     }));
   }
-}
-
-HashSet<String> _getFilters() {
-  var listFilter = new HashSet<String>();
-  List<dynamic> listIngredients = __getIngredients();
-
-  for (var ingredient in listIngredients) listFilter.add(ingredient['type']);
-
-  return listFilter;
 }
 
 List<dynamic> __getIngredients() {

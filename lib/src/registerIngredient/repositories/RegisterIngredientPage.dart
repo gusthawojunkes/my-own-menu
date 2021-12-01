@@ -3,6 +3,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/service/IngredientService.dart';
+import 'package:myownmenu/service/TypeService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
 
@@ -34,6 +35,20 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
   final _formKey = GlobalKey<FormState>();
   bool visbileType = false;
   String selectedType = "";
+  List listFilters = [];
+  String nameSelectedType = "";
+
+  @override
+  initState() {
+    startAsyncInit();
+  }
+
+  Future startAsyncInit() async {
+    setState(() async {
+      listFilters = await TypeService.getAll();
+      print("listFilters: " + listFilters.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +114,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                     child: ListView.builder(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: 10,
+                                        itemCount: listFilters.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           cardsKeys.add(
@@ -107,8 +122,11 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                           return InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  selectedType = "teste";
                                                   visbileType = !visbileType;
+                                                  nameSelectedType =
+                                                      listFilters[index].name;
+                                                  selectedType =
+                                                      listFilters[index].image;
                                                 });
                                               },
                                               child: Card(
@@ -122,11 +140,17 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                                       child: Column(
                                                         children: [
                                                           Image.network(
-                                                            'https://cdn-icons-png.flaticon.com/512/2619/2619347.png',
+                                                            SourceUtils
+                                                                    .TYPE_URL_SRC +
+                                                                listFilters[
+                                                                        index]
+                                                                    .image +
+                                                                ".png",
                                                             height: 60,
                                                           ),
                                                           Text(
-                                                            "Teste",
+                                                            listFilters[index]
+                                                                .name,
                                                             style: TextStyle(
                                                                 height: 4,
                                                                 fontWeight:
@@ -137,7 +161,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                                       ))));
                                         })))),
                         new Visibility(
-                            visible: (selectedType != "") ? true : false,
+                            visible: selectedType != "" ? true : false,
                             child: new Card(
                               child: new Container(
                                   width: double.infinity,
@@ -148,24 +172,20 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         new Text("Selecionado: "),
-                                        new Container(
-                                            // width: double.infinity,
-                                            padding: EdgeInsets.only(
-                                                top: 30, bottom: 30),
-                                            //O que tem que fazer
-                                            //merge da master na branch
-                                            //relacionar o tipo com o ingrediente
-
-                                            //obter os urls do storage para deixar dinamico a tela de tipos
-
-                                            //deixar dinamico os filtros das tela que os tem!!!
-                                            child: Column(children: [
-                                              new Image.network(
-                                                'https://cdn-icons-png.flaticon.com/512/2619/2619347.png',
-                                                height: 60,
-                                              ),
-                                              new Text("Teste"),
-                                            ])),
+                                        selectedType != ""
+                                            ? Container(
+                                                padding: EdgeInsets.only(
+                                                    top: 30, bottom: 30),
+                                                child: Column(children: [
+                                                  new Image.network(
+                                                    SourceUtils.TYPE_URL_SRC +
+                                                        selectedType +
+                                                        ".png",
+                                                    height: 60,
+                                                  ),
+                                                  new Text(nameSelectedType),
+                                                ]))
+                                            : Text(''),
                                       ])),
                             ))
                       ],
@@ -174,7 +194,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                 )),
             new Padding(
               padding: EdgeInsets.only(
-                  top: visbileType || (selectedType != "") ? 0 : 130,
+                  top: visbileType || selectedType != "" ? 0 : 130,
                   right: 30,
                   left: 30),
               child: Column(
@@ -198,9 +218,21 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                   );
                                 } else {
                                   try {
+                                    Map type = {
+                                      'name': nameSelectedType,
+                                      'image': selectedType
+                                    };
                                     IngredientService.create(
-                                        name: _nameController.text,
-                                        type: _typeController.text);
+                                        name: _nameController.text, type: type);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text('Salvo com sucesso!')),
+                                    );
+                                    setState(() {
+                                      selectedType = "";
+                                      nameSelectedType = "";
+                                      _nameController.text = "";
+                                    });
                                   } on FirebaseAuthException catch (error) {
                                     print(error.code);
                                   }

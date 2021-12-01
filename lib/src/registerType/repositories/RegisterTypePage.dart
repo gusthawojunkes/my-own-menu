@@ -177,15 +177,6 @@ class _RegisterTypePageState extends State<RegisterTypePage> {
                                     ? 'Adicionar Imagem'
                                     : 'Trocar Imagem'),
                                 onPressed: () {
-                                  // List<Type> listType = [];
-                                  // Future<List<Type>> futureListType =
-                                  //     TypeService.getAll();
-                                  // futureListType.then((resultat) {
-                                  //   setState(() => resultat.asMap());
-                                  // });
-                                  // Future<dynamic> list =
-                                  //     RegisterTypeModule.load();
-                                  RegisterTypeModule.getListTypes();
                                   setState(() {
                                     visbileImages = !visbileImages;
                                   });
