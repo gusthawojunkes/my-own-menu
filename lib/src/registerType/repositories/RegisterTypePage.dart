@@ -2,11 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/service/TypeService.dart';
-import 'package:myownmenu/src/registerType/repositories/RegisterTypeModule.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
-import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
 
 class RegisterType extends StatelessWidget {

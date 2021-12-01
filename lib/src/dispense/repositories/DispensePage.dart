@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:myownmenu/service/TypeService.dart';
-import 'package:myownmenu/src/registerType/repositories/RegisterTypeModule.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
@@ -38,6 +36,7 @@ class _DispensePageState extends State<DispensePage> {
   final _searchController = TextEditingController();
 
   @override
+  // ignore: must_call_super
   initState() {
     startAsyncInit();
   }

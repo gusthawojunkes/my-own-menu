@@ -30,7 +30,6 @@ class RegisterIngredientPage extends StatefulWidget {
 
 class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _typeController = TextEditingController();
   List<GlobalKey<FlipCardState>> cardsKeys = [];
   final _formKey = GlobalKey<FormState>();
   bool visbileType = false;
@@ -39,6 +38,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
   String nameSelectedType = "";
 
   @override
+  // ignore: must_call_super
   initState() {
     startAsyncInit();
   }

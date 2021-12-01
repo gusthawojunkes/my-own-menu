@@ -4,7 +4,6 @@ import 'package:myownmenu/utils/Service.dart';
 
 class IngredientService {
   static create({required String name, required Map type}) {
-    ;
     Service.getCollection(Ingredient.COLLECTION)
         .doc()
         .set({'name': name, 'type': type});

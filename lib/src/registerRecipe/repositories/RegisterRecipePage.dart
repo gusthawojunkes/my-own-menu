@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/models/Step.dart' as RecipeStep;
@@ -33,8 +31,6 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _ingredientController = TextEditingController();
   TextEditingController _prepareModeController = TextEditingController();
-  TextEditingController _additionalInformationsController =
-      TextEditingController();
   late List<String> listIngredients = [];
   late List<RecipeStep.Step> listPrepareMode = [];
   List<dynamic> listIngredientsName = _getIngredientName(_getIngredients());
