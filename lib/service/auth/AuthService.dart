@@ -15,13 +15,15 @@ class AuthService extends ChangeNotifier {
   }
 
   static getInstance() {
+    if (instance == null) {
+      instance = new AuthService();
+    }
     return instance;
   }
 
   _verify() {
     _auth.authStateChanges().listen((User? user) {
       this.user = user;
-      this.username = this.user!.displayName;
       this.isLoading = false;
       notifyListeners();
     });
