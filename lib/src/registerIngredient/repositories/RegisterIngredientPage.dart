@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/service/IngredientService.dart';
 import 'package:myownmenu/service/TypeService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
@@ -218,10 +219,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                   );
                                 } else {
                                   try {
-                                    Map type = {
-                                      'name': nameSelectedType,
-                                      'image': selectedType
-                                    };
+                                    Type type = new Type(nameSelectedType, selectedType);
                                     IngredientService.create(
                                         name: _nameController.text, type: type);
                                     ScaffoldMessenger.of(context).showSnackBar(

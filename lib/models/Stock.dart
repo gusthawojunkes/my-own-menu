@@ -5,8 +5,8 @@ class Stock implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'stock';
 
-  final Ingredient ingredient = new Ingredient(name: '', type: '');
-  final double quantity = 0;
+  Ingredient ingredient = new Ingredient(name: '', type: '');
+  double quantity = 0;
 
   Stock({
     required ingredient,

@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myownmenu/models/Ingredient.dart';
+import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/utils/Service.dart';
 
 class IngredientService {
-  static create({required String name, required Map type}) {
+  static create({required String name, required Type type}) {
     Service.getCollection(Ingredient.COLLECTION)
         .doc()
         .set({'name': name, 'type': type});
