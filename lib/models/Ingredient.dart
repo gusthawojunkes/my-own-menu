@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/models/serialization/JsonMapper.dart';
 
 class Ingredient implements JsonMapper {
@@ -6,7 +7,7 @@ class Ingredient implements JsonMapper {
   static final String COLLECTION = 'ingredients';
 
   final String name = '';
-  final String type = '';
+  final Type type = new Type('', '');
 
   Ingredient({
     required name,
@@ -25,7 +26,7 @@ class Ingredient implements JsonMapper {
   static Ingredient createFromSnapshot(
       QueryDocumentSnapshot<Ingredient> snapshot) {
     String name = snapshot['name'];
-    String type = snapshot['type'];
+    Type type = snapshot['type'];
 
     return Ingredient(name: name, type: type);
   }

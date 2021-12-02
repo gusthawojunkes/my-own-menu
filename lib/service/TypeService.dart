@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/utils/Service.dart';
 
@@ -6,5 +7,25 @@ class TypeService {
     Service.getCollection(Type.COLLECTION)
         .doc()
         .set({'name': name, 'image': image});
+  }
+
+  static Future<List<Type>> getAll() async {
+    List<Type> types = [];
+    final CollectionReference<Type> typeCollection = parseAll();
+    final allUsers = await typeCollection.get();
+    for (final snapshot in allUsers.docs) {
+      Type type = Type.createFromSnapshot(snapshot);
+      types.add(type);
+    }
+    return types;
+  }
+
+  static CollectionReference<Type> parseAll() {
+    CollectionReference typeCollection = Service.getCollection(Type.COLLECTION);
+
+    return typeCollection.withConverter<Type>(
+      fromFirestore: (snapshots, _) => Type.fromJson(snapshots.data()!),
+      toFirestore: (type, _) => type.toJson(),
+    );
   }
 }
