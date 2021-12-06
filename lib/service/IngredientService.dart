@@ -21,17 +21,17 @@ class IngredientService {
   static Future<List<Ingredient>> getAll() async {
     List<Ingredient> ingredients = [];
     final CollectionReference<Ingredient> ingredientCollection = await parseAll();
-    final allUsers = await typeCollection.get();
+    final allUsers = await ingredientCollection.get();
     for (final snapshot in allUsers.docs) {
-      Ingredient ingredient = Ingredient.createFromSnapshot(snapshot);
-      listIngredients.add(ingredient);
+      Ingredient ingredient = Ingredient.fromSnapshot(snapshot);
+      ingredients.add(ingredient);
     }
-    return listIngredients;
+    return ingredients;
   }
 
   static Future<String?> getIngedientUid(String name) async {
     String uid = "";
-    final CollectionReference<Ingredient> ingredientCollection = parseAll();
+    final CollectionReference<Ingredient> ingredientCollection = await parseAll();
     final allUsers = await ingredientCollection.get();
     for (final snapshot in allUsers.docs) {
       if (snapshot.get('name') == name) uid = snapshot.id;
