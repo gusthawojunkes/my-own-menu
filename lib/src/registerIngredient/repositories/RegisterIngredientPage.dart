@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:myownmenu/models/Type.dart';
+import 'package:myownmenu/service/ImageService.dart';
 import 'package:myownmenu/service/IngredientService.dart';
 import 'package:myownmenu/service/TypeService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
@@ -37,6 +39,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
   String selectedType = "";
   List listFilters = [];
   String nameSelectedType = "";
+  late XFile image;
 
   @override
   // ignore: must_call_super
@@ -94,6 +97,14 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                             ),
                           ),
                         )),
+                        new Container(
+                            padding: EdgeInsets.only(top: 30),
+                            width: double.infinity,
+                            child: TextButton(
+                                child: Text("Adionar imagem"),
+                                onPressed: () async {
+                                  image = (await ImageService.getImage())!;
+                                })),
                         new Container(
                             padding: EdgeInsets.only(top: 30),
                             width: double.infinity,
@@ -195,7 +206,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                 )),
             new Padding(
               padding: EdgeInsets.only(
-                  top: visbileType || selectedType != "" ? 0 : 130,
+                  top: visbileType || selectedType != "" ? 0 : 100,
                   right: 30,
                   left: 30),
               child: Column(
@@ -219,9 +230,14 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                   );
                                 } else {
                                   try {
-                                    Type type = new Type(nameSelectedType, selectedType);
+                                    Type type = new Type(
+                                        nameSelectedType, selectedType);
                                     IngredientService.create(
                                         name: _nameController.text, type: type);
+
+                                    IngredientService.saveImage(
+                                        image: image,
+                                        name: _nameController.text);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           content: Text('Salvo com sucesso!')),
@@ -233,6 +249,11 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                     });
                                   } on FirebaseAuthException catch (error) {
                                     print(error.code);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Algo deu errado!\n Tente novamente')),
+                                    );
                                   }
                                 }
                               }))),
