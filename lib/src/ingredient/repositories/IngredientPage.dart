@@ -41,9 +41,7 @@ class _IngredientPageState extends State<IngredientPage> {
   }
 
   Future startAsyncInit() async {
-    setState(() async {
-      listFilters = await TypeService.getAll();
-    });
+    listFilters = await TypeService.getAll();
   }
 
   @override
