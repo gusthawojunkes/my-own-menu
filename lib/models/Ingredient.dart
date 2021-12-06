@@ -10,23 +10,26 @@ class Ingredient implements JsonMapper {
   Type type = new Type('', '');
 
   Ingredient({
-    required name,
-    required type,
+    required String name,
+    required Type type,
   });
 
   factory Ingredient.fromJson(Map<String, dynamic> json) =>
-      Ingredient(name: json['name'], type: json['type']);
+    Ingredient(
+      name: json['name'], 
+      type: new Type(json['type']['name'], json['type']['image'])
+    );
 
   @override
   Map<String, Object?> toJson() => {
-        'name': name,
-        'type': type,
-      };
+    'name': name,
+    'type': type,
+  };
 
   static Ingredient fromSnapshot(QueryDocumentSnapshot<Ingredient> snapshot) {
     String name = snapshot['name'];
     Type type = snapshot['type'];
-
+    
     return Ingredient(name: name, type: type);
   }
 
