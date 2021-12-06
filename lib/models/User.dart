@@ -18,7 +18,7 @@ class User implements JsonMapper {
       required password,
       required firebaseAuthUid});
 
-  static User createFromSnapshot(QueryDocumentSnapshot<User> userSnapshot) {
+  static User fromSnapshot(QueryDocumentSnapshot<User> userSnapshot) {
     String name = userSnapshot['name'];
     String email = userSnapshot['email'];
     String username = userSnapshot['username'];

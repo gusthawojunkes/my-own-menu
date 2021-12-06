@@ -11,17 +11,17 @@ class IngredientService {
   }
 
   static Future<List<Ingredient>> getAll() async {
-    List<Ingredient> ingredients = List.empty();
-    final CollectionReference<Ingredient> ingredientCollection = parseAll();
+    List<Ingredient> ingredients = [];
+    final CollectionReference<Ingredient> ingredientCollection = await parseAll();
     final allUsers = await ingredientCollection.get();
     for (final snapshot in allUsers.docs) {
-      Ingredient ingredient = Ingredient.createFromSnapshot(snapshot);
+      Ingredient ingredient = Ingredient.fromSnapshot(snapshot);
       ingredients.add(ingredient);
     }
     return ingredients;
   }
 
-  static CollectionReference<Ingredient> parseAll() {
+  static Future<CollectionReference<Ingredient>> parseAll() async {
     CollectionReference ingredientCollection =
         Service.getCollection(Ingredient.COLLECTION);
 
