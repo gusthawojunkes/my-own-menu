@@ -40,12 +40,12 @@ class IngredientService {
   }
 
   static CollectionReference<Ingredient> parseAll() {
-    CollectionReference typeCollection =
+    CollectionReference ingredientCollection =
         Service.getCollection(Ingredient.COLLECTION);
 
-    return typeCollection.withConverter<Ingredient>(
+    return ingredientCollection.withConverter<Ingredient>(
       fromFirestore: (snapshots, _) => Ingredient.fromJson(snapshots.data()!),
-      toFirestore: (type, _) => type.toJson(),
+      toFirestore: (ingredient, _) => ingredient.toJson(),
     );
   }
 }
