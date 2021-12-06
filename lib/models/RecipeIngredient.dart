@@ -6,6 +6,7 @@ class RecipeIngredient implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'recipe-ingredients';
 
+  Type type = new Type('', '');
   Ingredient ingredient = new Ingredient(name: '', type: new Type('', ''));
   String quantity = '';
 
