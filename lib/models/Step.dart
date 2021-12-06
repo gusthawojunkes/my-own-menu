@@ -8,8 +8,8 @@ class Step implements JsonMapper {
   Recipe recipe = new Recipe(
       title: '',
       preparationTime: 0,
-      ingredients: List.empty(),
-      preparationMethod: List.empty());
+      ingredients: List.empty(growable: true),
+      preparationMethod: List.empty(growable: true));
   String description = '';
   int sequence = 0;
 

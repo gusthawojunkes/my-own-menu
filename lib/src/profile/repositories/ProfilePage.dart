@@ -34,11 +34,9 @@ class _ProfilePageState extends State<ProfilePage> {
   String _email = "username@email.com.br";
   dynamic imageUser = getImage();
 
-  TextEditingController _controllerNome = TextEditingController();
-  XFile? _image;
+  XFile? image;
   final imagePicker = ImagePicker();
   dynamic downloadURL;
-  late String _idUsuarioLogado;
   String? _urlImagemRecuperada;
 
   Future imagePickerCamera() async {
@@ -46,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     setState(() {
       if (pick != null) {
-        _image = XFile(pick.path);
+        image = XFile(pick.path);
         uploadImage();
       } else {
         showSnackBar("Nenhum arquivo selecionado", Duration(milliseconds: 400));
@@ -59,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     setState(() {
       if (pick != null) {
-        _image = XFile(pick.path);
+        image = XFile(pick.path);
         uploadImage();
       } else {
         showSnackBar("Nenhum arquivo selecionado", Duration(milliseconds: 400));

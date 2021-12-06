@@ -1,6 +1,6 @@
 name: myownmenu
-description: A new Flutter project.
-publish_to: "none" 
+description: My own Menu.
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
