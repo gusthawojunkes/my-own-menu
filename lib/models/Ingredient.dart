@@ -28,7 +28,7 @@ class Ingredient implements JsonMapper {
 
   static Ingredient fromSnapshot(QueryDocumentSnapshot<Ingredient> snapshot) {
     String name = snapshot['name'];
-    Type type = snapshot['type'];
+    Type type = new Type(snapshot['type']['name'], snapshot['type']['image']);
     
     return Ingredient(name: name, type: type);
   }
