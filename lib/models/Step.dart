@@ -10,8 +10,8 @@ class Step implements JsonMapper {
       preparationTime: 0,
       ingredients: List.empty(growable: true),
       preparationMethod: List.empty(growable: true));
-  final String description = '';
-  final int sequence = 0;
+  String description = '';
+  int sequence = 0;
 
   Step({required description, required sequence});
 

@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/models/serialization/JsonMapper.dart';
 
 class Ingredient implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'ingredients';
 
-  final String name = '';
-  final String type = '';
+  String name = '';
+  Type type = new Type('', '');
 
   Ingredient({
     required name,
@@ -24,7 +25,7 @@ class Ingredient implements JsonMapper {
 
   static Ingredient fromSnapshot(QueryDocumentSnapshot<Ingredient> snapshot) {
     String name = snapshot['name'];
-    String type = snapshot['type'];
+    Type type = snapshot['type'];
 
     return Ingredient(name: name, type: type);
   }

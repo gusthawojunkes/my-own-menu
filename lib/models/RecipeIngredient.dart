@@ -6,7 +6,7 @@ class RecipeIngredient implements JsonMapper {
   static final String COLLECTION = 'recipe-ingredients';
 
   Ingredient ingredient = new Ingredient(name: '', type: '');
-  final String quantity = '';
+  String quantity = '';
 
   RecipeIngredient({required ingredient, required quantity});
 

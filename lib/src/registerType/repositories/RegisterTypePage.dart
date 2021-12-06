@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myownmenu/service/TypeService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
+import 'package:myownmenu/utils/SourceUtils.dart';
 
 class RegisterType extends StatelessWidget {
   const RegisterType({Key? key}) : super(key: key);
@@ -32,77 +33,77 @@ class _RegisterTypePageState extends State<RegisterTypePage> {
 
   final _formKey = GlobalKey<FormState>();
   bool visbileImages = false;
-  List<String> urlImages = [
-    'https://cdn-icons-png.flaticon.com/512/2619/2619347.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619348.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619351.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619354.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619357.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619360.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619363.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619368.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619373.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619381.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619384.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619387.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619391.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619395.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619397.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619404.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619407.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619410.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619412.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619416.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619418.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619422.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619426.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619430.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619437.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619441.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619445.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619451.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619455.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619459.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619463.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619467.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619471.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619473.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619475.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619477.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619481.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619483.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619487.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619491.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619495.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619502.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619509.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619519.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619523.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619528.png',
-    'https://cdn-icons-png.flaticon.com/512/2619/2619515.png',
+  List<dynamic> urlImages = [
+    "2619347",
+    "2619348",
+    "2619351",
+    "2619354",
+    "2619357",
+    "2619360",
+    "2619363",
+    "2619368",
+    "2619373",
+    "2619381",
+    "2619384",
+    "2619387",
+    "2619391",
+    "2619395",
+    "2619397",
+    "2619404",
+    "2619407",
+    "2619410",
+    "2619412",
+    "2619416",
+    "2619418",
+    "2619422",
+    "2619426",
+    "2619430",
+    "2619437",
+    "2619441",
+    "2619445",
+    "2619451",
+    "2619455",
+    "2619459",
+    "2619463",
+    "2619467",
+    "2619471",
+    "2619473",
+    "2619475",
+    "2619477",
+    "2619481",
+    "2619483",
+    "2619487",
+    "2619491",
+    "2619495",
+    "2619502",
+    "2619509",
+    "2619519",
+    "2619523",
+    "2619528",
+    "2619515"
   ];
   String selectedImage = "";
 
-  Widget cardImage(index, cardKey) {
+  Widget cardImage(image, cardKey) {
     return FlipCard(
       key: cardKey,
-      front: card(index),
-      back: card(index),
+      front: card(image),
+      back: card(image),
       onFlip: () {
         setState(() {
-          selectedImage = urlImages[index];
+          selectedImage = image;
           visbileImages = !visbileImages;
         });
       },
     );
   }
 
-  Widget card(index) {
+  Widget card(image) {
     return new Card(
       child: new Container(
         margin: EdgeInsets.all(20),
         child: Image.network(
-          urlImages[index],
+          SourceUtils.TYPE_URL_SRC + image + ".png",
           loadingBuilder: (BuildContext context, Widget child,
               ImageChunkEvent? loadingProgress) {
             if (loadingProgress == null) {
@@ -191,8 +192,8 @@ class _RegisterTypePageState extends State<RegisterTypePage> {
                                             (BuildContext context, int index) {
                                           cardsKeys.add(
                                               new GlobalKey<FlipCardState>());
-                                          return cardImage(
-                                              index, cardsKeys[index]);
+                                          return cardImage(urlImages[index],
+                                              cardsKeys[index]);
                                         })))),
                         new Visibility(
                             visible: (selectedImage != "") ? true : false,
@@ -206,11 +207,18 @@ class _RegisterTypePageState extends State<RegisterTypePage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         new Text("Selecionado: "),
-                                        new Container(
-                                            height: 80,
-                                            margin: EdgeInsets.only(bottom: 30),
-                                            child: new Image.network(
-                                                selectedImage))
+                                        selectedImage != ""
+                                            ? new Container(
+                                                height: 80,
+                                                margin:
+                                                    EdgeInsets.only(bottom: 30),
+                                                child: new Image.network(
+                                                    SourceUtils.TYPE_URL_SRC +
+                                                        selectedImage
+                                                            .toString() +
+                                                        ".png"))
+                                            : new Text(
+                                                "Falha em \ncarregar a imagem!")
                                       ])),
                             ))
                       ],

@@ -4,20 +4,21 @@ class Type implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'type';
 
-  final String name = '';
-  final String image = '';
+  String name = '';
+  String image = '';
 
-  Type({
-    required name,
-    required image,
-  });
+  Type(this.name, this.image);
 
   factory Type.fromJson(Map<String, dynamic> json) =>
-      Type(name: json['name'], image: json['image']);
+      Type(json['name'], json['image']);
 
   @override
   Map<String, Object?> toJson() => {
         'name': name,
         'image': image,
       };
+
+  static Type createFromSnapshot(QueryDocumentSnapshot<Type> snapshot) {
+    return Type(snapshot['name'], snapshot['image']);
+  }
 }

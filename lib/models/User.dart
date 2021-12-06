@@ -5,11 +5,11 @@ class User implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'users';
 
-  final String name = '';
-  final String email = '';
-  final String username = '';
-  final String password = '';
-  final String firebaseAuthUid = '';
+  String name = '';
+  String email = '';
+  String username = '';
+  String password = '';
+  String firebaseAuthUid = '';
 
   User(
       {required name,

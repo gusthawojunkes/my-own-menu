@@ -6,10 +6,10 @@ class Recipe implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'recipes';
 
-  final String title = '';
-  final int preparationTime = 0;
-  final List<RecipeIngredient> ingredients = List.empty(growable: true);
-  final List<Step> preparationMethod = List.empty(growable: true);
+  String title = '';
+  int preparationTime = 0;
+  List<RecipeIngredient> ingredients = List.empty();
+  List<Step> preparationMethod = List.empty();
 
   Recipe(
       {required title,
