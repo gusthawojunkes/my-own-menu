@@ -4,7 +4,7 @@ import 'package:myownmenu/models/error/AuthException.dart';
 
 class RegisterModule {
   static execute(String name, String email, String password) async {
-    AuthService auth = AuthService();
+    AuthService auth = AuthService.getInstance();
     try {
       var newUser = await auth.register(name, email, password);
       return newUser;

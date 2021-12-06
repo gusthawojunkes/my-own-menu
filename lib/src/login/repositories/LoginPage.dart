@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myownmenu/models/error/AuthException.dart';
@@ -123,6 +124,13 @@ class _LoginPageState extends State<LoginPage> {
                                       MaterialPageRoute(
                                           builder: (context) => const Home()),
                                     ));
+                          } on FirebaseAuthException catch (e) {
+                            print(e);
+                             ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text( 
+                                      'Algo deu errado na hora de realizar o login, tente novamente mais tarde!')),
+                            );
                           } on AuthException catch (ex) {
                             print(ex);
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -130,6 +138,9 @@ class _LoginPageState extends State<LoginPage> {
                                   content: Text(
                                       'Algo deu errado na hora de realizar o login, tente novamente mais tarde!')),
                             );
+                          } catch (error) {
+                            print('AAAAAAAAA');
+                            print(error);
                           }
                         },
                       )),
