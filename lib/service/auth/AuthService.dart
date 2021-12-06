@@ -21,7 +21,6 @@ class AuthService extends ChangeNotifier {
   _verify() {
     _auth.authStateChanges().listen((User? user) {
       this.user = user;
-      this.username = this.user!.displayName;
       this.isLoading = false;
       notifyListeners();
     });

@@ -1,4 +1,3 @@
-import 'Dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flip_card/flip_card.dart';
@@ -29,7 +28,7 @@ class IngredientPage extends StatefulWidget {
 }
 
 class _IngredientPageState extends State<IngredientPage> {
-  List<dynamic> listIngredients = _getIngredients();
+  List listIngredients = [];
   List listFilters = [];
   bool _visibilityFilters = true;
   final _searchController = TextEditingController();
@@ -41,9 +40,8 @@ class _IngredientPageState extends State<IngredientPage> {
   }
 
   Future startAsyncInit() async {
-    setState(() async {
-      listFilters = await TypeService.getAll();
-    });
+    listFilters = await TypeService.getAll();
+    // listIngredients = await IngredientService.getAll();
   }
 
   @override
@@ -74,7 +72,7 @@ class _IngredientPageState extends State<IngredientPage> {
               )));
     }
 
-    Widget cardIngredient(index) {
+    Widget cardIngredient(List listIngredients, index) {
       return Padding(
         padding: EdgeInsets.only(top: 10, bottom: 10),
         child: Card(
@@ -87,7 +85,7 @@ class _IngredientPageState extends State<IngredientPage> {
                   Padding(
                     padding: EdgeInsets.only(top: 18, right: 15, bottom: 5),
                     child: Text(
-                      listIngredients[index]['name'],
+                      listFilters[index].name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -96,7 +94,7 @@ class _IngredientPageState extends State<IngredientPage> {
                   Padding(
                     padding: EdgeInsets.only(right: 5),
                     child: Text(
-                      listIngredients[index]['type'],
+                      '',
                     ),
                   ),
                 ],
@@ -110,7 +108,7 @@ class _IngredientPageState extends State<IngredientPage> {
       );
     }
 
-    Widget cardSelect(index) {
+    Widget cardSelect(listIngredients, index) {
       return Padding(
         padding: EdgeInsets.only(top: 10, bottom: 10),
         child: Card(
@@ -131,7 +129,7 @@ class _IngredientPageState extends State<IngredientPage> {
                   Padding(
                     padding: EdgeInsets.only(top: 10, left: 15, bottom: 5),
                     child: Text(
-                      listIngredients[index]['name'],
+                      listIngredients[index].name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -140,7 +138,7 @@ class _IngredientPageState extends State<IngredientPage> {
                   Padding(
                     padding: EdgeInsets.only(right: 5, bottom: 15),
                     child: Text(
-                      listIngredients[index]['type'],
+                      listFilters[1].name,
                     ),
                   ),
                 ],
@@ -151,103 +149,39 @@ class _IngredientPageState extends State<IngredientPage> {
       );
     }
 
-    return Scaffold(
-        body: SingleChildScrollView(
-            child: Column(
-      children: [
-        new Container(
-          child: Column(
-            children: [
-              new Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(top: 20.0, left: 30),
-                      child: Text(
-                        'Ingredientes',
-                        style: TextStyle(color: Colors.black, fontSize: 24.0),
-                      ))
-                ],
-              ),
-              new Container(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 20.0, right: 30, left: 30),
-                  child: TextFormField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      labelText: 'O que deseja?',
-                      border: OutlineInputBorder(),
-                      suffixIcon: new IconButton(
-                        icon: new Icon(Icons.filter_list),
-                        onPressed: () {
-                          setState(() {
-                            _visibilityFilters = !_visibilityFilters;
-                          });
-                        },
+    return new Container(
+      margin: const EdgeInsets.only(left: 30, right: 30),
+      child: FutureBuilder(
+        future: startAsyncInit(),
+        initialData: "Aguardando os dados...",
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return new Column(
+              children: List.generate(listFilters.length, (index) {
+                return Padding(
+                  padding: EdgeInsets.all(0),
+                  child: Column(
+                    children: [
+                      FlipCard(
+                        front: Container(
+                          child: cardIngredient(listFilters, index),
+                        ),
+                        back: Container(
+                          child: cardSelect(listFilters, index),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        new Visibility(
-          visible: _visibilityFilters,
-          child: new Container(
-            margin: const EdgeInsets.all(30),
-            child: new SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(listFilters.length, (index) {
-                  return FlipCard(
-                    speed: 1,
-                    front: Container(
-                      child: filter(listFilters, index, Colors.white,
-                          ColorsUtils.darkBlue),
-                    ),
-                    back: Container(
-                      child: filter(listFilters, index, ColorsUtils.darkBlue,
-                          Colors.white),
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ),
-        ),
-        new Container(
-          margin: const EdgeInsets.only(left: 30, right: 30),
-          child: new Column(
-            children: List.generate(listIngredients.length, (index) {
-              return Padding(
-                padding: EdgeInsets.all(0),
-                child: Column(
-                  children: [
-                    FlipCard(
-                      front: Container(
-                        child: cardIngredient(index),
-                      ),
-                      back: Container(
-                        child: cardSelect(index),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ),
-        )
-      ],
-    )));
+                );
+              }),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
   }
-}
-
-List<dynamic> _getIngredients() {
-  String ingredientsJson =
-      '{"ingredients":[{"name":"Abacate","type":"Fruta"},{"name":"Alcatra","type":"Carne"},{"name":"Arroz","type":"Grão"},{"name":"Feijão","type":"Grão"},{"name":"Maça","type":"Fruta"},{"name":"Milho","type":"Grão"}]}';
-
-  Map<String, dynamic> mapIngredients = jsonDecode(ingredientsJson);
-  List<dynamic> listIngredients = mapIngredients['ingredients'];
-  return listIngredients;
 }
