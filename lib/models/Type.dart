@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myownmenu/models/serialization/JsonMapper.dart';
 
 class Type implements JsonMapper {
