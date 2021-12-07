@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/models/serialization/JsonMapper.dart';
 
@@ -9,16 +8,10 @@ class Ingredient implements JsonMapper {
   String name = '';
   Type type = new Type('', '');
 
-  Ingredient({
-    required String name,
-    required Type type,
-  });
-
-  factory Ingredient.fromJson(Map<String, dynamic> json) =>
-    Ingredient(
-      name: json['name'], 
-      type: new Type(json['type']['name'], json['type']['image'])
-    );
+  Ingredient(String name, Type type) {
+    this.name = name;
+    this.type = type;
+  }
 
   @override
   Map<String, Object?> toJson() => {
@@ -26,11 +19,11 @@ class Ingredient implements JsonMapper {
     'type': type,
   };
 
-  static Ingredient fromSnapshot(QueryDocumentSnapshot<Ingredient> snapshot) {
+  static Ingredient fromSnapshot(snapshot) {
     String name = snapshot['name'];
     Type type = new Type(snapshot['type']['name'], snapshot['type']['image']);
-    
-    return Ingredient(name: name, type: type);
+
+    return new Ingredient(name, type);
   }
 
   String getName() {
