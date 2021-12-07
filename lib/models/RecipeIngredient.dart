@@ -7,16 +7,24 @@ class RecipeIngredient implements JsonMapper {
   static final String COLLECTION = 'recipe-ingredients';
 
   Type type = new Type('', '');
-  Ingredient ingredient = new Ingredient(name: '', type: new Type('', ''));
+  Ingredient ingredient = new Ingredient('', new Type('', ''));
   String quantity = '';
 
-  RecipeIngredient({required ingredient, required quantity});
-
-  factory RecipeIngredient.fromJson(Map<String, dynamic> json) =>
-      RecipeIngredient(
-          ingredient: json['ingredient'], quantity: json['quantity']);
+  RecipeIngredient(Type type, Ingredient ingredient, String quantity) {
+    this.type = type;
+    this.ingredient = ingredient;
+    this.quantity = quantity;
+  }
 
   @override
   Map<String, Object?> toJson() =>
       {'ingredient': ingredient, 'quantity': quantity};
+
+  static RecipeIngredient fromSnapshot(snapshot) {
+    Type type = new Type(snapshot['type']['name'], snapshot['type']['image']);
+    Ingredient ingredient = snapshot['ingredient'];
+    String quantity = snapshot['quantity'];
+
+    return new RecipeIngredient(type, ingredient, quantity);
+  }
 }

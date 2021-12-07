@@ -8,24 +8,43 @@ class Recipe implements JsonMapper {
 
   String title = '';
   int preparationTime = 0;
-  List<RecipeIngredient> ingredients = List.empty();
-  List<Step> preparationMethod = List.empty();
+  List<RecipeIngredient> ingredients = [];
+  List<Step> preparationMethod = [];
 
   Recipe(
-      {required title,
-      required preparationTime,
-      required ingredients,
-      required preparationMethod});
-
-  factory Recipe.fromJson(Map<String, dynamic> json) => Recipe(
-      title: json['title'],
-      preparationTime: json['preparationTime'],
-      ingredients: json['ingredients'],
-      preparationMethod: json['preparationMethod']);
+    String title, 
+    int preparationTime, 
+    List<RecipeIngredient> ingredients,
+    List<Step> preparationMethod
+  ) {
+    this.title = title;
+    this.preparationTime = preparationTime;
+    this.ingredients = ingredients;
+    this.preparationMethod = preparationMethod;
+  }
 
   @override
   Map<String, Object?> toJson() => {
-        'title': title,
-        'preparationTime': preparationTime,
-      };
+    'title': title,
+    'preparationTime': preparationTime,
+    'ingredients': ingredients,
+    'preparationMethod': preparationMethod
+  };
+
+  static Recipe fromSnapshot(snapshot) {
+    List<RecipeIngredient> ingredients = [];
+    List<Step> steps = [];
+    String title = snapshot['title'];
+    int preparationTime = snapshot['preparationTime'];
+    for (var ing in snapshot['ingredients']) {
+      RecipeIngredient ingredient = RecipeIngredient.fromSnapshot(ing);
+      ingredients.add(ingredient);
+    }
+    for (var st in snapshot['preparationMethod']) {
+      Step step = Step.fromSnapshot(st);
+      steps.add(step);
+    }
+
+    return Recipe(title, preparationTime, ingredients, steps);
+  }
 }

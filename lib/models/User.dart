@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myownmenu/models/serialization/JsonMapper.dart';
 
 class User implements JsonMapper {
@@ -11,41 +10,30 @@ class User implements JsonMapper {
   String password = '';
   String firebaseAuthUid = '';
 
-  User(
-      {required name,
-      required email,
-      required username,
-      required password,
-      required firebaseAuthUid});
-
-  static User fromSnapshot(QueryDocumentSnapshot<User> userSnapshot) {
-    String name = userSnapshot['name'];
-    String email = userSnapshot['email'];
-    String username = userSnapshot['username'];
-    String password = userSnapshot['password'];
-    String firebaseAuthUid = userSnapshot['firebase-auth-uid'];
-
-    return User(
-        name: name,
-        email: email,
-        username: username,
-        password: password,
-        firebaseAuthUid: firebaseAuthUid);
+  User(name, email, username, password, firebaseAuthUid) {
+    this.name = name;
+    this.email = email;
+    this.username = username;
+    this.password = password;
+    this.firebaseAuthUid = firebaseAuthUid;
   }
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-      name: json['name'],
-      email: json['email'],
-      username: json['username'],
-      password: json['password'],
-      firebaseAuthUid: json['firebase-auth-uid']);
+  static User fromSnapshot(snapshot) {
+    String name = snapshot['name'];
+    String email = snapshot['email'];
+    String username = snapshot['username'];
+    String password = snapshot['password'];
+    String firebaseAuthUid = snapshot['firebase-auth-uid'];
+
+    return User(name, email, username, password, firebaseAuthUid);
+  }
 
   @override
   Map<String, Object?> toJson() => {
-        'name': name,
-        'email': email,
-        'username': username,
-        'password': password,
-        'firebase-auth-uid': firebaseAuthUid
-      };
+    'name': name,
+    'email': email,
+    'username': username,
+    'password': password,
+    'firebase-auth-uid': firebaseAuthUid
+  };
 }

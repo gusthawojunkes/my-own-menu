@@ -5,20 +5,23 @@ class Step implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'step';
 
-  Recipe recipe = new Recipe(
-      title: '',
-      preparationTime: 0,
-      ingredients: List.empty(growable: true),
-      preparationMethod: List.empty(growable: true));
+  Recipe recipe = new Recipe('', 0, [], []);
   String description = '';
   int sequence = 0;
 
-  Step({required description, required sequence});
-
-  factory Step.fromJson(Map<String, dynamic> json) =>
-      Step(description: json['description'], sequence: json['sequence']);
+  Step(String description, int sequence) {
+    this.description = description;
+    this.sequence = sequence;
+  }
 
   @override
   Map<String, Object?> toJson() =>
       {'recipe': recipe, 'description': description, 'sequence': sequence};
+
+  static Step fromSnapshot(snapshot) {
+    String description = snapshot['description'];
+    int sequence = snapshot['sequence'];
+
+    return new Step(description, sequence);
+  }
 }

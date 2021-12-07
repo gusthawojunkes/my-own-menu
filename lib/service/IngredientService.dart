@@ -21,8 +21,9 @@ class IngredientService {
   static Future<List<Ingredient>> getAll() async {
     List<Ingredient> ingredients = [];
     final CollectionReference<Ingredient> ingredientCollection = await parseAll();
-    final allUsers = await ingredientCollection.get();
-    for (final snapshot in allUsers.docs) {
+    final allIngredients = await ingredientCollection.get();
+    List<QueryDocumentSnapshot<Ingredient>> snapshots = allIngredients.docs;
+    for (final snapshot in snapshots) {
       Ingredient ingredient = Ingredient.fromSnapshot(snapshot);
       ingredients.add(ingredient);
     }
@@ -31,7 +32,8 @@ class IngredientService {
 
   static Future<String?> getIngedientUid(String name) async {
     String uid = "";
-    final CollectionReference<Ingredient> ingredientCollection = await parseAll();
+    final CollectionReference<Ingredient> ingredientCollection =
+        await parseAll();
     final allUsers = await ingredientCollection.get();
     for (final snapshot in allUsers.docs) {
       if (snapshot.get('name') == name) uid = snapshot.id;
@@ -44,7 +46,7 @@ class IngredientService {
         Service.getCollection(Ingredient.COLLECTION);
 
     return ingredientCollection.withConverter<Ingredient>(
-      fromFirestore: (snapshots, _) => Ingredient.fromJson(snapshots.data()!),
+      fromFirestore: (snapshots, _) => Ingredient.fromSnapshot(snapshots.data()!),
       toFirestore: (ingredient, _) => ingredient.toJson(),
     );
   }
