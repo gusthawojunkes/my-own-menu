@@ -104,9 +104,10 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 List<String> ingredientsName = [];
-                snapshot.data.forEach((ingredient) => ingredientsName.add(ingredient.getName()));
+                snapshot.data.forEach(
+                    (ingredient) => ingredientsName.add(ingredient.getName()));
                 return new SingleChildScrollView(
-                  child: new Form(
+                    child: new Form(
                   key: _formKey,
                   child: new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -417,14 +418,30 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                 );
                                               } else {
                                                 try {
+                                                  print('listPrepareMode: ' +
+                                                      listPrepareMode                              [0]
+                                                          .description
+                                                          .toString());
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             const RegisterRecipe()),
                                                   );
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                        content: Text(
+                                                            'Salvo com sucesso!')),
+                                                  );
                                                 } on FirebaseAuthException catch (error) {
                                                   print(error.code);
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                        content: Text(
+                                                            'Erro! Tente mais tarde.')),
+                                                  );
                                                 }
                                               }
                                             })),
