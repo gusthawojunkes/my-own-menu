@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:myownmenu/service/IngredientService.dart';
 import 'package:myownmenu/service/TypeService.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
@@ -29,9 +30,10 @@ class IngredientPage extends StatefulWidget {
 
 class _IngredientPageState extends State<IngredientPage> {
   List listIngredients = [];
+  List listIngredientsView = [];
   List listFilters = [];
   bool _visibilityFilters = true;
-  final _searchController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
 
   @override
   // ignore: must_call_super
@@ -40,7 +42,8 @@ class _IngredientPageState extends State<IngredientPage> {
   }
 
   Future startAsyncInit() async {
-    // listIngredients = await IngredientService.getAll();
+    listFilters = await TypeService.getAll();
+    listIngredientsView = await IngredientService.getAll();
   }
 
   @override
@@ -84,7 +87,7 @@ class _IngredientPageState extends State<IngredientPage> {
                   Padding(
                     padding: EdgeInsets.only(top: 18, right: 15, bottom: 5),
                     child: Text(
-                      listFilters[index].name,
+                      listIngredients[index].name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -100,6 +103,7 @@ class _IngredientPageState extends State<IngredientPage> {
               ),
               Image.asset(
                 SourceUtils.INGREDIENTE_SRC,
+                height: 60,
               ),
             ],
           ),
@@ -137,7 +141,7 @@ class _IngredientPageState extends State<IngredientPage> {
                   Padding(
                     padding: EdgeInsets.only(right: 5, bottom: 15),
                     child: Text(
-                      listFilters[1].name,
+                      '',
                     ),
                   ),
                 ],
@@ -148,39 +152,99 @@ class _IngredientPageState extends State<IngredientPage> {
       );
     }
 
-    return new Container(
-      margin: const EdgeInsets.only(left: 30, right: 30),
-      child: FutureBuilder(
-        future: startAsyncInit(),
-        initialData: "Aguardando os dados...",
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return new Column(
-              children: List.generate(listFilters.length, (index) {
-                return Padding(
-                  padding: EdgeInsets.all(0),
-                  child: Column(
-                    children: [
-                      FlipCard(
-                        front: Container(
-                          child: cardIngredient(listFilters, index),
-                        ),
-                        back: Container(
-                          child: cardSelect(listFilters, index),
-                        ),
+    return Scaffold(
+        body: SingleChildScrollView(
+            child: Column(
+      children: [
+        new Container(
+          child: Column(
+            children: [
+              new Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(top: 20.0, left: 30),
+                      child: Text(
+                        'Ingredientes',
+                        style: TextStyle(color: Colors.black, fontSize: 24.0),
+                      ))
+                ],
+              ),
+              new Container(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20.0, right: 30, left: 30),
+                  child: TextFormField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.search),
+                      labelText: 'O que deseja?',
+                      border: OutlineInputBorder(),
+                      suffixIcon: new IconButton(
+                        icon: new Icon(Icons.filter_list),
+                        onPressed: () {
+                          setState(() {
+                            _visibilityFilters = !_visibilityFilters;
+                          });
+                        },
                       ),
-                    ],
+                    ),
                   ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        new Visibility(
+          visible: _visibilityFilters,
+          child: new Container(
+            margin: const EdgeInsets.all(30),
+            child: new SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(listFilters.length, (index) {
+                  return FlipCard(
+                    speed: 1,
+                    front: Container(
+                      child: filter(listFilters, index, Colors.white,
+                          ColorsUtils.darkBlue),
+                    ),
+                    back: Container(
+                      child: filter(listFilters, index, ColorsUtils.darkBlue,
+                          Colors.white),
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ),
+        ),
+        new Container(
+          margin: EdgeInsets.only(left: 30, right: 30),
+          child: FutureBuilder(
+            future: IngredientService.getAll(),
+            initialData: CircularProgressIndicator(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return new Column(
+                  children: List.generate(listIngredientsView.length, (index) {
+                    return FlipCard(
+                      front: Container(
+                        child: cardIngredient(listIngredientsView, index),
+                      ),
+                      back: Container(
+                        child: cardSelect(listIngredientsView, index),
+                      ),
+                    );
+                  }),
                 );
-              }),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        )
+      ],
+    )));
   }
 }
