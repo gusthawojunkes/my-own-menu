@@ -15,10 +15,13 @@ class UserService {
   }
 
   static create(
-      {required String name,
+    {
+      required String name,
       required String email,
       required String password,
-      required String uid}) {
+      required String uid
+    }
+  ) {
     Service.getCollection(User.COLLECTION).doc(uid).set({
       'name': name,
       'email': email,
@@ -29,11 +32,9 @@ class UserService {
   }
 
   static CollectionReference<User> parseAll() {
-    CollectionReference usersCollection =
-        Service.getCollection(User.COLLECTION);
-
+    CollectionReference usersCollection = Service.getCollection(User.COLLECTION);
     return usersCollection.withConverter<User>(
-      fromFirestore: (snapshots, _) => User.fromJson(snapshots.data()!),
+      fromFirestore: (snapshots, _) => User.fromSnapshot(snapshots.data()!),
       toFirestore: (user, _) => user.toJson(),
     );
   }

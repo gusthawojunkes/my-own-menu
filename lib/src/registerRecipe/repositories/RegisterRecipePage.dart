@@ -6,6 +6,7 @@ import 'package:myownmenu/models/Step.dart' as RecipeStep;
 import 'package:myownmenu/service/IngredientService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
+import 'package:myownmenu/utils/Helper.dart';
 
 class RegisterRecipe extends StatelessWidget {
   const RegisterRecipe({Key? key}) : super(key: key);
@@ -103,8 +104,10 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
             initialData: [],
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                List<String> ingredientsName = [];
-                snapshot.data.forEach((ingredient) => ingredientsName.add(ingredient.getName()));
+                List<dynamic> ingredientsName = [];
+                snapshot.data.forEach(
+                    (ingredient) => ingredientsName.add(ingredient.getName()));
+                ingredientsName = Helper.unique(ingredientsName);
                 return new SingleChildScrollView(
                     child: new Form(
                   key: _formKey,
@@ -297,11 +300,9 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                     _sequenceCounter++;
                                                     listPrepareMode.add(
                                                         RecipeStep.Step(
-                                                            description:
-                                                                _prepareModeController
-                                                                    .text,
-                                                            sequence:
-                                                                _sequenceCounter));
+                                                            _prepareModeController
+                                                                .text,
+                                                            _sequenceCounter));
                                                   }
                                                 });
                                               },

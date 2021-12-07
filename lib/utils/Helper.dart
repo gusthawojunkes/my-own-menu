@@ -1,4 +1,4 @@
-class Helper {
+abstract class Helper {
   static bool isNull(dynamic value) {
     bool isNull = false;
     isNull = (value == null) || value.toString() == '';
@@ -7,5 +7,9 @@ class Helper {
 
   static bool isNotNull(dynamic value) {
     return !isNull(value);
+  }
+
+  static List<dynamic> unique(List list) {
+    return [...{...list}];
   }
 }

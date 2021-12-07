@@ -14,7 +14,7 @@ class TypeService {
     final CollectionReference<Type> typeCollection = parseAll();
     final allUsers = await typeCollection.get();
     for (final snapshot in allUsers.docs) {
-      Type type = Type.createFromSnapshot(snapshot);
+      Type type = Type.fromSnapshot(snapshot);
       types.add(type);
     }
     return types;
@@ -24,7 +24,7 @@ class TypeService {
     CollectionReference typeCollection = Service.getCollection(Type.COLLECTION);
 
     return typeCollection.withConverter<Type>(
-      fromFirestore: (snapshots, _) => Type.fromJson(snapshots.data()!),
+      fromFirestore: (snapshots, _) => Type.fromSnapshot(snapshots.data()!),
       toFirestore: (type, _) => type.toJson(),
     );
   }

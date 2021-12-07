@@ -34,7 +34,7 @@ class RecipeService {
         Service.getCollection(Recipe.COLLECTION);
 
     return recipeCollection.withConverter<Recipe>(
-      fromFirestore: (snapshots, _) => Recipe.fromJson(snapshots.data()!),
+      fromFirestore: (snapshots, _) => Recipe.fromSnapshot(snapshots.data()!),
       toFirestore: (recipe, _) => recipe.toJson(),
     );
   }
