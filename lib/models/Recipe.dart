@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myownmenu/models/RecipeIngredient.dart';
 import 'package:myownmenu/models/Step.dart';
 import 'package:myownmenu/models/serialization/JsonMapper.dart';
@@ -8,8 +9,8 @@ class Recipe implements JsonMapper {
 
   String title = '';
   int preparationTime = 0;
-  List<RecipeIngredient> ingredients = List.empty();
-  List<Step> preparationMethod = List.empty();
+  List<RecipeIngredient> ingredients = [];
+  List<Step> preparationMethod = [];
 
   Recipe(
       {required title,
@@ -28,4 +29,25 @@ class Recipe implements JsonMapper {
         'title': title,
         'preparationTime': preparationTime,
       };
+
+  static Recipe fromSnapshot(QueryDocumentSnapshot<Recipe> snapshot) {
+    List<RecipeIngredient> ingredients = [];
+    List<Step> steps = [];
+    String title = snapshot['title'];
+    int preparationTime = snapshot['preparationTime'];
+    for (var ing in snapshot['ingredients']) {
+      RecipeIngredient ingredient = RecipeIngredient.fromJson(ing);
+      ingredients.add(ingredient);
+    }
+    for (var st in snapshot['preparationMethod']) {
+      Step step = Step.fromJson(st);
+      steps.add(step);
+    }
+
+    return Recipe(
+        title: title,
+        preparationTime: preparationTime,
+        ingredients: ingredients,
+        preparationMethod: steps);
+  }
 }

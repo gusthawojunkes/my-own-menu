@@ -106,7 +106,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                 List<String> ingredientsName = [];
                 snapshot.data.forEach((ingredient) => ingredientsName.add(ingredient.getName()));
                 return new SingleChildScrollView(
-                  child: new Form(
+                    child: new Form(
                   key: _formKey,
                   child: new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
