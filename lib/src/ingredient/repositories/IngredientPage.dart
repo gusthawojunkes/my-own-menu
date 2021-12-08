@@ -34,18 +34,7 @@ class _IngredientPageState extends State<IngredientPage> {
   bool _visibilityFilters = true;
   final _searchController = TextEditingController();
 
-  @override
-  // ignore: must_call_super
-  initState() {
-    startAsyncInit();
-  }
-
-  Future startAsyncInit() async {
-    listFilters = await TypeService.getAll();
-  }
-
-  @override
-  Widget build(BuildContext buildContext) {
+  buildAsyncPage() {
     Widget filter(
         listFilters, int index, dynamic backgroundColor, dynamic fontColor) {
       return Card(
@@ -149,95 +138,114 @@ class _IngredientPageState extends State<IngredientPage> {
       );
     }
 
-    return Scaffold(
-        body: SingleChildScrollView(
-            child: Column(
-      children: [
-        new Container(
-          child: Column(
-            children: [
-              new Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(top: 20.0, left: 30),
-                      child: Text(
-                        'Ingredientes',
-                        style: TextStyle(color: Colors.black, fontSize: 24.0),
-                      ))
-                ],
-              ),
-              new Container(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 20.0, right: 30, left: 30),
-                  child: TextFormField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      labelText: 'O que deseja?',
-                      border: OutlineInputBorder(),
-                      suffixIcon: new IconButton(
-                        icon: new Icon(Icons.filter_list),
-                        onPressed: () {
-                          setState(() {
-                            _visibilityFilters = !_visibilityFilters;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        new Visibility(
-          visible: _visibilityFilters,
-          child: new Container(
-            margin: const EdgeInsets.all(30),
-            child: new SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(listFilters.length, (index) {
-                  return FlipCard(
-                    speed: 1,
-                    front: Container(
-                      child: filter(listFilters, index, Colors.white,
-                          ColorsUtils.darkBlue),
-                    ),
-                    back: Container(
-                      child: filter(listFilters, index, ColorsUtils.darkBlue,
-                          Colors.white),
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ),
-        ),
-        new Container(
-          margin: const EdgeInsets.only(left: 30, right: 30),
-          child: new Column(
-            children: List.generate(listIngredients.length, (index) {
-              return Padding(
-                padding: EdgeInsets.all(0),
-                child: Column(
+    return SingleChildScrollView(
+        child: FutureBuilder(
+            future: TypeService.getAll(),
+            initialData: [],
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                listFilters = snapshot.data;
+                return Column(
                   children: [
-                    FlipCard(
-                      front: Container(
-                        child: cardIngredient(index),
-                      ),
-                      back: Container(
-                        child: cardSelect(index),
+                    new Container(
+                      child: Column(
+                        children: [
+                          new Row(
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(top: 20.0, left: 30),
+                                  child: Text(
+                                    'Ingredientes',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 24.0),
+                                  ))
+                            ],
+                          ),
+                          new Container(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 20.0, right: 30, left: 30),
+                              child: TextFormField(
+                                controller: _searchController,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.search),
+                                  labelText: 'O que deseja?',
+                                  border: OutlineInputBorder(),
+                                  suffixIcon: new IconButton(
+                                    icon: new Icon(Icons.filter_list),
+                                    onPressed: () {
+                                      setState(() {
+                                        _visibilityFilters =
+                                            !_visibilityFilters;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    new Visibility(
+                      visible: _visibilityFilters,
+                      child: new Container(
+                        margin: const EdgeInsets.all(30),
+                        child: new SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children:
+                                List.generate(listFilters.length, (index) {
+                              return FlipCard(
+                                speed: 1,
+                                front: Container(
+                                  child: filter(listFilters, index,
+                                      Colors.white, ColorsUtils.darkBlue),
+                                ),
+                                back: Container(
+                                  child: filter(listFilters, index,
+                                      ColorsUtils.darkBlue, Colors.white),
+                                ),
+                              );
+                            }),
+                          ),
+                        ),
+                      ),
+                    ),
+                    new Container(
+                      margin: const EdgeInsets.only(left: 30, right: 30),
+                      child: new Column(
+                        children:
+                            List.generate(listIngredients.length, (index) {
+                          return Padding(
+                            padding: EdgeInsets.all(0),
+                            child: Column(
+                              children: [
+                                FlipCard(
+                                  front: Container(
+                                    child: cardIngredient(index),
+                                  ),
+                                  back: Container(
+                                    child: cardSelect(index),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                      ),
+                    )
                   ],
-                ),
-              );
-            }),
-          ),
-        )
-      ],
-    )));
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            }));
+  }
+
+  @override
+  Widget build(BuildContext buildContext) {
+    return Scaffold(body: buildAsyncPage());
   }
 }
 
