@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myownmenu/models/Ingredient.dart';
+import 'package:myownmenu/models/RecipeIngredient.dart';
 import 'package:myownmenu/models/Step.dart' as RecipeStep;
+import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/service/IngredientService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
@@ -36,7 +38,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
   TextEditingController _ingredientController = TextEditingController();
   TextEditingController _prepareModeController = TextEditingController();
   List<Ingredient> listIngredients = [];
-  List<Ingredient> listIngredientsSelected = [];
+  List<RecipeIngredient> listIngredientsSelected = [];
   List<RecipeStep.Step> listPrepareMode = [];
   List<bool> listVisible = _getVisibility();
   bool _visibleIngredient = false;
@@ -57,6 +59,10 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
               height: 40,
               child: new TextFormField(
                 controller: controllertxt,
+                autovalidateMode: AutovalidateMode.always,
+                validator: (value) {
+                  listIngredientsSelected[index].quantity = controllertxt.text;
+                },
                 decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: ColorsUtils.darkYellow),
@@ -72,7 +78,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                   new Padding(
                     padding: EdgeInsets.only(top: 10, right: 15, bottom: 5),
                     child: new Text(
-                      listIngredientsSelected[index].name,
+                      listIngredientsSelected[index].ingredient.name,
                       style: new TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -107,6 +113,8 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
             initialData: [],
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
+                print(
+                    '>>>listIngredients: ' + listIngredients.length.toString());
                 List<dynamic> ingredientsName = [];
                 snapshot.data.forEach(
                     (ingredient) => ingredientsName.add(ingredient.getName()));
@@ -186,7 +194,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                           },
                                           controller: _ingredientController,
                                           decoration: new InputDecoration(
-                                            labelText: 'Ingediente',
+                                            labelText: 'Ingrediente',
                                             border: new OutlineInputBorder(),
                                             suffixIcon: new Icon(
                                               Icons.extension,
@@ -217,8 +225,8 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                         );
                                                       } else if (((_ingredientController
                                                                   .text !=
-                                                              "") &&
-                                                          ((ingredientsName.contains(
+                                                              null) &&
+                                                          ((!ingredientsName.contains(
                                                               _ingredientController
                                                                   .text))))) {
                                                         ScaffoldMessenger.of(
@@ -229,13 +237,42 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                                   'O ingrediente não existe!')),
                                                         );
                                                       } else {
-                                                        listIngredientsSelected.add(
-                                                            listIngredients.elementAt(
-                                                                listIngredients.indexWhere((element) =>
-                                                                    element
-                                                                        .name ==
-                                                                    _ingredientController
-                                                                        .text)));
+                                                        print(
+                                                            'listIngredients: ' +
+                                                                listIngredients
+                                                                    .length
+                                                                    .toString());
+                                                        // print(
+                                                        //     'listIngredients: ' +
+                                                        //         listIngredients[
+                                                        //                 0]
+                                                        //             .toJson()
+                                                        //             .toString());
+                                                        for (var ingredient
+                                                            in listIngredients) {
+                                                          if (ingredient.name ==
+                                                              _ingredientController
+                                                                  .text) {
+                                                            Ingredient
+                                                                newIngredient =
+                                                                listIngredients
+                                                                    .elementAt(listIngredients
+                                                                        .indexOf(
+                                                                            ingredient));
+                                                            Type newType =
+                                                                newIngredient
+                                                                    .type;
+                                                            RecipeIngredient
+                                                                newRecipeIngredient =
+                                                                RecipeIngredient(
+                                                                    newType,
+                                                                    newIngredient,
+                                                                    '');
+                                                            listIngredientsSelected
+                                                                .add(
+                                                                    newRecipeIngredient);
+                                                          }
+                                                        }
                                                       }
                                                     });
                                                   },
@@ -273,11 +310,13 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                     child: new Container(
                                         child: ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount: listIngredients.length,
+                                            itemCount:
+                                                listIngredientsSelected.length,
                                             itemBuilder: (context, index) {
                                               _controllers.add(
                                                   new TextEditingController());
-                                              if (listIngredients.isEmpty) {
+                                              if (listIngredientsSelected
+                                                  .isEmpty) {
                                                 return CircularProgressIndicator();
                                               } else {
                                                 return singleItemList(
@@ -447,6 +486,18 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                 );
                                               } else {
                                                 try {
+                                                  print('ingrediente: ' +
+                                                      listIngredientsSelected
+                                                          .first
+                                                          .toJson()
+                                                          .toString());
+                                                  print(
+                                                      "---------------------------");
+                                                  print('tipo: ' +
+                                                      listIngredientsSelected
+                                                          .first.type
+                                                          .toJson()
+                                                          .toString());
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     const SnackBar(
