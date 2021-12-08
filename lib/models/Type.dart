@@ -14,9 +14,9 @@ class Type implements JsonMapper {
 
   @override
   Map<String, Object?> toJson() => {
-        'name': name,
-        'image': image,
-      };
+    'name': name,
+    'image': image,
+  };
 
   static Type fromSnapshot(snapshot) {
     String name = snapshot['name'];
