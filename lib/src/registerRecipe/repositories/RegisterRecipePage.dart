@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myownmenu/models/Ingredient.dart';
 import 'package:myownmenu/models/Step.dart' as RecipeStep;
 import 'package:myownmenu/service/IngredientService.dart';
@@ -31,10 +32,12 @@ class RegisterRecipePage extends StatefulWidget {
 
 class _RegisterRecipePageState extends State<RegisterRecipePage> {
   TextEditingController _nameController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
   TextEditingController _ingredientController = TextEditingController();
   TextEditingController _prepareModeController = TextEditingController();
-  late List<String> listIngredients = [];
-  late List<RecipeStep.Step> listPrepareMode = [];
+  List<Ingredient> listIngredients = [];
+  List<Ingredient> listIngredientsSelected = [];
+  List<RecipeStep.Step> listPrepareMode = [];
   List<bool> listVisible = _getVisibility();
   bool _visibleIngredient = false;
   bool _visiblePrepareMode = false;
@@ -69,7 +72,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                   new Padding(
                     padding: EdgeInsets.only(top: 10, right: 15, bottom: 5),
                     child: new Text(
-                      listIngredients[index],
+                      listIngredientsSelected[index].name,
                       style: new TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -82,7 +85,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                 child: new ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      listIngredients.removeAt(index);
+                      listIngredientsSelected.removeAt(index);
                     });
                   },
                   child: new Icon(
@@ -147,6 +150,28 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                       ),
                                     ),
                                   ),
+                                  new Container(
+                                    padding: EdgeInsets.only(top: 30.0),
+                                    child: new TextFormField(
+                                      validator: (value) {
+                                        if (_timeController.text.isEmpty) {
+                                          return 'Campo Obrigatório!';
+                                        }
+                                      },
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9]"))
+                                      ],
+                                      controller: _timeController,
+                                      decoration: new InputDecoration(
+                                        labelText: 'Tempo (minutos)',
+                                        border: new OutlineInputBorder(),
+                                        suffixIcon: new Icon(
+                                          Icons.timer,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                   new Padding(
                                     padding: EdgeInsets.only(top: 30),
                                     child: new Row(children: [
@@ -154,7 +179,8 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                         flex: 6,
                                         child: new TextFormField(
                                           validator: (value) {
-                                            if (listIngredients.isEmpty) {
+                                            if (listIngredientsSelected
+                                                .isEmpty) {
                                               return 'Campo Obrigatório!';
                                             }
                                           },
@@ -203,11 +229,13 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                                   'O ingrediente não existe!')),
                                                         );
                                                       } else {
-                                                        listIngredients.add(
-                                                            _ingredientController
-                                                                .text);
-                                                        // myControllers
-                                                        //     .add(TextEditingController());
+                                                        listIngredientsSelected.add(
+                                                            listIngredients.elementAt(
+                                                                listIngredients.indexWhere((element) =>
+                                                                    element
+                                                                        .name ==
+                                                                    _ingredientController
+                                                                        .text)));
                                                       }
                                                     });
                                                   },
@@ -220,7 +248,8 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                         width: 10,
                                       ),
                                       new Visibility(
-                                          visible: listIngredients.isNotEmpty,
+                                          visible: listIngredientsSelected
+                                              .isNotEmpty,
                                           child: new Expanded(
                                               flex: 2,
                                               child: new SizedBox(
@@ -418,21 +447,17 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                 );
                                               } else {
                                                 try {
-                                                  print('listPrepareMode: ' +
-                                                      listPrepareMode                              [0]
-                                                          .description
-                                                          .toString());
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const RegisterRecipe()),
-                                                  );
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     const SnackBar(
                                                         content: Text(
                                                             'Salvo com sucesso!')),
+                                                  );
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const RegisterRecipe()),
                                                   );
                                                 } on FirebaseAuthException catch (error) {
                                                   print(error.code);
