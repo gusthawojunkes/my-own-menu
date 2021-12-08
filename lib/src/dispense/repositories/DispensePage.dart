@@ -13,7 +13,7 @@ class Dispense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Receitas',
+      title: 'Dispensa',
       theme: themeApp(),
       debugShowCheckedModeBanner: false,
       home: DispensePage(),
@@ -35,20 +35,7 @@ class _DispensePageState extends State<DispensePage> {
   bool visibilityFilter = false;
   final _searchController = TextEditingController();
 
-  @override
-  // ignore: must_call_super
-  initState() {
-    startAsyncInit();
-  }
-
-  Future startAsyncInit() async {
-    setState(() async {
-      listFilters = await TypeService.getAll();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  buildAsyncPage() {
     Widget filter(
         listFilters, int index, dynamic backgroundColor, dynamic fontColor) {
       return Card(
@@ -157,102 +144,131 @@ class _DispensePageState extends State<DispensePage> {
       );
     }
 
-    return Scaffold(body: LayoutBuilder(
+    return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
-      return SingleChildScrollView(
-          child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: viewportConstraints.maxHeight,
-              ),
-              child: new Padding(
-                  padding: EdgeInsets.only(right: 30, left: 30, bottom: 30),
-                  child: new Column(
-                    children: [
-                      new Container(
-                        child: Column(
-                          children: [
-                            new Row(
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.only(top: 20.0),
-                                    child: Text(
-                                      'Dispensa',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 24.0),
-                                    ))
-                              ],
-                            ),
-                            new Container(
-                              padding: EdgeInsets.only(top: 10),
-                              child: new TextFormField(
-                                controller: _searchController,
-                                decoration: new InputDecoration(
-                                  prefixIcon: new Icon(Icons.search),
-                                  labelText: 'O que deseja?',
-                                  border: new OutlineInputBorder(),
-                                  suffixIcon: new IconButton(
-                                    icon: new Icon(Icons.filter_list),
-                                    onPressed: () {
-                                      setState(() {
-                                        visibilityFilter = !visibilityFilter;
-                                      });
-                                    },
+      return FutureBuilder(
+          future: TypeService.getAll(),
+          initialData: [],
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              for (var i in snapshot.data) {
+                print(i.name);
+              }
+              return SingleChildScrollView(
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: viewportConstraints.maxHeight,
+                      ),
+                      child: new Padding(
+                          padding:
+                              EdgeInsets.only(right: 30, left: 30, bottom: 30),
+                          child: new Column(
+                            children: [
+                              new Container(
+                                child: Column(
+                                  children: [
+                                    new Row(
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(top: 20.0),
+                                            child: Text(
+                                              'Dispensa',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 24.0),
+                                            ))
+                                      ],
+                                    ),
+                                    new Container(
+                                      padding: EdgeInsets.only(top: 10),
+                                      child: new TextFormField(
+                                        controller: _searchController,
+                                        decoration: new InputDecoration(
+                                          prefixIcon: new Icon(Icons.search),
+                                          labelText: 'O que deseja?',
+                                          border: new OutlineInputBorder(),
+                                          suffixIcon: new IconButton(
+                                            icon: new Icon(Icons.filter_list),
+                                            onPressed: () {
+                                              setState(() {
+                                                visibilityFilter =
+                                                    !visibilityFilter;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              new Visibility(
+                                visible: visibilityFilter,
+                                child: new Container(
+                                  child: new SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: new Row(
+                                      children: List.generate(
+                                          listFilters.length, (index) {
+                                        return new FlipCard(
+                                          speed: 1,
+                                          front: new Container(
+                                            child: filter(
+                                                listFilters,
+                                                index,
+                                                Colors.white,
+                                                ColorsUtils.darkBlue),
+                                          ),
+                                          back: new Container(
+                                            child: filter(
+                                                listFilters,
+                                                index,
+                                                ColorsUtils.darkBlue,
+                                                Colors.white),
+                                          ),
+                                        );
+                                      }),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      new Visibility(
-                        visible: visibilityFilter,
-                        child: new Container(
-                          child: new SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: new Row(
-                              children:
-                                  List.generate(listFilters.length, (index) {
-                                return new FlipCard(
-                                  speed: 1,
-                                  front: new Container(
-                                    child: filter(listFilters, index,
-                                        Colors.white, ColorsUtils.darkBlue),
-                                  ),
-                                  back: new Container(
-                                    child: filter(listFilters, index,
-                                        ColorsUtils.darkBlue, Colors.white),
-                                  ),
-                                );
-                              }),
-                            ),
-                          ),
-                        ),
-                      ),
-                      new Column(
-                        children:
-                            List.generate(listIngredients.length, (index) {
-                          return new Padding(
-                            padding: EdgeInsets.all(0),
-                            child: new Column(
-                              children: [
-                                new FlipCard(
-                                  front: new Visibility(
-                                    visible: listVisible[index],
-                                    child: cardIngredient(index),
-                                  ),
-                                  back: new Visibility(
-                                    visible: listVisible[index],
-                                    child: cardSelect(index, listIngredients),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
-                      )
-                    ],
-                  ))));
-    }));
+                              new Column(
+                                children: List.generate(listIngredients.length,
+                                    (index) {
+                                  return new Padding(
+                                    padding: EdgeInsets.all(0),
+                                    child: new Column(
+                                      children: [
+                                        new FlipCard(
+                                          front: new Visibility(
+                                            visible: listVisible[index],
+                                            child: cardIngredient(index),
+                                          ),
+                                          back: new Visibility(
+                                            visible: listVisible[index],
+                                            child: cardSelect(
+                                                index, listIngredients),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                              )
+                            ],
+                          ))));
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: buildAsyncPage());
   }
 }
 
