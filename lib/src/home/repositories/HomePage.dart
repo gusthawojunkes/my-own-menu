@@ -6,14 +6,11 @@ import 'package:myownmenu/src/registerRecipe/repositories/RegisterRecipePage.dar
 import 'package:myownmenu/src/registerType/repositories/RegisterTypePage.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/src/recipe/repositories/RecipePage.dart';
-import 'package:myownmenu/src/notification/repositories/NotificationPage.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/src/welcome/repositories/WelcomePage.dart';
-import 'package:myownmenu/src/configuration/repositories/ConfigurationPage.dart';
 import 'package:myownmenu/src/dispense/repositories/DispensePage.dart';
 import 'package:myownmenu/src/ingredient/repositories/IngredientPage.dart';
 import 'package:myownmenu/src/login/repositories/LoginPage.dart';
-import 'package:myownmenu/src/profile/repositories/ProfilePage.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
 
 class Home extends StatelessWidget {
@@ -47,14 +44,11 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   int _currentIndex = 0;
   dynamic _selectedDestination;
-  final List? _options = [
+  final List _options = [
     WelcomePage(),
     RecipePage(),
-    NotificationPage(),
     Dispense(),
     Ingredient(),
-    Configuration(),
-    Profile(),
     RegisterRecipe(),
     RegisterIngredient(),
     RegisterGoal(),
@@ -95,45 +89,19 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: [
                     ListTile(
-                      leading: Icon(Icons.featured_play_list,
-                          color: ColorsUtils.darkBlue),
-                      title: Text('Dispensa',
-                          style: TextStyle(color: ColorsUtils.darkBlue)),
-                      selected: _selectedDestination == 0,
-                      onTap: () => {sideBarDestination(3)},
-                    ),
-                    ListTile(
                       leading:
                           Icon(Icons.local_cafe, color: ColorsUtils.darkBlue),
                       title: Text('Ingredientes',
                           style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: (_selectedDestination == 1),
-                      onTap: () => {sideBarDestination(4)},
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.build, color: ColorsUtils.darkBlue),
-                      title: Text('Configurações',
-                          style: TextStyle(color: ColorsUtils.darkBlue)),
-                      selected: _selectedDestination == 2,
-                      onTap: () => {sideBarDestination(5)},
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.account_circle,
-                          color: ColorsUtils.darkBlue),
-                      title: Text('Perfil',
-                          style: TextStyle(color: ColorsUtils.darkBlue)),
-                      selected: _selectedDestination == 3,
-                      onTap: () => {sideBarDestination(6)},
-                    ),
-                    ListTile(
-                      title: Divider(),
+                      onTap: () => { sideBarDestination(3) },
                     ),
                     ListTile(
                       leading: Icon(Icons.create, color: ColorsUtils.darkBlue),
                       title: Text('Receita',
                           style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 4,
-                      onTap: () => {sideBarDestination(7)},
+                      onTap: () => { sideBarDestination(4) },
                     ),
                     ListTile(
                       leading: Icon(Icons.create_outlined,
@@ -141,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                       title: Text('Ingrediente',
                           style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 5,
-                      onTap: () => {sideBarDestination(8)},
+                      onTap: () => { sideBarDestination(5) },
                     ),
                     ListTile(
                       leading: Icon(Icons.create_rounded,
@@ -149,9 +117,7 @@ class _HomePageState extends State<HomePage> {
                       title: Text('Objetivo',
                           style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 6,
-                      onTap: () => {
-                        sideBarDestination(9),
-                      },
+                      onTap: () => { sideBarDestination(6) },
                     ),
                     ListTile(
                       leading: Icon(Icons.create_outlined,
@@ -159,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                       title: Text('Tipo',
                           style: TextStyle(color: ColorsUtils.darkBlue)),
                       selected: _selectedDestination == 7,
-                      onTap: () => {sideBarDestination(10)},
+                      onTap: () => { sideBarDestination(7) },
                     ),
                     ListTile(
                       title: Divider(),
@@ -184,7 +150,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: _options![_selectedIndex],
+      body: _options[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
@@ -198,8 +164,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Receitas',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notificações',
+            icon: Icon(Icons.featured_play_list),
+            label: 'Dispensa',
           ),
         ],
       ),
@@ -214,7 +180,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void sideBarDestination(int selected) {
+  void  sideBarDestination(int selected)  {
     setState(() {
       _selectedDestination = selected - 3;
       _selectedIndex = selected;
