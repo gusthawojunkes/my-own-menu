@@ -37,7 +37,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
   TextEditingController _timeController = TextEditingController();
   TextEditingController _ingredientController = TextEditingController();
   TextEditingController _prepareModeController = TextEditingController();
-  List<Ingredient> listIngredients = [];
+  List<dynamic> listIngredients = [];
   List<RecipeIngredient> listIngredientsSelected = [];
   List<RecipeStep.Step> listPrepareMode = [];
   List<bool> listVisible = _getVisibility();
@@ -107,434 +107,409 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
   }
 
   buildAsyncPage() {
-    return SingleChildScrollView(
-        child: FutureBuilder<List<Ingredient>>(
-            future: IngredientService.getAll(),
-            initialData: [],
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                print(
-                    '>>>listIngredients: ' + listIngredients.length.toString());
-                List<dynamic> ingredientsName = [];
-                snapshot.data.forEach(
-                    (ingredient) => ingredientsName.add(ingredient.getName()));
-                ingredientsName = Helper.unique(ingredientsName);
-                return new SingleChildScrollView(
-                    child: new Form(
-                  key: _formKey,
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      new Padding(
-                          padding: EdgeInsets.all(30),
-                          child: Column(
-                            children: [
-                              new Row(
-                                children: [
-                                  new Text(
-                                    'Cadastro de Receita',
-                                    style: new TextStyle(
-                                        color: Colors.black, fontSize: 24.0),
-                                  )
-                                ],
-                              ),
-                              new Column(
-                                children: [
-                                  new Container(
-                                    padding: EdgeInsets.only(top: 30.0),
-                                    child: new TextFormField(
-                                      validator: (value) {
-                                        if (_nameController.text.isEmpty) {
-                                          return 'Campo Obrigatório!';
-                                        }
-                                      },
-                                      controller: _nameController,
-                                      decoration: new InputDecoration(
-                                        labelText: 'Nome',
-                                        border: new OutlineInputBorder(),
-                                        suffixIcon: new Icon(
-                                          Icons.room_service,
-                                        ),
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+      return FutureBuilder(
+          future: IngredientService.getAll(),
+          initialData: [],
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              listIngredients = snapshot.data;
+              List<dynamic> ingredientsName = [];
+              snapshot.data.forEach(
+                  (ingredient) => ingredientsName.add(ingredient.getName()));
+              ingredientsName = Helper.unique(ingredientsName);
+              return new SingleChildScrollView(
+                  child: new Form(
+                key: _formKey,
+                child: new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    new Padding(
+                        padding: EdgeInsets.all(30),
+                        child: Column(
+                          children: [
+                            new Row(
+                              children: [
+                                new Text(
+                                  'Cadastro de Receita',
+                                  style: new TextStyle(
+                                      color: Colors.black, fontSize: 24.0),
+                                )
+                              ],
+                            ),
+                            new Column(
+                              children: [
+                                new Container(
+                                  padding: EdgeInsets.only(top: 30.0),
+                                  child: new TextFormField(
+                                    validator: (value) {
+                                      if (_nameController.text.isEmpty) {
+                                        return 'Campo Obrigatório!';
+                                      }
+                                    },
+                                    controller: _nameController,
+                                    decoration: new InputDecoration(
+                                      labelText: 'Nome',
+                                      border: new OutlineInputBorder(),
+                                      suffixIcon: new Icon(
+                                        Icons.room_service,
                                       ),
                                     ),
                                   ),
-                                  new Container(
-                                    padding: EdgeInsets.only(top: 30.0),
-                                    child: new TextFormField(
-                                      validator: (value) {
-                                        if (_timeController.text.isEmpty) {
-                                          return 'Campo Obrigatório!';
-                                        }
-                                      },
-                                      inputFormatters: <TextInputFormatter>[
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp("[0-9]"))
-                                      ],
-                                      controller: _timeController,
-                                      decoration: new InputDecoration(
-                                        labelText: 'Tempo (minutos)',
-                                        border: new OutlineInputBorder(),
-                                        suffixIcon: new Icon(
-                                          Icons.timer,
-                                        ),
+                                ),
+                                new Container(
+                                  padding: EdgeInsets.only(top: 30.0),
+                                  child: new TextFormField(
+                                    validator: (value) {
+                                      if (_timeController.text.isEmpty) {
+                                        return 'Campo Obrigatório!';
+                                      }
+                                    },
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9]"))
+                                    ],
+                                    controller: _timeController,
+                                    decoration: new InputDecoration(
+                                      labelText: 'Tempo (minutos)',
+                                      border: new OutlineInputBorder(),
+                                      suffixIcon: new Icon(
+                                        Icons.timer,
                                       ),
                                     ),
                                   ),
-                                  new Padding(
-                                    padding: EdgeInsets.only(top: 30),
-                                    child: new Row(children: [
-                                      new Expanded(
-                                        flex: 6,
-                                        child: new TextFormField(
-                                          validator: (value) {
-                                            if (listIngredientsSelected
-                                                .isEmpty) {
-                                              return 'Campo Obrigatório!';
-                                            }
-                                          },
-                                          controller: _ingredientController,
-                                          decoration: new InputDecoration(
-                                            labelText: 'Ingrediente',
-                                            border: new OutlineInputBorder(),
-                                            suffixIcon: new Icon(
-                                              Icons.extension,
-                                            ),
+                                ),
+                                new Padding(
+                                  padding: EdgeInsets.only(top: 30),
+                                  child: new Row(children: [
+                                    new Expanded(
+                                      flex: 6,
+                                      child: new TextFormField(
+                                        validator: (value) {
+                                          if (listIngredientsSelected.isEmpty) {
+                                            return 'Campo Obrigatório!';
+                                          }
+                                        },
+                                        controller: _ingredientController,
+                                        decoration: new InputDecoration(
+                                          labelText: 'Ingrediente',
+                                          border: new OutlineInputBorder(),
+                                          suffixIcon: new Icon(
+                                            Icons.extension,
                                           ),
                                         ),
                                       ),
-                                      new SizedBox(
-                                        width: 10,
-                                      ),
-                                      new Expanded(
-                                          flex: 2,
-                                          child: new Visibility(
-                                              visible: true,
-                                              child: new SizedBox(
-                                                height: 60,
-                                                child: new ElevatedButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      if (_ingredientController
-                                                          .text.isEmpty) {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          const SnackBar(
-                                                              content: Text(
-                                                                  'O valor inserido não pode ser vazio!')),
-                                                        );
-                                                      } else if (((_ingredientController
-                                                                  .text !=
-                                                              null) &&
-                                                          ((!ingredientsName.contains(
-                                                              _ingredientController
-                                                                  .text))))) {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                              content: Text(
-                                                                  'O ingrediente não existe!')),
-                                                        );
-                                                      } else {
-                                                        print(
-                                                            'listIngredients: ' +
-                                                                listIngredients
-                                                                    .length
-                                                                    .toString());
-                                                        // print(
-                                                        //     'listIngredients: ' +
-                                                        //         listIngredients[
-                                                        //                 0]
-                                                        //             .toJson()
-                                                        //             .toString());
-                                                        for (var ingredient
-                                                            in listIngredients) {
-                                                          if (ingredient.name ==
-                                                              _ingredientController
-                                                                  .text) {
-                                                            Ingredient
-                                                                newIngredient =
-                                                                listIngredients
-                                                                    .elementAt(listIngredients
-                                                                        .indexOf(
-                                                                            ingredient));
-                                                            Type newType =
-                                                                newIngredient
-                                                                    .type;
-                                                            RecipeIngredient
-                                                                newRecipeIngredient =
-                                                                RecipeIngredient(
-                                                                    newType,
-                                                                    newIngredient,
-                                                                    '');
-                                                            listIngredientsSelected
-                                                                .add(
-                                                                    newRecipeIngredient);
-                                                          }
+                                    ),
+                                    new SizedBox(
+                                      width: 10,
+                                    ),
+                                    new Expanded(
+                                        flex: 2,
+                                        child: new Visibility(
+                                            visible: true,
+                                            child: new SizedBox(
+                                              height: 60,
+                                              child: new ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    if (_ingredientController
+                                                        .text.isEmpty) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                            content: Text(
+                                                                'O valor inserido não pode ser vazio!')),
+                                                      );
+                                                    } else if (((_ingredientController
+                                                                // ignore: unnecessary_null_comparison
+                                                                .text !=
+                                                            null) &&
+                                                        ((!ingredientsName.contains(
+                                                            _ingredientController
+                                                                .text))))) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                            content: Text(
+                                                                'O ingrediente não existe!')),
+                                                      );
+                                                    } else {
+                                                      for (var ingredient
+                                                          in listIngredients) {
+                                                        if (ingredient.name ==
+                                                            _ingredientController
+                                                                .text) {
+                                                          Ingredient
+                                                              newIngredient =
+                                                              listIngredients
+                                                                  .elementAt(listIngredients
+                                                                      .indexOf(
+                                                                          ingredient));
+                                                          Type newType =
+                                                              newIngredient
+                                                                  .type;
+                                                          RecipeIngredient
+                                                              newRecipeIngredient =
+                                                              RecipeIngredient(
+                                                                  newType,
+                                                                  newIngredient,
+                                                                  '');
+                                                          listIngredientsSelected
+                                                              .add(
+                                                                  newRecipeIngredient);
                                                         }
                                                       }
-                                                    });
-                                                  },
-                                                  child: new Icon(
-                                                    Icons.add,
-                                                  ),
+                                                    }
+                                                  });
+                                                },
+                                                child: new Icon(
+                                                  Icons.add,
                                                 ),
-                                              ))),
-                                      new SizedBox(
-                                        width: 10,
-                                      ),
-                                      new Visibility(
-                                          visible: listIngredientsSelected
-                                              .isNotEmpty,
-                                          child: new Expanded(
-                                              flex: 2,
-                                              child: new SizedBox(
-                                                height: 60,
-                                                child: new ElevatedButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      _visibleIngredient =
-                                                          !_visibleIngredient;
-                                                    });
-                                                  },
-                                                  child: new Icon(
-                                                    Icons.visibility,
-                                                  ),
+                                              ),
+                                            ))),
+                                    new SizedBox(
+                                      width: 10,
+                                    ),
+                                    new Visibility(
+                                        visible:
+                                            listIngredientsSelected.isNotEmpty,
+                                        child: new Expanded(
+                                            flex: 2,
+                                            child: new SizedBox(
+                                              height: 60,
+                                              child: new ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _visibleIngredient =
+                                                        !_visibleIngredient;
+                                                  });
+                                                },
+                                                child: new Icon(
+                                                  Icons.visibility,
                                                 ),
-                                              )))
-                                    ]),
-                                  ),
-                                  new Visibility(
-                                    visible: _visibleIngredient,
-                                    child: new Container(
-                                        child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount:
-                                                listIngredientsSelected.length,
-                                            itemBuilder: (context, index) {
-                                              _controllers.add(
-                                                  new TextEditingController());
-                                              if (listIngredientsSelected
-                                                  .isEmpty) {
-                                                return CircularProgressIndicator();
-                                              } else {
-                                                return singleItemList(
-                                                    index, _controllers[index]);
-                                              }
-                                            })),
-                                  ),
-                                  new Padding(
-                                    padding: EdgeInsets.only(top: 30),
-                                    child: new Row(children: [
-                                      new Expanded(
-                                        flex: 6,
-                                        child: new TextFormField(
-                                          validator: (value) {
-                                            if (listPrepareMode.isEmpty) {
-                                              return 'Campo Obrigatório!';
+                                              ),
+                                            )))
+                                  ]),
+                                ),
+                                new Visibility(
+                                  visible: _visibleIngredient,
+                                  child: new Container(
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount:
+                                              listIngredientsSelected.length,
+                                          itemBuilder: (context, index) {
+                                            _controllers.add(
+                                                new TextEditingController());
+                                            if (listIngredientsSelected
+                                                .isEmpty) {
+                                              return CircularProgressIndicator();
+                                            } else {
+                                              return singleItemList(
+                                                  index, _controllers[index]);
                                             }
-                                          },
-                                          controller: _prepareModeController,
-                                          decoration: new InputDecoration(
-                                            labelText: 'Modo de Preparo',
-                                            border: new OutlineInputBorder(),
-                                            suffixIcon: new Icon(
-                                              Icons.local_dining,
-                                            ),
+                                          })),
+                                ),
+                                new Padding(
+                                  padding: EdgeInsets.only(top: 30),
+                                  child: new Row(children: [
+                                    new Expanded(
+                                      flex: 6,
+                                      child: new TextFormField(
+                                        validator: (value) {
+                                          if (listPrepareMode.isEmpty) {
+                                            return 'Campo Obrigatório!';
+                                          }
+                                        },
+                                        controller: _prepareModeController,
+                                        decoration: new InputDecoration(
+                                          labelText: 'Modo de Preparo',
+                                          border: new OutlineInputBorder(),
+                                          suffixIcon: new Icon(
+                                            Icons.local_dining,
                                           ),
                                         ),
                                       ),
-                                      new SizedBox(
-                                        width: 10,
-                                      ),
-                                      new Expanded(
-                                          flex: 2,
-                                          child: new SizedBox(
-                                            height: 60,
-                                            child: new ElevatedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  if (_prepareModeController
-                                                      .text.isEmpty) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      const SnackBar(
-                                                          content: Text(
-                                                              'O valor inserido não pode ser vazio!')),
-                                                    );
-                                                  } else {
-                                                    _sequenceCounter++;
-                                                    listPrepareMode.add(
-                                                        RecipeStep.Step(
-                                                            _prepareModeController
-                                                                .text,
-                                                            _sequenceCounter));
-                                                  }
-                                                });
-                                              },
-                                              child: new Icon(
-                                                Icons.add,
-                                              ),
+                                    ),
+                                    new SizedBox(
+                                      width: 10,
+                                    ),
+                                    new Expanded(
+                                        flex: 2,
+                                        child: new SizedBox(
+                                          height: 60,
+                                          child: new ElevatedButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                if (_prepareModeController
+                                                    .text.isEmpty) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                        content: Text(
+                                                            'O valor inserido não pode ser vazio!')),
+                                                  );
+                                                } else {
+                                                  _sequenceCounter++;
+                                                  listPrepareMode.add(
+                                                      RecipeStep.Step(
+                                                          _prepareModeController
+                                                              .text,
+                                                          _sequenceCounter));
+                                                }
+                                              });
+                                            },
+                                            child: new Icon(
+                                              Icons.add,
                                             ),
-                                          )),
-                                      new SizedBox(
-                                        width: 10,
-                                      ),
-                                      new Visibility(
-                                          visible: listPrepareMode.isNotEmpty,
-                                          child: new Expanded(
-                                              flex: 2,
-                                              child: new SizedBox(
-                                                height: 60,
-                                                child: new ElevatedButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      _visiblePrepareMode =
-                                                          !_visiblePrepareMode;
-                                                    });
-                                                  },
-                                                  child: new Icon(
-                                                    Icons.visibility,
-                                                  ),
+                                          ),
+                                        )),
+                                    new SizedBox(
+                                      width: 10,
+                                    ),
+                                    new Visibility(
+                                        visible: listPrepareMode.isNotEmpty,
+                                        child: new Expanded(
+                                            flex: 2,
+                                            child: new SizedBox(
+                                              height: 60,
+                                              child: new ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _visiblePrepareMode =
+                                                        !_visiblePrepareMode;
+                                                  });
+                                                },
+                                                child: new Icon(
+                                                  Icons.visibility,
                                                 ),
-                                              )))
-                                    ]),
-                                  ),
-                                  new Visibility(
-                                      visible: _visiblePrepareMode,
-                                      child: new Padding(
-                                          padding: EdgeInsets.only(top: 10),
-                                          child: new Column(
-                                            children: List.generate(
-                                                listPrepareMode
-                                                    .cast<String>()
-                                                    .length,
-                                                (index) => new Card(
-                                                      child: new Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          new Column(
-                                                            children: [
-                                                              new Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        top: 10,
-                                                                        right:
-                                                                            15,
-                                                                        bottom:
-                                                                            5),
-                                                                child: new Text(
-                                                                  listPrepareMode[
-                                                                          index]
-                                                                      .description,
-                                                                  style:
-                                                                      new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
+                                              ),
+                                            )))
+                                  ]),
+                                ),
+                                new Visibility(
+                                    visible: _visiblePrepareMode,
+                                    child: new Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: new Column(
+                                          children: List.generate(
+                                              listPrepareMode
+                                                  .cast<String>()
+                                                  .length,
+                                              (index) => new Card(
+                                                    child: new Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        new Column(
+                                                          children: [
+                                                            new Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10,
+                                                                      right: 15,
+                                                                      bottom:
+                                                                          5),
+                                                              child: new Text(
+                                                                listPrepareMode[
+                                                                        index]
+                                                                    .description,
+                                                                style:
+                                                                    new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
                                                                 ),
                                                               ),
-                                                            ],
-                                                          ),
-                                                          new SizedBox(
-                                                            height: 60,
-                                                            child:
-                                                                new ElevatedButton(
-                                                              onPressed: () {
-                                                                setState(() {
-                                                                  listPrepareMode
-                                                                      .removeAt(
-                                                                          index);
-                                                                });
-                                                              },
-                                                              child: new Icon(
-                                                                Icons
-                                                                    .indeterminate_check_box,
-                                                              ),
                                                             ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                          ))),
-                                ],
-                              ),
-                              new Container(
-                                padding: EdgeInsets.only(top: 30),
-                                child: Column(
-                                  children: [
-                                    new Container(
-                                        width: double.infinity,
-                                        child: ElevatedButton(
-                                            child: const Text('Cadastrar'),
-                                            onPressed: () {
-                                              if (!_formKey.currentState!
-                                                  .validate()) {
+                                                          ],
+                                                        ),
+                                                        new SizedBox(
+                                                          height: 60,
+                                                          child:
+                                                              new ElevatedButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                listPrepareMode
+                                                                    .removeAt(
+                                                                        index);
+                                                              });
+                                                            },
+                                                            child: new Icon(
+                                                              Icons
+                                                                  .indeterminate_check_box,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                        ))),
+                              ],
+                            ),
+                            new Container(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Column(
+                                children: [
+                                  new Container(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                          child: const Text('Cadastrar'),
+                                          onPressed: () {
+                                            if (!_formKey.currentState!
+                                                .validate()) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Verifique o formulário!')),
+                                              );
+                                            } else {
+                                              try {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   const SnackBar(
                                                       content: Text(
-                                                          'Verifique o formulário!')),
+                                                          'Salvo com sucesso!')),
                                                 );
-                                              } else {
-                                                try {
-                                                  print('ingrediente: ' +
-                                                      listIngredientsSelected
-                                                          .first
-                                                          .toJson()
-                                                          .toString());
-                                                  print(
-                                                      "---------------------------");
-                                                  print('tipo: ' +
-                                                      listIngredientsSelected
-                                                          .first.type
-                                                          .toJson()
-                                                          .toString());
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    const SnackBar(
-                                                        content: Text(
-                                                            'Salvo com sucesso!')),
-                                                  );
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const RegisterRecipe()),
-                                                  );
-                                                } on FirebaseAuthException catch (error) {
-                                                  print(error.code);
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    const SnackBar(
-                                                        content: Text(
-                                                            'Erro! Tente mais tarde.')),
-                                                  );
-                                                }
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const RegisterRecipe()),
+                                                );
+                                              } on FirebaseAuthException catch (error) {
+                                                print(error.code);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                      content: Text(
+                                                          'Erro! Tente mais tarde.')),
+                                                );
                                               }
-                                            })),
-                                  ],
-                                ),
-                              )
-                            ],
-                          )),
-                    ],
-                  ),
-                ));
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }));
+                                            }
+                                          })),
+                                ],
+                              ),
+                            )
+                          ],
+                        )),
+                  ],
+                ),
+              ));
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          });
+    });
   }
 
   @override
