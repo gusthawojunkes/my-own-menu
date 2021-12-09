@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:myownmenu/models/Ingredient.dart';
 import 'package:myownmenu/models/RecipeIngredient.dart';
 import 'package:myownmenu/models/Step.dart' as RecipeStep;
-import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/service/IngredientService.dart';
+import 'package:myownmenu/service/RecipeService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/utils/Helper.dart';
@@ -248,13 +248,9 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                                   .elementAt(listIngredients
                                                                       .indexOf(
                                                                           ingredient));
-                                                          Type newType =
-                                                              newIngredient
-                                                                  .type;
                                                           RecipeIngredient
                                                               newRecipeIngredient =
                                                               RecipeIngredient(
-                                                                  newType,
                                                                   newIngredient,
                                                                   '');
                                                           listIngredientsSelected
@@ -471,13 +467,16 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                         'Verifique o formulário!')),
                                               );
                                             } else {
+                                              String title = _nameController.text;
+                                              int time = int.parse(_timeController.text);
                                               try {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  const SnackBar(
-                                                      content: Text(
-                                                          'Salvo com sucesso!')),
-                                                );
+                                                RecipeService.create(
+                                                    title: title,
+                                                    preparationTime: time,
+                                                    ingredients:
+                                                        listIngredientsSelected,
+                                                    preparationMethod:
+                                                        listPrepareMode);
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(

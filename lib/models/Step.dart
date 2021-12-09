@@ -1,11 +1,7 @@
-import 'package:myownmenu/models/Recipe.dart';
 import 'package:myownmenu/models/serialization/JsonMapper.dart';
 
 class Step implements JsonMapper {
-  // ignore: non_constant_identifier_names
-  static final String COLLECTION = 'step';
 
-  Recipe recipe = new Recipe('', 0, [], []);
   String description = '';
   int sequence = 0;
 
@@ -15,8 +11,10 @@ class Step implements JsonMapper {
   }
 
   @override
-  Map<String, Object?> toJson() =>
-      {'recipe': recipe, 'description': description, 'sequence': sequence};
+  Map<String, Object?> toJson() => {
+    'description': description, 
+    'sequence': sequence
+  };
 
   static Step fromSnapshot(snapshot) {
     String description = snapshot['description'];
