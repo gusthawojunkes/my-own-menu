@@ -13,8 +13,8 @@ class RecipeService {
     Service.getCollection(Recipe.COLLECTION).doc().set({
       'title': title,
       'preparationTime': preparationTime,
-      'ingredients': ingredients,
-      'preparationMethod': preparationMethod
+      'ingredients': ingredients.map((ingredient) => ingredient.toJson()).toList(),
+      'preparationMethod': preparationMethod.map((step) => step.toJson()).toList()
     });
   }
 

@@ -16,7 +16,7 @@ class Stock implements JsonMapper {
 
   @override
   Map<String, Object?> toJson() => {
-    'ingredient': ingredient,
+    'ingredient': ingredient.getName(),
     'quantity': quantity,
   };
 
