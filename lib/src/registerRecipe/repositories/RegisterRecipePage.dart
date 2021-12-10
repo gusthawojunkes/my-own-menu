@@ -78,7 +78,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                   new Padding(
                     padding: EdgeInsets.only(top: 10, right: 15, bottom: 5),
                     child: new Text(
-                      listIngredientsSelected[index].ingredient.name,
+                      listIngredientsSelected[index].ingredient,
                       style: new TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -242,17 +242,10 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                         if (ingredient.name ==
                                                             _ingredientController
                                                                 .text) {
-                                                          Ingredient
-                                                              newIngredient =
-                                                              listIngredients
-                                                                  .elementAt(listIngredients
-                                                                      .indexOf(
-                                                                          ingredient));
+                                                          String newIngredient = listIngredients.elementAt(listIngredients.indexOf(ingredient)).getName();
                                                           RecipeIngredient
                                                               newRecipeIngredient =
-                                                              RecipeIngredient(
-                                                                  newIngredient,
-                                                                  '');
+                                                              RecipeIngredient(newIngredient, '');
                                                           listIngredientsSelected
                                                               .add(
                                                                   newRecipeIngredient);
@@ -467,15 +460,17 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                         'Verifique o formulário!')),
                                               );
                                             } else {
-                                              String title = _nameController.text;
-                                              int time = int.parse(_timeController.text);
+                                              String title =
+                                                  _nameController.text;
+                                              int time = int.parse(
+                                                  _timeController.text);
                                               try {
                                                 RecipeService.create(
                                                     title: title,
                                                     preparationTime: time,
                                                     ingredients:
                                                         listIngredientsSelected,
-                                                    preparationMethod:
+                                                    steps:
                                                         listPrepareMode);
                                                 Navigator.push(
                                                   context,
