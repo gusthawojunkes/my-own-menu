@@ -9,12 +9,12 @@ class RecipeService {
       {required String title,
       required int preparationTime,
       required List<RecipeIngredient> ingredients,
-      required List<Step> preparationMethod}) {
+      required List<Step> steps}) {
     Service.getCollection(Recipe.COLLECTION).doc().set({
       'title': title,
       'preparationTime': preparationTime,
       'ingredients': ingredients.map((ingredient) => ingredient.toJson()).toList(),
-      'preparationMethod': preparationMethod.map((step) => step.toJson()).toList()
+      'steps': steps.map((step) => step.toJson()).toList()
     });
   }
 
