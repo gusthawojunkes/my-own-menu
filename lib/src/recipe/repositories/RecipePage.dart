@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:myownmenu/models/RecipeIngredient.dart';
 import 'package:myownmenu/service/RecipeService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
+import 'package:myownmenu/models/Recipe.dart' as Model;
+import 'package:myownmenu/models/Step.dart' as Model;
 
 class Recipe extends StatelessWidget {
   const Recipe({Key? key}) : super(key: key);
@@ -27,16 +30,9 @@ class RecipePage extends StatefulWidget {
 }
 
 class _RecipePageState extends State<RecipePage> {
-  List<dynamic> recipes = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
-  List<dynamic> ingredients = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
-  String recipeTitle = 'Bolo';
-  int preparationTime = 30;
-  String ingredientTitle = 'Farinha';
+  List<dynamic> recipes = [];
   bool _visibleRecipe = false;
   bool _visibleIngredient = false;
-  int quantityIngredient = 2;
-  String unit = "kg";
-  String preparationMethod = "Misturar";
 
   buildAsyncPage() {
     return Container(
@@ -45,7 +41,7 @@ class _RecipePageState extends State<RecipePage> {
             initialData: [],
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                print(snapshot.data);
+                recipes = snapshot.data;
                 return Column(
                   children: [
                     new Container(
@@ -90,6 +86,11 @@ class _RecipePageState extends State<RecipePage> {
                       mainAxisSpacing: 10,
                       childAspectRatio: 8.0 / 8.0,
                       children: List.generate(recipes.length, (index) {
+                        Model.Recipe recipe = recipes[index];
+                        String title = recipe.title;
+                        int time = recipe.preparationTime;
+                        List<Model.Step> steps = recipe.steps;
+                        List<RecipeIngredient> ingredients = recipe.ingredients;
                         return new InkWell(
                             onTap: () {
                               showDialog(
@@ -98,7 +99,7 @@ class _RecipePageState extends State<RecipePage> {
                                   return StatefulBuilder(
                                       builder: (context, setState) {
                                     return AlertDialog(
-                                      title: Text(recipeTitle),
+                                      title: Text(title),
                                       content: SingleChildScrollView(
                                         child: Column(
                                           children: [
@@ -114,9 +115,8 @@ class _RecipePageState extends State<RecipePage> {
                                                   ),
                                                   Icon(Icons.timer),
                                                   new Text(
-                                                    "  " +
-                                                        preparationTime
-                                                            .toString() +
+                                                    " " +
+                                                        time.toString() +
                                                         " min ",
                                                     style: TextStyle(height: 1),
                                                   ),
@@ -168,14 +168,14 @@ class _RecipePageState extends State<RecipePage> {
                                                                                         padding: EdgeInsets.all(10),
                                                                                         child: new Container(
                                                                                           child: new Text(
-                                                                                            quantityIngredient.toString() + " " + unit.toString(),
+                                                                                            ingredients[index].quantity.toString(),
                                                                                             style: new TextStyle(
                                                                                               color: Colors.white,
                                                                                             ),
                                                                                           ),
                                                                                         ))),
                                                                                 new Text(
-                                                                                  ingredientTitle,
+                                                                                  ingredients[index].ingredient,
                                                                                 ),
                                                                               ],
                                                                             )),
@@ -207,7 +207,7 @@ class _RecipePageState extends State<RecipePage> {
                                                         top: 10),
                                                     child: new Column(
                                                       children: List.generate(
-                                                          ingredients.length,
+                                                          steps.length,
                                                           (index) =>
                                                               new Container(
                                                                 child: new Row(
@@ -225,7 +225,7 @@ class _RecipePageState extends State<RecipePage> {
                                                                             child: Row(
                                                                               children: [
                                                                                 new Text(
-                                                                                  preparationMethod,
+                                                                                  steps[index].sequence.toString() + ". " + steps[index].description.toString(),
                                                                                 ),
                                                                               ],
                                                                             )),
@@ -287,7 +287,7 @@ class _RecipePageState extends State<RecipePage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       new Text(
-                                        recipeTitle,
+                                        title,
                                         style: TextStyle(
                                             height: 4,
                                             fontWeight: FontWeight.bold,
@@ -300,7 +300,7 @@ class _RecipePageState extends State<RecipePage> {
                                           Icon(Icons.timer),
                                           new Text(
                                             "  " +
-                                                preparationTime.toString() +
+                                                time.toString() +
                                                 " min ",
                                             style: TextStyle(height: 1),
                                           ),
