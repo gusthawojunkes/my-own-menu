@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myownmenu/models/Ingredient.dart';
+import 'package:myownmenu/models/Stock.dart';
 import 'package:myownmenu/models/RecipeIngredient.dart';
 import 'package:myownmenu/models/Step.dart' as RecipeStep;
 import 'package:myownmenu/models/Type.dart';
-import 'package:myownmenu/service/IngredientService.dart';
+import 'package:myownmenu/service/StockService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
 import 'package:myownmenu/utils/Helper.dart';
@@ -110,7 +110,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
       return FutureBuilder(
-          future: IngredientService.getAll(),
+          future: StockService.getAll(),
           initialData: [],
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
@@ -242,7 +242,7 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                         if (ingredient.name ==
                                                             _ingredientController
                                                                 .text) {
-                                                          Ingredient
+                                                          Stock
                                                               newIngredient =
                                                               listIngredients
                                                                   .elementAt(listIngredients
