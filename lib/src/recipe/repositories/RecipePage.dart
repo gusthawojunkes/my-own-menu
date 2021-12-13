@@ -45,7 +45,6 @@ class _RecipePageState extends State<RecipePage> {
             initialData: [],
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                print(snapshot.data);
                 return Column(
                   children: [
                     new Container(

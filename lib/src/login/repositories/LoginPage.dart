@@ -139,7 +139,6 @@ class _LoginPageState extends State<LoginPage> {
                                       'Algo deu errado na hora de realizar o login, tente novamente mais tarde!')),
                             );
                           } catch (error) {
-                            print('AAAAAAAAA');
                             print(error);
                           }
                         },

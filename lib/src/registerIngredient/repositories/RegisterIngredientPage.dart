@@ -40,7 +40,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
   String selectedType = "";
   List listFilters = [];
   String nameSelectedType = "";
-  late XFile image;
+  late XFile? image;
   String imageUrl = "";
   buildAsyncPage() {
     return SingleChildScrollView(
@@ -114,7 +114,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                       child: Text("Adionar imagem"),
                                       onPressed: () async {
                                         image =
-                                            (await ImageService.getImage())!;
+                                            (await ImageService.getImage());
                                       })),
                               new Container(
                                   padding: EdgeInsets.only(top: 30),
@@ -261,10 +261,6 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                               _nameController.text;
                                           Type type = new Type(
                                               nameSelectedType, selectedType);
-
-                                          await StockService.saveImage(
-                                              image: image,
-                                              name: _nameController.text);
                                           await ImageService.downloadFile(
                                               "/ingredients/" + nameUser);
                                           await StockService.create(

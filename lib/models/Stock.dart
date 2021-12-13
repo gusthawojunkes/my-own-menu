@@ -5,8 +5,8 @@ class Stock implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'stock';
 
-  String name = '';
   Type type = new Type('', '');
+  String name = '';
   String quantity = '';
   String image = '';
 
@@ -20,16 +20,15 @@ class Stock implements JsonMapper {
   @override
   Map<String, Object?> toJson() => {
         'name': name,
-        'type': type,
         'quantity': quantity,
         'image': image,
       };
 
   static Stock fromSnapshot(snapshot) {
     String name = snapshot['name'];
-    Type type = new Type(snapshot['type']['name'], snapshot['type']['image']);
     String quantity = snapshot['quantity'];
     String image = snapshot['image'];
+    Type type = new Type(snapshot['type']['name'], snapshot['type']['image']);
 
     return new Stock(name, type, quantity, image);
   }
