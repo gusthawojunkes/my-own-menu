@@ -92,8 +92,8 @@ class _IngredientPageState extends State<IngredientPage> {
                   ),
                 ],
               ),
-              Image.network(
-                image,
+              Image.asset(
+                SourceUtils.INGREDIENTE_SRC,
               ),
             ],
           ),
@@ -174,7 +174,7 @@ class _IngredientPageState extends State<IngredientPage> {
                                   name: ingredient.name,
                                   type: ingredient.type,
                                   quantity: ingredient.quantity,
-                                  image: ingredient.image);
+                                  image: "");
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -332,7 +332,9 @@ class _IngredientPageState extends State<IngredientPage> {
                                       return FlipCard(
                                         front: Container(
                                           child: cardIngredient(
-                                              snapshot.data[index], index, snapshot.data[index].image),
+                                              snapshot.data[index],
+                                              index,
+                                              snapshot.data[index].image),
                                         ),
                                         back: Container(
                                           child: cardSelect(

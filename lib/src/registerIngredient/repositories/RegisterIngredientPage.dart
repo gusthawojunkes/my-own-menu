@@ -265,14 +265,14 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                           await StockService.saveImage(
                                               image: image,
                                               name: _nameController.text);
-                                          await ImageService.downloadFile(
-                                              "/ingredients/" + nameUser);
+                                          // await ImageService.downloadFile(
+                                          //     "/ingredients/" + nameUser);
                                           await StockService.create(
                                               name: nameUser,
                                               type: type,
                                               quantity:
                                                   _quantityController.text,
-                                              image: imageUrl);
+                                              image: "");
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
