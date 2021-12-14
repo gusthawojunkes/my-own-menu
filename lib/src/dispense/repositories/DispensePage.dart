@@ -151,9 +151,6 @@ class _DispensePageState extends State<DispensePage> {
           initialData: [],
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              for (var i in snapshot.data) {
-                print(i.name);
-              }
               return SingleChildScrollView(
                   child: ConstrainedBox(
                       constraints: BoxConstraints(
