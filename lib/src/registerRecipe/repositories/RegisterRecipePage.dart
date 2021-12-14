@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:myownmenu/models/Stock.dart';
 import 'package:myownmenu/models/RecipeIngredient.dart';
 import 'package:myownmenu/models/Step.dart' as RecipeStep;
-import 'package:myownmenu/models/Type.dart';
+import 'package:myownmenu/service/RecipeService.dart';
 import 'package:myownmenu/service/StockService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
@@ -242,19 +242,14 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                         if (ingredient.name ==
                                                             _ingredientController
                                                                 .text) {
-                                                          Stock
-                                                              newIngredient =
-                                                              listIngredients
-                                                                  .elementAt(listIngredients
+                                                          Stock newIngredient =
+                                                              listIngredients.elementAt(
+                                                                  listIngredients
                                                                       .indexOf(
                                                                           ingredient));
-                                                          Type newType =
-                                                              newIngredient
-                                                                  .type;
                                                           RecipeIngredient
                                                               newRecipeIngredient =
                                                               RecipeIngredient(
-                                                                  newType,
                                                                   newIngredient,
                                                                   '');
                                                           listIngredientsSelected
@@ -471,13 +466,17 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                         'Verifique o formulário!')),
                                               );
                                             } else {
+                                              String title =
+                                                  _nameController.text;
+                                              int time = int.parse(
+                                                  _timeController.text);
                                               try {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  const SnackBar(
-                                                      content: Text(
-                                                          'Salvo com sucesso!')),
-                                                );
+                                                RecipeService.create(
+                                                    title: title,
+                                                    preparationTime: time,
+                                                    ingredients:
+                                                        listIngredientsSelected,
+                                                    steps: listPrepareMode);
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -492,6 +491,8 @@ class _RegisterRecipePageState extends State<RegisterRecipePage> {
                                                       content: Text(
                                                           'Erro! Tente mais tarde.')),
                                                 );
+                                              } catch (error) {
+                                                print(error);
                                               }
                                             }
                                           })),

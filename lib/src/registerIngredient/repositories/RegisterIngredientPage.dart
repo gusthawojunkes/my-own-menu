@@ -261,10 +261,9 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                               _nameController.text;
                                           Type type = new Type(
                                               nameSelectedType, selectedType);
-
-                                          await StockService.saveImage(
-                                              image: image,
-                                              name: _nameController.text);
+                                          // await StockService.saveImage(
+                                          //     image: image,
+                                          //     name: _nameController.text);
                                           // await ImageService.downloadFile(
                                           //     "/ingredients/" + nameUser);
                                           await StockService.create(

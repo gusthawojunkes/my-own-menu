@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:myownmenu/models/Stock.dart';
 import 'package:myownmenu/service/StockService.dart';
 import 'package:myownmenu/service/TypeService.dart';
 import 'package:myownmenu/utils/ColorsUtils.dart';
@@ -319,11 +320,11 @@ class _IngredientPageState extends State<IngredientPage> {
                                   if (snapshot.data.isEmpty) {
                                     return CircularProgressIndicator();
                                   } else {
-                                    if (((!listFiltersSelected.contains(snapshot
-                                                .data[index].type.name)) &&
+                                    Stock stock = snapshot.data[index];
+                                    if (((!listFiltersSelected.contains(stock.type.name)) &&
                                             (listFiltersSelected.length > 0)) ||
                                         ((_searchController.text != "") &&
-                                            (snapshot.data[index].name !=
+                                            (stock.name !=
                                                 _searchController.text))) {
                                       return Text('');
                                     } else {
@@ -332,13 +333,13 @@ class _IngredientPageState extends State<IngredientPage> {
                                       return FlipCard(
                                         front: Container(
                                           child: cardIngredient(
-                                              snapshot.data[index],
+                                              stock,
                                               index,
-                                              snapshot.data[index].image),
+                                              stock.image),
                                         ),
                                         back: Container(
                                           child: cardSelect(
-                                              snapshot.data[index],
+                                              stock,
                                               index,
                                               _controllers[index]),
                                         ),
