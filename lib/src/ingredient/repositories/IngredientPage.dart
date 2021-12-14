@@ -154,12 +154,12 @@ class _IngredientPageState extends State<IngredientPage> {
                           controller: controller,
                           autovalidateMode: AutovalidateMode.always,
                           validator: (value) {
-                            ingredient.quantity = controller.text;
+                            // ingredient.quantity = controller.text;
                             visibleSaveButton = true;
                           },
                           decoration: InputDecoration(
                             helperText:
-                                'Quantidade atual: ' + ingredient.quantity,
+                                'Quantidade atual: 1',
                             enabledBorder: UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: ColorsUtils.darkYellow),

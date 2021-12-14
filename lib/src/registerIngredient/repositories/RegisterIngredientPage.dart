@@ -33,7 +33,6 @@ class RegisterIngredientPage extends StatefulWidget {
 
 class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _quantityController = TextEditingController();
   List<GlobalKey<FlipCardState>> cardsKeys = [];
   final _formKey = GlobalKey<FormState>();
   bool visbileType = false;
