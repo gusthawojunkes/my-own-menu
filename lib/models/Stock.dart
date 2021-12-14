@@ -1,4 +1,3 @@
-import 'package:myownmenu/models/Ingredient.dart';
 import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/models/serialization/JsonMapper.dart';
 
@@ -6,24 +5,35 @@ class Stock implements JsonMapper {
   // ignore: non_constant_identifier_names
   static final String COLLECTION = 'stock';
 
-  Ingredient ingredient = new Ingredient('', new Type('', ''));
-  double quantity = 0;
+  Type type = new Type('', '');
+  String name = '';
+  String quantity = '';
+  String image = '';
 
-  Stock(ingredient, quantity) {
-    this.ingredient = ingredient;
+  Stock(String name, Type type, String quantity, String image) {
+    this.name = name;
+    this.type = type;
     this.quantity = quantity;
+    this.image = image;
   }
 
   @override
   Map<String, Object?> toJson() => {
-    'ingredient': ingredient.getName(),
-    'quantity': quantity,
-  };
+        'name': name,
+        'quantity': quantity,
+        'image': image,
+      };
 
   static Stock fromSnapshot(snapshot) {
-    Ingredient ingredient = snapshot['ingredient'];
-    double quantity = snapshot['quantity'];
+    String name = snapshot['name'];
+    String quantity = snapshot['quantity'];
+    String image = snapshot['image'];
+    Type type = new Type(snapshot['type']['name'], snapshot['type']['image']);
 
-    return new Stock(ingredient, quantity);
+    return new Stock(name, type, quantity, image);
+  }
+
+  String getName() {
+    return this.name;
   }
 }

@@ -175,7 +175,7 @@ class _RecipePageState extends State<RecipePage> {
                                                                                           ),
                                                                                         ))),
                                                                                 new Text(
-                                                                                  ingredients[index].ingredient,
+                                                                                  ingredients[index].ingredient.name,
                                                                                 ),
                                                                               ],
                                                                             )),

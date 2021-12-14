@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myownmenu/models/Type.dart';
 import 'package:myownmenu/service/ImageService.dart';
-import 'package:myownmenu/service/IngredientService.dart';
+import 'package:myownmenu/service/StockService.dart';
 import 'package:myownmenu/service/TypeService.dart';
 import 'package:myownmenu/src/shared/repositories/AppModule.dart';
 import 'package:myownmenu/utils/SourceUtils.dart';
@@ -33,6 +33,7 @@ class RegisterIngredientPage extends StatefulWidget {
 
 class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
   TextEditingController _nameController = TextEditingController();
+  TextEditingController _quantityController = TextEditingController();
   List<GlobalKey<FlipCardState>> cardsKeys = [];
   final _formKey = GlobalKey<FormState>();
   bool visbileType = false;
@@ -40,7 +41,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
   List listFilters = [];
   String nameSelectedType = "";
   late XFile image;
-
+  String imageUrl = "";
   buildAsyncPage() {
     return SingleChildScrollView(
       child: FutureBuilder(
@@ -89,6 +90,24 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                 ),
                               )),
                               new Container(
+                                padding: EdgeInsets.only(top: 30.0),
+                                child: new TextFormField(
+                                  validator: (value) {
+                                    if (_quantityController.text.isEmpty) {
+                                      return 'Campo Obrigatório!';
+                                    }
+                                  },
+                                  controller: _quantityController,
+                                  decoration: new InputDecoration(
+                                    labelText: 'Quantidade',
+                                    border: new OutlineInputBorder(),
+                                    suffixIcon: new Icon(
+                                      Icons.align_vertical_bottom_sharp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              new Container(
                                   padding: EdgeInsets.only(top: 30),
                                   width: double.infinity,
                                   child: TextButton(
@@ -104,7 +123,11 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                       child: Text(selectedType == ""
                                           ? 'Adicionar Tipo'
                                           : 'Trocar Tipo'),
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        // print('imageUrl: ' + imageUrl);
+                                        // imageUrl =
+                                        //     await FileServive.downloadFile(
+                                        //         "/ingredients/Abacaxi/");
                                         setState(() {
                                           visbileType = !visbileType;
                                         });
@@ -217,7 +240,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                     child: const Text('Cadastrar'),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       if (!_formKey.currentState!.validate()) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
@@ -234,15 +257,21 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                         );
                                       } else {
                                         try {
+                                          String nameUser =
+                                              _nameController.text;
                                           Type type = new Type(
                                               nameSelectedType, selectedType);
-                                          IngredientService.create(
-                                              name: _nameController.text,
-                                              type: type);
-
-                                          IngredientService.saveImage(
-                                              image: image,
-                                              name: _nameController.text);
+                                          // await StockService.saveImage(
+                                          //     image: image,
+                                          //     name: _nameController.text);
+                                          // await ImageService.downloadFile(
+                                          //     "/ingredients/" + nameUser);
+                                          await StockService.create(
+                                              name: nameUser,
+                                              type: type,
+                                              quantity:
+                                                  _quantityController.text,
+                                              image: "");
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
