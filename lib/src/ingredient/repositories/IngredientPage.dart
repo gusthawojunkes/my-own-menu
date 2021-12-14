@@ -173,9 +173,7 @@ class _IngredientPageState extends State<IngredientPage> {
                             try {
                               StockService.create(
                                   name: ingredient.name,
-                                  type: ingredient.type,
-                                  quantity: ingredient.quantity,
-                                  image: "");
+                                  type: ingredient.type);
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -335,7 +333,7 @@ class _IngredientPageState extends State<IngredientPage> {
                                           child: cardIngredient(
                                               stock,
                                               index,
-                                              stock.image),
+                                              ''),
                                         ),
                                         back: Container(
                                           child: cardSelect(

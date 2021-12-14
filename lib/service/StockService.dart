@@ -9,15 +9,13 @@ import 'package:myownmenu/utils/Service.dart';
 class StockService {
   static create(
       {required String name,
-      required Type type,
-      required String quantity,
-      required String image}) async {
+      required Type type}) async {
     AuthService auth = AuthService.getInstance();
     String uid = auth.user!.uid;
     Map typeMap = type.toJson();
 
     await Service.getCollection(Stock.COLLECTION).doc(uid + "-" + name).set(
-        {'name': name, 'type': typeMap, 'quantity': quantity, 'image': image});
+        {'name': name, 'type': typeMap});
   }
 
   static saveImage({required XFile image, required String name}) async {

@@ -89,24 +89,24 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                   ),
                                 ),
                               )),
-                              new Container(
-                                padding: EdgeInsets.only(top: 30.0),
-                                child: new TextFormField(
-                                  validator: (value) {
-                                    if (_quantityController.text.isEmpty) {
-                                      return 'Campo Obrigatório!';
-                                    }
-                                  },
-                                  controller: _quantityController,
-                                  decoration: new InputDecoration(
-                                    labelText: 'Quantidade',
-                                    border: new OutlineInputBorder(),
-                                    suffixIcon: new Icon(
-                                      Icons.align_vertical_bottom_sharp,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // new Container(
+                              //   padding: EdgeInsets.only(top: 30.0),
+                              //   child: new TextFormField(
+                              //     validator: (value) {
+                              //       if (_quantityController.text.isEmpty) {
+                              //         return 'Campo Obrigatório!';
+                              //       }
+                              //     },
+                              //     controller: _quantityController,
+                              //     decoration: new InputDecoration(
+                              //       labelText: 'Quantidade',
+                              //       border: new OutlineInputBorder(),
+                              //       suffixIcon: new Icon(
+                              //         Icons.align_vertical_bottom_sharp,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                               new Container(
                                   padding: EdgeInsets.only(top: 30),
                                   width: double.infinity,
@@ -268,10 +268,7 @@ class _RegisterIngredientPageState extends State<RegisterIngredientPage> {
                                           //     "/ingredients/" + nameUser);
                                           await StockService.create(
                                               name: nameUser,
-                                              type: type,
-                                              quantity:
-                                                  _quantityController.text,
-                                              image: "");
+                                              type: type);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
